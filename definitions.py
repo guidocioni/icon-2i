@@ -19,4 +19,4 @@ options_savefig = {"dpi": 100, "bbox_inches": "tight", "transparent": False}
 chunks_size = 10
 processes = 4
 figsize_x = 11
-figsize_y = 9
+figsize_y = 11

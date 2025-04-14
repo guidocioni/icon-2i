@@ -90,14 +90,14 @@ def main():
         10.0,
         15.0,
     )
-    levels_clouds = np.arange(30, 100, 1)
+    levels_clouds = (30, 50, 80, 90, 100)
     levels_mslp = np.arange(
         dset["pmsl"].min().astype("int"), dset["pmsl"].max().astype("int"), 3.0
     )
 
     cmap_snow, norm_snow = utils.get_colormap_norm('snow', levels_snow)
     cmap_rain, norm_rain = utils.get_colormap_norm("prec", levels_rain)
-    cmap_clouds = utils.truncate_colormap(plt.get_cmap("Greys"), 0.2, 0.7)
+    cmap_clouds, norm_clouds = utils.get_colormap_norm("clouds", levels_clouds)
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
 
@@ -118,7 +118,8 @@ def main():
         cmap_snow=cmap_snow,
         cmap_clouds=cmap_clouds,
         norm_rain=norm_rain,
-        norm_snow=norm_snow
+        norm_snow=norm_snow,
+        norm_clouds=norm_clouds
     )
 
     logging.info("Pre-processing finished, launching plotting scripts")
@@ -173,6 +174,7 @@ def plot_files(dss, **args):
             data["clct"],
             extend="max",
             cmap=args["cmap_clouds"],
+            norm=args["norm_clouds"],
             levels=args["levels_clouds"],
             zorder=3,
         )
@@ -224,12 +226,14 @@ def plot_files(dss, **args):
 
         if first:
             ax_cbar, ax_cbar_2 = utils.divide_axis_for_cbar(args["ax"])
-            _ = plt.gcf().colorbar(
+            cbar_snow = plt.gcf().colorbar(
                 cs_snow, cax=ax_cbar, orientation="horizontal", label="Snow [cm/hr]"
             )
-            _ = plt.gcf().colorbar(
+            cbar_rain = plt.gcf().colorbar(
                 cs_rain, cax=ax_cbar_2, orientation="horizontal", label="Rain [mm/hr]"
             )
+            cbar_snow.minorticks_off()
+            cbar_rain.minorticks_off()
 
         if debug:
             plt.show(block=True)

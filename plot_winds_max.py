@@ -18,7 +18,7 @@ from definitions import (
 args = utils.parse_arguments()
 debug = args.debug
 projection = args.projection
-variable_name = "t_v_pres"
+variable_name = "gusts"
 output_dir = utils.set_output_dir(projection)
 
 if not debug:
@@ -30,22 +30,23 @@ def main():
         f"Plotting {variable_name} for projection {projection}. Writing images in {output_dir}"
     )
     dset = utils.get_files_sfc(
-        vars=["U_10M", "V_10M", "T_2M", "PMSL"], projection=projection
+        vars=["U_10M", "V_10M", "VMAX_10M", "PMSL"], projection=projection
     )
 
-    dset["t2m"] = dset["t2m"].metpy.convert_units("degC").metpy.dequantify()
+    dset['fg10'] = dset['fg10'].metpy.convert_units('kph').metpy.dequantify()
     dset["pmsl"] = dset["pmsl"].metpy.convert_units("hPa").metpy.dequantify()
 
-    levels_t2m = np.arange(-25, 45, 1)
     levels_mslp = np.arange(
         dset["pmsl"].min().astype("int"), dset["pmsl"].max().astype("int"), 3.0
     )
+    levels_winds_10m = np.arange(0, 255, 1)
 
-    cmap, norm = utils.get_colormap_norm("temp", levels_t2m)
+    cmap, norm = utils.get_colormap_norm("winds_wxcharts", levels_winds_10m)
     _ = plt.figure(figsize=(figsize_x, figsize_y))
 
     ax = plt.gca()
-    _, x, y = utils.get_projection(dset, projection)
+    m, x, y = utils.get_projection(dset, projection)
+    m.arcgisimage(service='World_Shaded_Relief', xpixels=1500)
 
     # All the arguments that need to be passed to the plotting function
     args = dict(
@@ -54,8 +55,8 @@ def main():
         ax=ax,
         cmap=cmap,
         norm=norm,
-        levels_t2m=levels_t2m,
         levels_mslp=levels_mslp,
+        levels_winds_10m=levels_winds_10m
     )
 
     logging.info("Pre-processing finished, launching plotting scripts")
@@ -86,21 +87,11 @@ def plot_files(dss, **args):
         cs = args["ax"].contourf(
             args["x"],
             args["y"],
-            data["t2m"],
-            extend="both",
+            data["fg10"],
+            extend="max",
             cmap=args["cmap"],
             norm=args["norm"],
-            levels=args["levels_t2m"],
-        )
-        cs2 = args["ax"].contour(
-            args["x"],
-            args["y"],
-            data["t2m"],
-            extend="both",
-            levels=args["levels_t2m"][::5],
-            linewidths=0.3,
-            colors="gray",
-            alpha=0.7,
+            levels=args["levels_winds_10m"],
         )
         c = args["ax"].contour(
             args["x"],
@@ -111,9 +102,6 @@ def plot_files(dss, **args):
             linewidths=1.0,
         )
         labels = args["ax"].clabel(c, c.levels, inline=True, fmt="%4.0f", fontsize=6)
-        labels2 = args["ax"].clabel(
-            cs2, cs2.levels, inline=True, fmt="%2.0f", fontsize=7
-        )
 
         maxlabels = utils.plot_maxmin_points(
             args["ax"],
@@ -177,7 +165,7 @@ def plot_files(dss, **args):
         an_fc = utils.annotation_forecast(args["ax"], data["valid_time"].to_pandas())
         an_var = utils.annotation(
             args["ax"],
-            "MSLP [hPa], Winds@10m and Temperature@2m",
+            "10m Winds direction and max. wind gust",
             loc="lower left",
             fontsize=6,
         )
@@ -187,7 +175,7 @@ def plot_files(dss, **args):
             cb = plt.colorbar(
                 cs,
                 orientation="horizontal",
-                label="Temperature [C]",
+                label="Wind gust (km/h)",
                 pad=0.03,
                 fraction=0.04,
             )
@@ -201,10 +189,8 @@ def plot_files(dss, **args):
         utils.remove_collections(
             [
                 cs,
-                cs2,
                 c,
                 labels,
-                labels2,
                 an_fc,
                 an_var,
                 an_run,
