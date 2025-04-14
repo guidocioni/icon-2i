@@ -518,8 +518,8 @@ def divide_axis_for_cbar(ax, width="45%", height="2%", pad=-2, adjust=0.05):
     return ax_cbar, ax_cbar_2
 
 
-def find_image_filename(projection, variable_name, forecast_hour, base_folder=IMAGES_DIR):
+def find_image_filename(projection, variable_name, forecast_hour):
     filename = (
-        f"{base_folder}/{subfolder_images.get(projection, '')}/{variable_name}_{forecast_hour}.png"
+        f"{subfolder_images.get(projection, '')}/{variable_name}_{forecast_hour}.png"
     )
     return filename
