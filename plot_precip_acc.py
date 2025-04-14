@@ -1,5 +1,3 @@
-import sys
-import os
 from functools import partial
 from multiprocessing import Pool
 
@@ -8,41 +6,28 @@ import numpy as np
 
 import utils
 from definitions import (
-    IMAGES_DIR,
     chunks_size,
     figsize_x,
     figsize_y,
     logging,
+    options_savefig,
     processes,
-    options_savefig
 )
 
-debug = False
+args = utils.parse_arguments()
+debug = args.debug
+projection = args.projection
+variable_name = 'precip_acc'
+output_dir = utils.set_output_dir(projection)
+
 if not debug:
     import matplotlib
-
     matplotlib.use("Agg")
 
-# The one employed for the figure name when exported
-variable_name = "precip_acc"
-
-logging.info("Starting script to plot " + variable_name)
-
-# Get the projection as system argument from the call so that we can
-# span multiple instances of this script outside
-if not sys.argv[1:]:
-    logging.info("Projection not defined, falling back to default (nord)")
-    projection = "nord"
-else:
-    projection = sys.argv[1]
-
-
-output_dir = os.path.join(IMAGES_DIR, projection)
-if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
-    logging.info(f"Created directory: {output_dir}")
-
 def main():
+    logging.info(
+        f"Plotting {variable_name} for projection {projection}. Writing images in {output_dir}"
+    )
     dset = utils.get_files_sfc(vars=["TOT_PREC"], projection=projection)
 
     levels_precip = np.concatenate(
@@ -59,12 +44,8 @@ def main():
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
     ax = plt.gca()
-    # Get coordinates from dataset
     m, x, y = utils.get_projection(dset, projection)
-    # additional maps adjustment for this map
     m.arcgisimage(service="World_Shaded_Relief", xpixels=1500)
-
-    dset = dset.drop_vars(["longitude", "latitude"]).load()
 
     # All the arguments that need to be passed to the plotting function
     args = dict(x=x, y=y, ax=ax, levels_precip=levels_precip, cmap=cmap, norm=norm)

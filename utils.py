@@ -1,4 +1,6 @@
+import argparse
 import fsspec
+import os
 import matplotlib.cm as mplcm
 import matplotlib.colors as colors
 import matplotlib.patheffects as path_effects
@@ -11,7 +13,6 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from definitions import (
     COLORMAPS_DIR,
     SHAPEFILES_DIR,
-    IMAGES_DIR,
     logging,
 )
 from projections import proj_defs, subfolder_images
@@ -523,3 +524,22 @@ def find_image_filename(projection, variable_name, forecast_hour):
         f"{subfolder_images.get(projection, '')}/{variable_name}_{forecast_hour}.png"
     )
     return filename
+
+
+def parse_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--debug", action="store_true", default=False, help="Enable debug mode"
+    )
+    parser.add_argument(
+        "--projection", type=str, default="nord", help="Map projection to use"
+    )
+    return parser.parse_args()
+
+
+def set_output_dir(projection):
+    output_dir = subfolder_images.get(projection, "")
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+        logging.info(f"Created directory: {output_dir}")
+    return output_dir

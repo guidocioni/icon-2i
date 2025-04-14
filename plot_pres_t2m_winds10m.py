@@ -1,5 +1,3 @@
-import os
-import sys
 from functools import partial
 from multiprocessing import Pool
 
@@ -9,43 +7,28 @@ import numpy as np
 
 import utils
 from definitions import (
-    IMAGES_DIR,
     chunks_size,
     figsize_x,
     figsize_y,
     logging,
+    options_savefig,
     processes,
-    options_savefig
 )
 
-debug = False
+args = utils.parse_arguments()
+debug = args.debug
+projection = args.projection
+variable_name = "t_v_pres"
+output_dir = utils.set_output_dir(projection)
+
 if not debug:
     import matplotlib
-
     matplotlib.use("Agg")
 
-# The one employed for the figure name when exported
-variable_name = "t_v_pres"
-
-logging.info("Starting script to plot " + variable_name)
-
-# Get the projection as system argument from the call so that we can
-# span multiple instances of this script outside
-if not sys.argv[1:]:
-    logging.info("Projection not defined, falling back to default (nord)")
-    projection = "nord"
-else:
-    projection = sys.argv[1]
-
-output_dir = os.path.join(IMAGES_DIR, projection)
-if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
-    logging.info(f"Created directory: {output_dir}")
-
-
 def main():
-    """In the main function we basically read the files and prepare the variables to be plotted.
-    This is not included in utils.py as it can change from case to case."""
+    logging.info(
+        f"Plotting {variable_name} for projection {projection}. Writing images in {output_dir}"
+    )
     dset = utils.get_files_sfc(
         vars=["U_10M", "V_10M", "T_2M", "PMSL"], projection=projection
     )
@@ -54,19 +37,15 @@ def main():
     dset["pmsl"] = dset["pmsl"].metpy.convert_units("hPa").metpy.dequantify()
 
     levels_t2m = np.arange(-25, 45, 1)
+    levels_mslp = np.arange(
+        dset["pmsl"].min().astype("int"), dset["pmsl"].max().astype("int"), 3.0
+    )
 
     cmap, norm = utils.get_colormap_norm("temp", levels_t2m)
     _ = plt.figure(figsize=(figsize_x, figsize_y))
 
     ax = plt.gca()
-    # Get coordinates from dataset
-    m, x, y = utils.get_projection(dset, projection)
-
-    dset = dset.drop_vars(["longitude", "latitude"]).load()
-
-    levels_mslp = np.arange(
-        dset["pmsl"].min().astype("int"), dset["pmsl"].max().astype("int"), 3.0
-    )
+    _, x, y = utils.get_projection(dset, projection)
 
     # All the arguments that need to be passed to the plotting function
     args = dict(
@@ -113,7 +92,6 @@ def plot_files(dss, **args):
             norm=args["norm"],
             levels=args["levels_t2m"],
         )
-
         cs2 = args["ax"].contour(
             args["x"],
             args["y"],
@@ -124,7 +102,6 @@ def plot_files(dss, **args):
             colors="gray",
             alpha=0.7,
         )
-
         c = args["ax"].contour(
             args["x"],
             args["y"],
@@ -133,7 +110,6 @@ def plot_files(dss, **args):
             colors="white",
             linewidths=1.0,
         )
-
         labels = args["ax"].clabel(c, c.levels, inline=True, fmt="%4.0f", fontsize=6)
         labels2 = args["ax"].clabel(
             cs2, cs2.levels, inline=True, fmt="%2.0f", fontsize=7
@@ -161,7 +137,6 @@ def plot_files(dss, **args):
             color="coral",
             random=True,
         )
-
         # We need to reduce the number of points before plotting the vectors,
         # these values work pretty well
         density = 15
@@ -170,7 +145,7 @@ def plot_files(dss, **args):
         min_wind_threshold = 2
         max_wind_threshold = 80
         scale = 5
-        if projection == 'nord':
+        if projection == "nord":
             density = 10
         wind_magnitude = np.clip(
             np.sqrt(
