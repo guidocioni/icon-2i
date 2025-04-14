@@ -103,8 +103,6 @@ def get_file_mapping(var):
     soil_vars = ["W_SO", "T_SO"]
     soil_levels = [0, 1, 2, 7]
     shear_vars = ["WSHEAR_U", "WSHEAR_V"]
-    cloud_vars = ["CLCH", "CLCL", "CLCM"]
-    cloud_levels = [0, 800, 400]
 
     mappings = []
 
@@ -114,8 +112,12 @@ def get_file_mapping(var):
         mappings = [(f"depthBelowLandLayer-{lev}", lev) for lev in soil_levels]
     elif var in shear_vars:
         mappings = [("heightAboveGroundLayer-6000", 6000)]
-    elif var in cloud_vars:
-        mappings = [(f"isobaricLayer-{lev}", lev) for lev in cloud_levels]
+    elif var == "CLCH":
+        mappings = [("isobaricLayer-0", 0)]
+    elif var == "CLCL":
+        mappings = [("isobaricLayer-800", 800)]
+    elif var == "CLCM":
+        mappings = [("isobaricLayer-400", 400)]
 
     return mappings
 
@@ -155,8 +157,10 @@ def get_files_levels(
             url = f"simplecache::https://meteohub.mistralportal.it/nwp/ICON-2I_all2km/{run}/{var}/icon_2I_{run}_{mapping}.grib"
             file = fsspec.open_local(url, filecache={"cache_storage": "/tmp/"})
             ds = xr.open_dataset(file, engine="cfgrib")
-            level_type = next(iter(ds.data_vars.values())).attrs["GRIB_typeOfLevel"]
-            ds = ds.expand_dims(dim=level_type)
+            attrs = next(iter(ds.data_vars.values())).attrs
+            if "GRIB_typeOfLevel" in attrs:
+                level_type = attrs["GRIB_typeOfLevel"]
+                ds = ds.expand_dims(dim=level_type)
             dss.append(ds)
 
     dss = xr.merge(dss, compat="override")
