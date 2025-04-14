@@ -11,6 +11,7 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from definitions import (
     COLORMAPS_DIR,
     SHAPEFILES_DIR,
+    IMAGES_DIR,
     logging,
 )
 from projections import proj_defs, subfolder_images
@@ -517,8 +518,8 @@ def divide_axis_for_cbar(ax, width="45%", height="2%", pad=-2, adjust=0.05):
     return ax_cbar, ax_cbar_2
 
 
-def find_image_filename(projection, variable_name, forecast_hour):
+def find_image_filename(projection, variable_name, forecast_hour, base_folder=IMAGES_DIR):
     filename = (
-        f"{subfolder_images.get(projection, '')}/{variable_name}_{forecast_hour}.png"
+        f"{base_folder}/{subfolder_images.get(projection, '')}/{variable_name}_{forecast_hour}.png"
     )
     return filename

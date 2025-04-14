@@ -14,6 +14,7 @@ from definitions import (
     figsize_y,
     logging,
     processes,
+    options_savefig
 )
 
 debug = False
@@ -117,7 +118,7 @@ def plot_files(dss, **args):
                 orientation="horizontal",
                 label="Accumulated precipitation [mm]",
                 pad=0.035,
-                fraction=0.04,
+                fraction=0.035,
                 ticks=[1, 5, 10, 15, 25, 35, 50, 100, 200, 500, 1000, 2000]
             )
             cb.minorticks_off()
@@ -125,7 +126,7 @@ def plot_files(dss, **args):
         if debug:
             plt.show(block=True)
         else:
-            plt.savefig(filename, **utils.options_savefig)
+            plt.savefig(filename, **options_savefig)
 
         utils.remove_collections(
             [cs, an_fc, an_var, an_run]

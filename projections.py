@@ -1,8 +1,6 @@
 from definitions import IMAGES_DIR
 import os
 
-# Dictionary to map the output folder based on the projection employed
-subfolder_images = {"nord": os.path.join(IMAGES_DIR, "nord")}
 
 proj_defs = {
     "nord": {
@@ -42,3 +40,9 @@ proj_defs = {
         "epsg": 3857,
     },
 }
+
+
+# Dictionary to map the output folder based on the projection employed
+subfolder_images = {}
+for proj in proj_defs:
+    subfolder_images[proj] = os.path.join(IMAGES_DIR, proj)

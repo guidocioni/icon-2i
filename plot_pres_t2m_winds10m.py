@@ -15,6 +15,7 @@ from definitions import (
     figsize_y,
     logging,
     processes,
+    options_savefig
 )
 
 debug = False
@@ -219,7 +220,7 @@ def plot_files(dss, **args):
         if debug:
             plt.show(block=True)
         else:
-            plt.savefig(filename, **utils.options_savefig)
+            plt.savefig(filename, **options_savefig)
 
         utils.remove_collections(
             [
