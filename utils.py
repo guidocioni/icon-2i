@@ -81,6 +81,8 @@ def get_files_sfc(
             surface_mapping = "isothermZero-0"
         elif var == "PMSL":
             surface_mapping = "meanSea-0"
+        elif var in ["CAPE_ML", "CIN_ML"]:
+            surface_mapping = "atmML-0"
         url = f"simplecache::https://meteohub.mistralportal.it/nwp/ICON-2I_all2km/{run}/{var}/icon_2I_{run}_{surface_mapping}.grib"
         file = fsspec.open_local(url, filecache={"cache_storage": "/tmp/"})
         dss.append(xr.open_dataset(file, engine="cfgrib", decode_timedelta=True))
