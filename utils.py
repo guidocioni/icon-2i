@@ -449,9 +449,10 @@ def plot_maxmin_points(
 
 def add_vals_on_map(
     ax,
-    projection,
+    x,
+    y,
     var,
-    levels,
+    levels=None,
     density=50,
     cmap="rainbow",
     norm=None,
@@ -471,54 +472,42 @@ def add_vals_on_map(
 
     m = mplcm.ScalarMappable(norm=norm, cmap=cmap)
 
-    proj_options = proj_defs[projection]
-    lon_min, lon_max, lat_min, lat_max = (
-        proj_options["llcrnrlon"],
-        proj_options["urcrnrlon"],
-        proj_options["llcrnrlat"],
-        proj_options["urcrnrlat"],
-    )
-
-    # Remove values outside of the extents
-    var = var.sel(
-        lat=slice(lat_min + 0.15, lat_max - 0.15),
-        lon=slice(lon_min + 0.15, lon_max - 0.15),
-    )[::density, ::density]
-    lons = var.lon.values
-    lats = var.lat.values
+    # Use isel to subsample
+    subsampled = var.isel(
+        latitude=slice(1, var.sizes['latitude']-1, density),
+        longitude=slice(1, var.sizes['longitude']-1, density)
+    ).dropna('latitude', how='all').dropna('longitude', how='all')
 
     at = []
-    for ilat, ilon in np.ndindex(var.shape):
-        if not var[ilat, ilon].isnull():
-            if lcolors:
-                at.append(
-                    ax.annotate(
-                        ("%d" % var[ilat, ilon]),
-                        (lons[ilon] + shift_x, lats[ilat] + shift_y),
-                        color=m.to_rgba(float(var[ilat, ilon])),
-                        weight="bold",
-                        fontsize=fontsize,
-                        path_effects=[
-                            path_effects.withStroke(linewidth=1, foreground="white")
-                        ],
-                        zorder=5,
-                    )
-                )
+    for i_lat, lat in enumerate(subsampled['latitude']):
+        for i_lon, lon in enumerate(subsampled['longitude']):
+            val = subsampled.sel(latitude=lat, longitude=lon).item()
 
-            else:
-                at.append(
-                    ax.annotate(
-                        ("%d" % var[ilat, ilon]),
-                        (lons[ilon] + shift_x, lats[ilat] + shift_y),
-                        color="white",
-                        weight="bold",
-                        fontsize=fontsize,
-                        path_effects=[
-                            path_effects.withStroke(linewidth=1, foreground="white")
-                        ],
-                        zorder=5,
-                    )
+            # Get the corresponding indices in the full arrays
+            full_i_lat = int(var.get_index('latitude').get_loc(lat.item()))
+            full_i_lon = int(var.get_index('longitude').get_loc(lon.item()))
+
+            # Use these indices to get x and y
+            coord_x = x[full_i_lat, full_i_lon]
+            coord_y = y[full_i_lat, full_i_lon]
+
+            # Skip if the value is NaN
+            if np.isnan(val):
+                continue
+
+            at.append(
+                ax.annotate(
+                    f"{int(val)}",
+                    (coord_x + shift_x, coord_y + shift_y),
+                    color=m.to_rgba(float(val)) if lcolors else "white",
+                    weight="bold",
+                    fontsize=fontsize,
+                    path_effects=[
+                        path_effects.withStroke(linewidth=1, foreground="gray")
+                    ],
+                    zorder=5,
                 )
+            )
 
     return at
 
