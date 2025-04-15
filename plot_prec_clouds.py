@@ -1,6 +1,5 @@
 from functools import partial
 from multiprocessing import Pool
-from matplotlib import colors
 
 import matplotlib.pyplot as plt
 import metpy.calc as mpcalc

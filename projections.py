@@ -5,7 +5,7 @@ import os
 proj_defs = {
     "nord": {
         "projection": "merc",
-        "llcrnrlon": 6.6,
+        "llcrnrlon": 6.,
         "llcrnrlat": 43.5,
         "urcrnrlon": 14.5,
         "urcrnrlat": 47.2,
