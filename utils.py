@@ -9,6 +9,7 @@ import pandas as pd
 import xarray as xr
 from matplotlib.offsetbox import AnchoredText
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+import matplotlib.pyplot as plt
 
 from definitions import (
     COLORMAPS_DIR,
@@ -84,7 +85,9 @@ def get_files_sfc(
         elif var in ["CAPE_ML", "CIN_ML"]:
             surface_mapping = "atmML-0"
         url = f"https://meteohub.mistralportal.it/nwp/ICON-2I_all2km/{run}/{var}/icon_2I_{run}_{surface_mapping}.grib"
-        file = fsspec.open_local(f"simplecache::{url}", simplecache={"cache_storage": "/tmp/"})
+        file = fsspec.open_local(
+            f"simplecache::{url}", simplecache={"cache_storage": "/tmp/"}
+        )
         dss.append(xr.open_dataset(file, engine="cfgrib", decode_timedelta=True))
     dss = xr.merge(dss, compat="override")
 
@@ -157,7 +160,9 @@ def get_files_levels(
         mappings = get_file_mapping(var)
         for mapping, _ in mappings:
             url = f"https://meteohub.mistralportal.it/nwp/ICON-2I_all2km/{run}/{var}/icon_2I_{run}_{mapping}.grib"
-            file = fsspec.open_local(f"simplecache::{url}", simplecache={"cache_storage": "/tmp/"})
+            file = fsspec.open_local(
+                f"simplecache::{url}", simplecache={"cache_storage": "/tmp/"}
+            )
             ds = xr.open_dataset(file, engine="cfgrib")
             attrs = next(iter(ds.data_vars.values())).attrs
             if "GRIB_typeOfLevel" in attrs:
@@ -217,14 +222,14 @@ def find_variable_by_grib_param_id(dataset, param_id):
 
 
 def get_projection(
-    dset,
+    dset=None,
     projection="it",
     countries=True,
     regions=True,
     labels=False,
+    cities=False,
     color_borders="black",
 ):
-    lon2d, lat2d = get_coordinates(dset)
     from mpl_toolkits.basemap import Basemap
 
     proj_options = proj_defs[projection]
@@ -253,13 +258,19 @@ def get_projection(
             fontsize=7,
         )
 
+    if cities:
+        plot_cities(m)
+
     m.drawcoastlines(linewidth=0.5, linestyle="solid", color=color_borders, zorder=7)
     if countries:
         m.drawcountries(linewidth=0.5, linestyle="solid", color=color_borders, zorder=7)
 
-    x, y = m(lon2d, lat2d)
+    x, y = None, None
+    if dset is not None:
+        lon2d, lat2d = get_coordinates(dset)
+        x, y = m(lon2d, lat2d)
 
-    return (m, x, y)
+    return m, x, y
 
 
 def chunks(l, n):
@@ -345,14 +356,16 @@ def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=256):
     return new_cmap
 
 
-def get_colormap_norm(cmap_type, levels, extend='both', clip=False):
+def get_colormap_norm(cmap_type, levels, extend="both", clip=False):
     colors_tuple = pd.read_csv(f"{COLORMAPS_DIR}/cmap_{cmap_type}.rgba").values
     cmap = colors.LinearSegmentedColormap.from_list("", colors_tuple, len(levels) - 1)
     # Adjust ncolors based on the extend parameter
-    extra_bins = 2 if extend == 'both' else 1 if extend in ['min', 'max'] else 0
+    extra_bins = 2 if extend == "both" else 1 if extend in ["min", "max"] else 0
     ncolors = len(levels) - 1 + extra_bins
 
-    norm = colors.BoundaryNorm(boundaries=levels, ncolors=ncolors, clip=clip, extend=extend)
+    norm = colors.BoundaryNorm(
+        boundaries=levels, ncolors=ncolors, clip=clip, extend=extend
+    )
 
     return cmap, norm
 
@@ -473,19 +486,23 @@ def add_vals_on_map(
     m = mplcm.ScalarMappable(norm=norm, cmap=cmap)
 
     # Use isel to subsample
-    subsampled = var.isel(
-        latitude=slice(1, var.sizes['latitude']-1, density),
-        longitude=slice(1, var.sizes['longitude']-1, density)
-    ).dropna('latitude', how='all').dropna('longitude', how='all')
+    subsampled = (
+        var.isel(
+            latitude=slice(1, var.sizes["latitude"] - 1, density),
+            longitude=slice(1, var.sizes["longitude"] - 1, density),
+        )
+        .dropna("latitude", how="all")
+        .dropna("longitude", how="all")
+    )
 
     at = []
-    for i_lat, lat in enumerate(subsampled['latitude']):
-        for i_lon, lon in enumerate(subsampled['longitude']):
+    for i_lat, lat in enumerate(subsampled["latitude"]):
+        for i_lon, lon in enumerate(subsampled["longitude"]):
             val = subsampled.sel(latitude=lat, longitude=lon).item()
 
             # Get the corresponding indices in the full arrays
-            full_i_lat = int(var.get_index('latitude').get_loc(lat.item()))
-            full_i_lon = int(var.get_index('longitude').get_loc(lon.item()))
+            full_i_lat = int(var.get_index("latitude").get_loc(lat.item()))
+            full_i_lon = int(var.get_index("longitude").get_loc(lon.item()))
 
             # Use these indices to get x and y
             coord_x = x[full_i_lat, full_i_lon]
@@ -539,9 +556,7 @@ def divide_axis_for_cbar(ax, width="45%", height="2%", pad=-2, adjust=0.05):
 
 
 def find_image_filename(projection, variable_name, forecast_hour):
-    filename = (
-        f"{subfolder_images.get(projection, '')}/{variable_name}_{forecast_hour:03d}.png"
-    )
+    filename = f"{subfolder_images.get(projection, '')}/{variable_name}_{forecast_hour:03d}.png"
     return filename
 
 
@@ -562,3 +577,56 @@ def set_output_dir(projection):
         os.makedirs(output_dir)
         logging.info(f"Created directory: {output_dir}")
     return output_dir
+
+
+def plot_cities(
+    m,
+    shapefile_path=f"{SHAPEFILES_DIR}/ne_10m_populated_places_simple/ne_10m_populated_places_simple",
+):
+    """
+    Plots cities on a Basemap using a shapefile of populated places.
+
+    Parameters:
+    - ax: matplotlib axis object
+    - m: Basemap object
+    - shapefile_path: path to the shapefile without file extension (e.g., 'ne_10m_populated_places_simple')
+    """
+    # Read the shapefile
+    m.readshapefile(
+        shapefile=shapefile_path, name="ne_10m_populated_places", drawbounds=False
+    )
+
+    shapes = []
+    texts = []
+    for info, shape in zip(m.ne_10m_populated_places_info, m.ne_10m_populated_places):
+        if (
+            (info["longitude"] <= m.urcrnrlon - 0.25)
+            & (info["longitude"] >= m.llcrnrlon + 0.25)
+            & (info["latitude"] <= m.urcrnrlat - 0.25)
+            & (info["latitude"] >= m.llcrnrlat + 0.25)
+        ):
+            shapes.append(
+                plt.plot(
+                    shape[0],
+                    shape[1],
+                    "o",
+                    color="brown",
+                    zorder=10,
+                    markersize=3,
+                    alpha=0.8,
+                )
+            )
+            texts.append(
+                plt.annotate(
+                    info["name"],
+                    xy=shape,
+                    zorder=10,
+                    fontsize=6,
+                    xytext=(-5, 5),
+                    textcoords="offset points",
+                    weight="bold",
+                    path_effects=[
+                        path_effects.withStroke(linewidth=2, foreground="white")
+                    ],
+                )
+            )
