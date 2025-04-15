@@ -35,11 +35,11 @@ def main():
     dset[cf_var_name] = dset[cf_var_name].metpy.convert_units('cm').metpy.dequantify()
     levels_snow = (.1 , 1, 2, 5, 10, 15, 20, 25, 30, 40, 50, 75, 100, 125, 150, 175, 200)
 
-    cmap, norm = utils.get_colormap_norm("snow_acc_wxcharts", levels_snow)
+    cmap, norm = utils.get_colormap_norm("snow_acc_wxcharts", levels_snow, extend='max')
     _ = plt.figure(figsize=(figsize_x, figsize_y))
 
     ax = plt.gca()
-    m, x, y = utils.get_projection(dset, projection)
+    m, x, y = utils.get_projection(dset, projection, cities=True)
     m.arcgisimage(service='World_Shaded_Relief', xpixels=1500)
 
     # All the arguments that need to be passed to the plotting function
@@ -54,7 +54,7 @@ def main():
 
     logging.info("Pre-processing finished, launching plotting scripts")
     if debug:
-        plot_files(dset.isel(step=slice(0, 2)), **args)
+        plot_files(dset.isel(step=slice(-2, -1)), **args)
     else:
         # Parallelize the plotting by dividing into chunks and utils.processes
         dss = utils.chunks_dataset(dset, chunks_size)

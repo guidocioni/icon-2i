@@ -99,9 +99,9 @@ def main():
         dset[pmsl_cf_name].min().astype("int"), dset[pmsl_cf_name].max().astype("int"), 3.0
     )
 
-    cmap_snow, norm_snow = utils.get_colormap_norm('snow', levels_snow)
-    cmap_rain, norm_rain = utils.get_colormap_norm("prec", levels_rain)
-    cmap_clouds, norm_clouds = utils.get_colormap_norm("clouds", levels_clouds)
+    cmap_snow, norm_snow = utils.get_colormap_norm('snow', levels_snow, extend='max')
+    cmap_rain, norm_rain = utils.get_colormap_norm("prec", levels_rain, extend='max')
+    cmap_clouds, norm_clouds = utils.get_colormap_norm("clouds", levels_clouds, extend='max')
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
 

@@ -42,7 +42,7 @@ def main():
         dset[pmsl_cf_name].min().astype("int"), dset[pmsl_cf_name].max().astype("int"), 3.0
     )
 
-    cmap, norm = utils.get_colormap_norm("temp", levels_t2m)
+    cmap, norm = utils.get_colormap_norm("temp", levels_t2m, extend='both')
     _ = plt.figure(figsize=(figsize_x, figsize_y))
 
     ax = plt.gca()
@@ -101,7 +101,6 @@ def plot_files(dss, **args):
             args["x"],
             args["y"],
             data[t2m_cf_name],
-            extend="both",
             levels=args["levels_t2m"][::5],
             linewidths=0.3,
             colors="gray",

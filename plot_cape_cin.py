@@ -37,9 +37,9 @@ def main():
     dset[cape_cf_name] = dset[cape_cf_name].where(dset[cape_cf_name] >= 100)
 
     levels_cape = np.concatenate(
-        [np.arange(0.0, 3000.0, 100.0), np.arange(3000.0, 7000.0, 200.0)]
+        [np.arange(0.0, 3000.0, 100.0), np.arange(3000.0, 7200.0, 200.0)]
     )
-    cmap, norm = utils.get_colormap_norm("cape_wxcharts", levels=levels_cape)
+    cmap, norm = utils.get_colormap_norm("cape_wxcharts", levels=levels_cape, extend='max')
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
     ax = plt.gca()

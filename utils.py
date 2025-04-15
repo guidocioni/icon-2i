@@ -358,11 +358,10 @@ def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=256):
 
 def get_colormap_norm(cmap_type, levels, extend="both", clip=False):
     colors_tuple = pd.read_csv(f"{COLORMAPS_DIR}/cmap_{cmap_type}.rgba").values
-    cmap = colors.LinearSegmentedColormap.from_list("", colors_tuple, len(levels) - 1)
+    cmap = colors.LinearSegmentedColormap.from_list("", colors_tuple, len(levels) + 1)
     # Adjust ncolors based on the extend parameter
     extra_bins = 2 if extend == "both" else 1 if extend in ["min", "max"] else 0
     ncolors = len(levels) - 1 + extra_bins
-
     norm = colors.BoundaryNorm(
         boundaries=levels, ncolors=ncolors, clip=clip, extend=extend
     )

@@ -40,7 +40,7 @@ def main():
             np.arange(1100, 2100, 100),
         ]
     )
-    cmap, norm = utils.get_colormap_norm("prec_acc_wxcharts", levels=levels_precip)
+    cmap, norm = utils.get_colormap_norm("prec_acc_wxcharts", levels=levels_precip, extend='max')
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
     ax = plt.gca()
@@ -52,7 +52,7 @@ def main():
 
     logging.info("Pre-processing finished, launching plotting scripts")
     if debug:
-        plot_files(dset.isel(step=slice(0, 2)), **args)
+        plot_files(dset.isel(step=slice(-2, -1)), **args)
     else:
         # Parallelize the plotting by dividing into chunks and utils.processes
         dss = utils.chunks_dataset(dset, chunks_size)
@@ -84,6 +84,24 @@ def plot_files(dss, **args):
             norm=args["norm"],
             levels=args["levels_precip"],
         )
+    
+        density = 17
+        if projection == 'nord':
+            density = 10
+        elif projection == 'sud':
+            density = 9
+        elif projection == 'centro':
+            density = 7
+        vals = utils.add_vals_on_map(
+            ax=args["ax"],
+            var=data[tp_cf_name].where(data[tp_cf_name] > 50),
+            x=args["x"],
+            y=args["y"],
+            cmap=args['cmap'],
+            norm=args['norm'],
+            density=density,
+            fontsize=6
+        )
 
         an_fc = utils.annotation_forecast(args["ax"], data["valid_time"].to_pandas())
         an_var = utils.annotation(
@@ -111,7 +129,7 @@ def plot_files(dss, **args):
             plt.savefig(filename, **options_savefig)
 
         utils.remove_collections(
-            [cs, an_fc, an_var, an_run]
+            [cs, an_fc, an_var, an_run, vals]
         )
 
         first = False
