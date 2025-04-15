@@ -65,6 +65,7 @@ def plot_files(dss, **args):
     first = True
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
+        tp_cf_name = utils.find_variable_by_grib_param_id(data, 500041)
         cum_hour = int(
             ((data["valid_time"] - data["time"]).dt.total_seconds() / 3600).item()
         )
@@ -77,7 +78,7 @@ def plot_files(dss, **args):
         cs = args["ax"].contourf(
             args["x"],
             args["y"],
-            data["tp"],
+            data[tp_cf_name],
             extend="max",
             cmap=args["cmap"],
             norm=args["norm"],

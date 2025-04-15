@@ -2,8 +2,6 @@ from functools import partial
 from multiprocessing import Pool
 
 import matplotlib.pyplot as plt
-import metpy.calc as mpcalc
-import numpy as np
 
 import utils
 from definitions import (
@@ -32,8 +30,9 @@ def main():
     dset = utils.get_files_sfc(
         vars=["H_SNOW"], projection=projection
     )
+    cf_var_name = utils.find_variable_by_grib_param_id(dset, 500045)
 
-    dset['h_snow'] = dset['h_snow'].metpy.convert_units('cm').metpy.dequantify()
+    dset[cf_var_name] = dset[cf_var_name].metpy.convert_units('cm').metpy.dequantify()
     levels_snow = (.1 , 1, 2, 5, 10, 15, 20, 25, 30, 40, 50, 75, 100, 125, 150, 175, 200)
 
     cmap, norm = utils.get_colormap_norm("snow_acc_wxcharts", levels_snow)
@@ -68,6 +67,7 @@ def plot_files(dss, **args):
     first = True
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
+        cf_var_name = utils.find_variable_by_grib_param_id(data, 500045)
         cum_hour = int(
             ((data["valid_time"] - data["time"]).dt.total_seconds() / 3600).item()
         )
@@ -80,7 +80,7 @@ def plot_files(dss, **args):
         cs = args["ax"].contourf(
             args["x"],
             args["y"],
-            data["h_snow"],
+            data[cf_var_name],
             extend="max",
             cmap=args["cmap"],
             norm=args["norm"],

@@ -32,18 +32,20 @@ def main():
     dset = utils.get_files_sfc(
         vars=["U_10M", "V_10M", "VMAX_10M", "PMSL"], projection=projection
     )
-
-    dset['fg10'] = dset['fg10'].metpy.convert_units('kph').metpy.dequantify()
-    dset["pmsl"] = dset["pmsl"].metpy.convert_units("hPa").metpy.dequantify()
-
+    vmax_cf_name = utils.find_variable_by_grib_param_id(dset, 500164)
+    pmsl_cf_name = utils.find_variable_by_grib_param_id(dset, 500002)
+    # Convert units
+    dset[vmax_cf_name] = dset[vmax_cf_name].metpy.convert_units('kph').metpy.dequantify()
+    dset[pmsl_cf_name] = dset[pmsl_cf_name].metpy.convert_units("hPa").metpy.dequantify()
+    # Define contour levels
     levels_mslp = np.arange(
-        dset["pmsl"].min().astype("int"), dset["pmsl"].max().astype("int"), 3.0
+        dset[pmsl_cf_name].min().astype("int"), dset[pmsl_cf_name].max().astype("int"), 3.0
     )
     levels_winds_10m = np.arange(0, 255, 1)
-
-    cmap, norm = utils.get_colormap_norm("winds_wxcharts", levels_winds_10m)
+    # Define colormaps and normalization
+    cmap, norm = utils.get_colormap_norm("winds_wxcharts", levels_winds_10m, extend='max')
+    # Initialize background figure
     _ = plt.figure(figsize=(figsize_x, figsize_y))
-
     ax = plt.gca()
     m, x, y = utils.get_projection(dset, projection)
     m.arcgisimage(service='World_Shaded_Relief', xpixels=1500)
@@ -74,7 +76,11 @@ def plot_files(dss, **args):
     first = True
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
-        data["pmsl"].values = mpcalc.smooth_n_point(data["pmsl"].values, n=9, passes=10)
+        vmax_cf_name = utils.find_variable_by_grib_param_id(data, 500164)
+        pmsl_cf_name = utils.find_variable_by_grib_param_id(data, 500002)
+        u10m_cf_name = utils.find_variable_by_grib_param_id(data, 500027)
+        v10m_cf_name = utils.find_variable_by_grib_param_id(data, 500029)
+        data[pmsl_cf_name].values = mpcalc.smooth_n_point(data[pmsl_cf_name].values, n=9, passes=10)
         cum_hour = int(
             ((data["valid_time"] - data["time"]).dt.total_seconds() / 3600).item()
         )
@@ -83,20 +89,21 @@ def plot_files(dss, **args):
         filename = utils.find_image_filename(
             projection=projection, variable_name=variable_name, forecast_hour=cum_hour
         )
-
+        
         cs = args["ax"].contourf(
             args["x"],
             args["y"],
-            data["fg10"],
+            data[vmax_cf_name],
             extend="max",
             cmap=args["cmap"],
             norm=args["norm"],
             levels=args["levels_winds_10m"],
+            # shading='gouraud' # to test pcolormesh
         )
         c = args["ax"].contour(
             args["x"],
             args["y"],
-            data["pmsl"],
+            data[pmsl_cf_name],
             levels=args["levels_mslp"],
             colors="white",
             linewidths=1.0,
@@ -107,7 +114,7 @@ def plot_files(dss, **args):
             args["ax"],
             args["x"],
             args["y"],
-            data["pmsl"],
+            data[pmsl_cf_name],
             "max",
             170,
             symbol="H",
@@ -118,7 +125,7 @@ def plot_files(dss, **args):
             args["ax"],
             args["x"],
             args["y"],
-            data["pmsl"],
+            data[pmsl_cf_name],
             "min",
             170,
             symbol="L",
@@ -137,14 +144,14 @@ def plot_files(dss, **args):
             density = 10
         wind_magnitude = np.clip(
             np.sqrt(
-                data["u10"][::density, ::density] ** 2
-                + data["v10"][::density, ::density] ** 2
+                data[u10m_cf_name][::density, ::density] ** 2
+                + data[v10m_cf_name][::density, ::density] ** 2
             ),
             min_wind_threshold,
             max_wind_threshold,
         )
-        u_norm = data["u10"][::density, ::density] / wind_magnitude
-        v_norm = data["v10"][::density, ::density] / wind_magnitude
+        u_norm = data[u10m_cf_name][::density, ::density] / wind_magnitude
+        v_norm = data[v10m_cf_name][::density, ::density] / wind_magnitude
         x = args["x"][::density, ::density]
         y = args["y"][::density, ::density]
 

@@ -83,8 +83,8 @@ def get_files_sfc(
             surface_mapping = "meanSea-0"
         elif var in ["CAPE_ML", "CIN_ML"]:
             surface_mapping = "atmML-0"
-        url = f"simplecache::https://meteohub.mistralportal.it/nwp/ICON-2I_all2km/{run}/{var}/icon_2I_{run}_{surface_mapping}.grib"
-        file = fsspec.open_local(url, filecache={"cache_storage": "/tmp/"})
+        url = f"https://meteohub.mistralportal.it/nwp/ICON-2I_all2km/{run}/{var}/icon_2I_{run}_{surface_mapping}.grib"
+        file = fsspec.open_local(f"simplecache::{url}", simplecache={"cache_storage": "/tmp/"})
         dss.append(xr.open_dataset(file, engine="cfgrib", decode_timedelta=True))
     dss = xr.merge(dss, compat="override")
 
@@ -156,8 +156,8 @@ def get_files_levels(
     for var in vars:
         mappings = get_file_mapping(var)
         for mapping, _ in mappings:
-            url = f"simplecache::https://meteohub.mistralportal.it/nwp/ICON-2I_all2km/{run}/{var}/icon_2I_{run}_{mapping}.grib"
-            file = fsspec.open_local(url, filecache={"cache_storage": "/tmp/"})
+            url = f"https://meteohub.mistralportal.it/nwp/ICON-2I_all2km/{run}/{var}/icon_2I_{run}_{mapping}.grib"
+            file = fsspec.open_local(f"simplecache::{url}", simplecache={"cache_storage": "/tmp/"})
             ds = xr.open_dataset(file, engine="cfgrib")
             attrs = next(iter(ds.data_vars.values())).attrs
             if "GRIB_typeOfLevel" in attrs:
@@ -194,6 +194,26 @@ def get_coordinates(ds):
         longitude = ((longitude.lon + 180) % 360) - 180
 
     return np.meshgrid(longitude.values, latitude.values)
+
+
+def find_variable_by_grib_param_id(dataset, param_id):
+    """
+    Find the variable name in an xarray.Dataset based on the GRIB_paramId attribute.
+
+    Parameters:
+        dataset (xarray.Dataset): The dataset to search.
+        param_id (int): The GRIB_paramId to look for.
+
+    Returns:
+        str: The variable name corresponding to the given GRIB_paramId.
+
+    Raises:
+        ValueError: If no variable with the specified GRIB_paramId is found.
+    """
+    for var_name, var_data in dataset.data_vars.items():
+        if var_data.attrs.get("GRIB_paramId") == param_id:
+            return var_name
+    raise ValueError(f"No variable with GRIB_paramId {param_id} found in the dataset.")
 
 
 def get_projection(
@@ -325,10 +345,14 @@ def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=256):
     return new_cmap
 
 
-def get_colormap_norm(cmap_type, levels):
+def get_colormap_norm(cmap_type, levels, extend='both', clip=False):
     colors_tuple = pd.read_csv(f"{COLORMAPS_DIR}/cmap_{cmap_type}.rgba").values
     cmap = colors.LinearSegmentedColormap.from_list("", colors_tuple, len(levels) - 1)
-    norm = colors.BoundaryNorm(boundaries=levels, ncolors=len(levels) - 1, clip=True)
+    # Adjust ncolors based on the extend parameter
+    extra_bins = 2 if extend == 'both' else 1 if extend in ['min', 'max'] else 0
+    ncolors = len(levels) - 1 + extra_bins
+
+    norm = colors.BoundaryNorm(boundaries=levels, ncolors=ncolors, clip=clip, extend=extend)
 
     return cmap, norm
 

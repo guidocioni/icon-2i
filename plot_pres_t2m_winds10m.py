@@ -32,13 +32,14 @@ def main():
     dset = utils.get_files_sfc(
         vars=["U_10M", "V_10M", "T_2M", "PMSL"], projection=projection
     )
-
-    dset["t2m"] = dset["t2m"].metpy.convert_units("degC").metpy.dequantify()
-    dset["pmsl"] = dset["pmsl"].metpy.convert_units("hPa").metpy.dequantify()
+    pmsl_cf_name = utils.find_variable_by_grib_param_id(dset, 500002)
+    t2m_cf_name = utils.find_variable_by_grib_param_id(dset, 500011)
+    dset[t2m_cf_name] = dset[t2m_cf_name].metpy.convert_units("degC").metpy.dequantify()
+    dset[pmsl_cf_name] = dset[pmsl_cf_name].metpy.convert_units("hPa").metpy.dequantify()
 
     levels_t2m = np.arange(-25, 45, 1)
     levels_mslp = np.arange(
-        dset["pmsl"].min().astype("int"), dset["pmsl"].max().astype("int"), 3.0
+        dset[pmsl_cf_name].min().astype("int"), dset[pmsl_cf_name].max().astype("int"), 3.0
     )
 
     cmap, norm = utils.get_colormap_norm("temp", levels_t2m)
@@ -73,7 +74,11 @@ def plot_files(dss, **args):
     first = True
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
-        data["pmsl"].values = mpcalc.smooth_n_point(data["pmsl"].values, n=9, passes=10)
+        pmsl_cf_name = utils.find_variable_by_grib_param_id(data, 500002)
+        u10m_cf_name = utils.find_variable_by_grib_param_id(data, 500027)
+        v10m_cf_name = utils.find_variable_by_grib_param_id(data, 500029)
+        t2m_cf_name = utils.find_variable_by_grib_param_id(data, 500011)
+        data[pmsl_cf_name].values = mpcalc.smooth_n_point(data[pmsl_cf_name].values, n=9, passes=10)
         cum_hour = int(
             ((data["valid_time"] - data["time"]).dt.total_seconds() / 3600).item()
         )
@@ -86,7 +91,7 @@ def plot_files(dss, **args):
         cs = args["ax"].contourf(
             args["x"],
             args["y"],
-            data["t2m"],
+            data[t2m_cf_name],
             extend="both",
             cmap=args["cmap"],
             norm=args["norm"],
@@ -95,7 +100,7 @@ def plot_files(dss, **args):
         cs2 = args["ax"].contour(
             args["x"],
             args["y"],
-            data["t2m"],
+            data[t2m_cf_name],
             extend="both",
             levels=args["levels_t2m"][::5],
             linewidths=0.3,
@@ -105,7 +110,7 @@ def plot_files(dss, **args):
         c = args["ax"].contour(
             args["x"],
             args["y"],
-            data["pmsl"],
+            data[pmsl_cf_name],
             levels=args["levels_mslp"],
             colors="white",
             linewidths=1.0,
@@ -119,7 +124,7 @@ def plot_files(dss, **args):
             args["ax"],
             args["x"],
             args["y"],
-            data["pmsl"],
+            data[pmsl_cf_name],
             "max",
             170,
             symbol="H",
@@ -130,7 +135,7 @@ def plot_files(dss, **args):
             args["ax"],
             args["x"],
             args["y"],
-            data["pmsl"],
+            data[pmsl_cf_name],
             "min",
             170,
             symbol="L",
@@ -149,14 +154,14 @@ def plot_files(dss, **args):
             density = 10
         wind_magnitude = np.clip(
             np.sqrt(
-                data["u10"][::density, ::density] ** 2
-                + data["v10"][::density, ::density] ** 2
+                data[u10m_cf_name][::density, ::density] ** 2
+                + data[v10m_cf_name][::density, ::density] ** 2
             ),
             min_wind_threshold,
             max_wind_threshold,
         )
-        u_norm = data["u10"][::density, ::density] / wind_magnitude
-        v_norm = data["v10"][::density, ::density] / wind_magnitude
+        u_norm = data[u10m_cf_name][::density, ::density] / wind_magnitude
+        v_norm = data[v10m_cf_name][::density, ::density] / wind_magnitude
         x = args["x"][::density, ::density]
         y = args["y"][::density, ::density]
 

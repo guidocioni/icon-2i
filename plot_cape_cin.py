@@ -33,8 +33,8 @@ def main():
     dset = utils.get_files_sfc(
         vars=["CAPE_ML", "CIN_ML", "U_10M", "V_10M"], projection=projection
     )
-
-    dset["cape_ml"] = dset["cape_ml"].where(dset["cape_ml"] >= 100)
+    cape_cf_name = utils.find_variable_by_grib_param_id(dset, 500153)
+    dset[cape_cf_name] = dset[cape_cf_name].where(dset[cape_cf_name] >= 100)
 
     levels_cape = np.concatenate(
         [np.arange(0.0, 3000.0, 100.0), np.arange(3000.0, 7000.0, 200.0)]
@@ -64,6 +64,10 @@ def plot_files(dss, **args):
     first = True
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
+        u10m_cf_name = utils.find_variable_by_grib_param_id(data, 500027)
+        v10m_cf_name = utils.find_variable_by_grib_param_id(data, 500029)
+        cape_cf_name = utils.find_variable_by_grib_param_id(data, 500153)
+        cin_cf_name = utils.find_variable_by_grib_param_id(data, 500154)
         cum_hour = int(
             ((data["valid_time"] - data["time"]).dt.total_seconds() / 3600).item()
         )
@@ -76,7 +80,7 @@ def plot_files(dss, **args):
         cs = args["ax"].contourf(
             args["x"],
             args["y"],
-            data["cape_ml"],
+            data[cape_cf_name],
             extend="max",
             cmap=args["cmap"],
             norm=args["norm"],
@@ -85,7 +89,7 @@ def plot_files(dss, **args):
         cr = args["ax"].contourf(
             args["x"],
             args["y"],
-            data["cin_ml"],
+            data[cin_cf_name],
             colors="none",
             levels=(50, 100.0),
             hatches=["...", "..."],
@@ -104,14 +108,14 @@ def plot_files(dss, **args):
             density = 10
         wind_magnitude = np.clip(
             np.sqrt(
-                data["u10"][::density, ::density] ** 2
-                + data["v10"][::density, ::density] ** 2
+                data[u10m_cf_name][::density, ::density] ** 2
+                + data[v10m_cf_name][::density, ::density] ** 2
             ),
             min_wind_threshold,
             max_wind_threshold,
         )
-        u_norm = data["u10"][::density, ::density] / wind_magnitude
-        v_norm = data["v10"][::density, ::density] / wind_magnitude
+        u_norm = data[u10m_cf_name][::density, ::density] / wind_magnitude
+        v_norm = data[v10m_cf_name][::density, ::density] / wind_magnitude
         x = args["x"][::density, ::density]
         y = args["y"][::density, ::density]
 

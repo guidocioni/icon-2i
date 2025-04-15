@@ -36,17 +36,22 @@ def main():
         vars=["RAIN_GSP", "RAIN_CON", "SNOW_GSP", "SNOW_CON", "PMSL", "CLCT"],
         projection=projection,
     )
+    rain_gsp_cf_name = utils.find_variable_by_grib_param_id(dset, 500134)
+    rain_con_cf_name = utils.find_variable_by_grib_param_id(dset, 500137)
+    snow_gsp_cf_name = utils.find_variable_by_grib_param_id(dset, 500053)
+    snow_con_cf_name = utils.find_variable_by_grib_param_id(dset, 500052)
+    pmsl_cf_name = utils.find_variable_by_grib_param_id(dset, 500002)
     # De-accumulate precipitation
-    rain_acc = dset["rain_gsp"] + dset["rain_con"]
-    snow_acc = dset["lsfwe"] + dset["csfwe"]
+    rain_acc = dset[rain_gsp_cf_name] + dset[rain_con_cf_name]
+    snow_acc = dset[snow_gsp_cf_name] + dset[snow_con_cf_name]
     rain = rain_acc.differentiate(coord="step", datetime_unit="h")
     snow = snow_acc.differentiate(coord="step", datetime_unit="h")
     rain = xr.DataArray(rain, name="rain_rate")
     snow = xr.DataArray(snow, name="snow_rate")
-    dset = xr.merge([dset.drop_vars(["rain_gsp", "rain_con", "lsfwe", "csfwe"]), rain, snow])
+    dset = xr.merge([dset.drop_vars([rain_gsp_cf_name, rain_con_cf_name, snow_gsp_cf_name, snow_con_cf_name]), rain, snow])
 
     # Convert units
-    dset["pmsl"] = dset["pmsl"].metpy.convert_units("hPa").metpy.dequantify()
+    dset[pmsl_cf_name] = dset[pmsl_cf_name].metpy.convert_units("hPa").metpy.dequantify()
 
     levels_rain = (
         0.1,
@@ -91,7 +96,7 @@ def main():
     )
     levels_clouds = (30, 50, 80, 90, 100)
     levels_mslp = np.arange(
-        dset["pmsl"].min().astype("int"), dset["pmsl"].max().astype("int"), 3.0
+        dset[pmsl_cf_name].min().astype("int"), dset[pmsl_cf_name].max().astype("int"), 3.0
     )
 
     cmap_snow, norm_snow = utils.get_colormap_norm('snow', levels_snow)
@@ -136,7 +141,9 @@ def plot_files(dss, **args):
     first = True
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
-        data["pmsl"].values = mpcalc.smooth_n_point(data["pmsl"].values, n=9, passes=10)
+        pmsl_cf_name = utils.find_variable_by_grib_param_id(data, 500002)
+        clct_cf_name = utils.find_variable_by_grib_param_id(data, 500046)
+        data[pmsl_cf_name].values = mpcalc.smooth_n_point(data[pmsl_cf_name].values, n=9, passes=10)
         cum_hour = int(
             ((data["valid_time"] - data["time"]).dt.total_seconds() / 3600).item()
         )
@@ -170,7 +177,7 @@ def plot_files(dss, **args):
         cs_clouds = args["ax"].contourf(
             args["x"],
             args["y"],
-            data["clct"],
+            data[clct_cf_name],
             extend="max",
             cmap=args["cmap_clouds"],
             norm=args["norm_clouds"],
@@ -181,7 +188,7 @@ def plot_files(dss, **args):
         c = args["ax"].contour(
             args["x"],
             args["y"],
-            data["pmsl"],
+            data[pmsl_cf_name],
             levels=args["levels_mslp"],
             colors="whitesmoke",
             linewidths=1.5,
@@ -195,7 +202,7 @@ def plot_files(dss, **args):
             args["ax"],
             args["x"],
             args["y"],
-            data["pmsl"],
+            data[pmsl_cf_name],
             "max",
             150,
             symbol="H",
@@ -206,7 +213,7 @@ def plot_files(dss, **args):
             args["ax"],
             args["x"],
             args["y"],
-            data["pmsl"],
+            data[pmsl_cf_name],
             "min",
             150,
             symbol="L",
