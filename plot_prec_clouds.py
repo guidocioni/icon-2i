@@ -33,9 +33,15 @@ def main():
         f"Plotting {variable_name} for projection {projection}. Writing images in {output_dir}"
     )
     dset = utils.get_files_sfc(
-        vars=["RAIN_GSP", "RAIN_CON", "SNOW_GSP", "SNOW_CON", "PMSL", "CLCT"],
+        vars=["RAIN_GSP", "RAIN_CON", "SNOW_GSP", "SNOW_CON", "PMSL"],
         projection=projection,
     )
+    # We need to parse cloud layers separately for the moment
+    dset_high_clouds = utils.get_files_levels(["CLCH"], projection=projection)
+    dset_low_clouds = utils.get_files_levels(["CLCL"], projection=projection)
+    dset['clc_h'] = dset_high_clouds.to_dataarray().squeeze()
+    dset['clc_l'] = dset_low_clouds.to_dataarray().squeeze()
+    #
     rain_gsp_cf_name = utils.find_variable_by_grib_param_id(dset, 500134)
     rain_con_cf_name = utils.find_variable_by_grib_param_id(dset, 500137)
     snow_gsp_cf_name = utils.find_variable_by_long_name(dset, "Large-scale snowfall water equivalent")
@@ -101,7 +107,8 @@ def main():
 
     cmap_snow, norm_snow = utils.get_colormap_norm('snow', levels_snow, extend='max')
     cmap_rain, norm_rain = utils.get_colormap_norm("prec", levels_rain, extend='max')
-    cmap_clouds, norm_clouds = utils.get_colormap_norm("clouds", levels_clouds, extend='max')
+    cmap_low_clouds, norm_low_clouds = utils.get_colormap_norm("clouds", levels_clouds, extend='max')
+    cmap_high_clouds, norm_high_clouds = utils.get_colormap_norm("clouds_orange", levels_clouds, extend='max')
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
 
@@ -120,10 +127,12 @@ def main():
         levels_clouds=levels_clouds,
         cmap_rain=cmap_rain,
         cmap_snow=cmap_snow,
-        cmap_clouds=cmap_clouds,
+        cmap_low_clouds=cmap_low_clouds,
         norm_rain=norm_rain,
         norm_snow=norm_snow,
-        norm_clouds=norm_clouds
+        norm_low_clouds=norm_low_clouds,
+        cmap_high_clouds=cmap_high_clouds,
+        norm_high_clouds=norm_high_clouds
     )
 
     logging.info("Pre-processing finished, launching plotting scripts")
@@ -142,7 +151,6 @@ def plot_files(dss, **args):
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
         pmsl_cf_name = utils.find_variable_by_grib_param_id(data, 500002)
-        clct_cf_name = utils.find_variable_by_grib_param_id(data, 500046)
         data[pmsl_cf_name].values = mpcalc.smooth_n_point(data[pmsl_cf_name].values, n=9, passes=10)
         cum_hour = int(
             ((data["valid_time"] - data["time"]).dt.total_seconds() / 3600).item()
@@ -177,12 +185,25 @@ def plot_files(dss, **args):
         cs_clouds = args["ax"].contourf(
             args["x"],
             args["y"],
-            data[clct_cf_name],
+            data['clc_l'],
             extend="max",
-            cmap=args["cmap_clouds"],
-            norm=args["norm_clouds"],
+            cmap=args["cmap_low_clouds"],
+            norm=args["norm_low_clouds"],
             levels=args["levels_clouds"],
             zorder=3,
+            antialiased=True
+        )
+        cs_high_clouds = args["ax"].contourf(
+            args["x"],
+            args["y"],
+            data['clc_h'],
+            extend="max",
+            cmap=args["cmap_high_clouds"],
+            norm=args["norm_high_clouds"],
+            levels=args["levels_clouds"],
+            zorder=2,
+            antialiased=True,
+            alpha=0.3
         )
 
         c = args["ax"].contour(
@@ -193,7 +214,6 @@ def plot_files(dss, **args):
             colors="whitesmoke",
             linewidths=1.5,
             zorder=7,
-            alpha=1.0,
         )
 
         labels = args["ax"].clabel(c, c.levels, inline=True, fmt="%4.0f", fontsize=6)
@@ -252,6 +272,7 @@ def plot_files(dss, **args):
                 cs_rain,
                 cs_snow,
                 cs_clouds,
+                cs_high_clouds,
                 labels,
                 an_fc,
                 an_var,

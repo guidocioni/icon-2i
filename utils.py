@@ -174,7 +174,7 @@ def get_files_levels(
             file = fsspec.open_local(
                 f"simplecache::{url}", simplecache={"cache_storage": "/tmp/"}
             )
-            ds = xr.open_dataset(file, engine="cfgrib")
+            ds = xr.open_dataset(file, engine="cfgrib", decode_timedelta=True)
             attrs = next(iter(ds.data_vars.values())).attrs
             if "GRIB_typeOfLevel" in attrs:
                 level_type = attrs["GRIB_typeOfLevel"]

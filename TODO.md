@@ -13,15 +13,12 @@
 - Surface moisture flux divergence
 - Soil moisture saturation ?
 - Add graupel to prec_clouds plot
-- Use Low and High clouds with different colors for prec_clouds
 - SST
 - Surface radiation
 
 
 ## Feature
 - Verify that cache works among different processes opening the same file concurrently
-- Only fetch blocks from the data? Will it work?
 - Add run as argument parsed in every plotting script and then pass it to get_files_sfc. Set it as default to the closest run (make a function for that)
 
 ## Common
-- Add README
