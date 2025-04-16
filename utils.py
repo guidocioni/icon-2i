@@ -101,7 +101,7 @@ def get_files_sfc(
     return dss
 
 
-def get_file_mapping(var):
+def get_file_mapping(var, lev_sel=None):
     # Define valid variables and their corresponding levels and mappings
     pressure_vars = ["U", "V", "T", "QV", "OMEGA", "FI"]
     pressure_levels = [1000, 925, 850, 700, 500, 250]
@@ -112,8 +112,18 @@ def get_file_mapping(var):
     mappings = []
 
     if var in pressure_vars:
+        if lev_sel is not None:
+            if lev_sel in pressure_levels:
+                pressure_levels = [lev_sel]
+            else:
+                raise ValueError(f"Selected level is not in {pressure_levels}")
         mappings = [(f"isobaricInhPa-{lev}", lev) for lev in pressure_levels]
     elif var in soil_vars:
+        if lev_sel is not None:
+            if lev_sel in soil_levels:
+                soil_levels = [lev_sel]
+            else:
+                raise ValueError(f"Selected level is not in {soil_levels}")
         mappings = [(f"depthBelowLandLayer-{lev}", lev) for lev in soil_levels]
     elif var in shear_vars:
         mappings = [("heightAboveGroundLayer-6000", 6000)]
@@ -131,6 +141,7 @@ def get_files_levels(
     vars=["T", "U", "V"],
     run=pd.to_datetime("now").strftime("%Y%m%d00"),
     projection=None,
+    lev_sel=None
 ):
     if not isinstance(vars, list):
         vars = [vars]
@@ -157,7 +168,7 @@ def get_files_levels(
 
     dss = []
     for var in vars:
-        mappings = get_file_mapping(var)
+        mappings = get_file_mapping(var, lev_sel=lev_sel)
         for mapping, _ in mappings:
             url = f"https://meteohub.mistralportal.it/nwp/ICON-2I_all2km/{run}/{var}/icon_2I_{run}_{mapping}.grib"
             file = fsspec.open_local(
