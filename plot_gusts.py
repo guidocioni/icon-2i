@@ -32,7 +32,7 @@ def main():
     dset = utils.get_files_sfc(
         vars=["U_10M", "V_10M", "VMAX_10M", "PMSL"], projection=projection
     )
-    vmax_cf_name = utils.find_variable_by_grib_param_id(dset, 500164)
+    vmax_cf_name = utils.find_variable_by_long_name(dset, "Maximum 10 metre wind gust since previous post-processing")
     pmsl_cf_name = utils.find_variable_by_grib_param_id(dset, 500002)
     # Convert units
     dset[vmax_cf_name] = dset[vmax_cf_name].metpy.convert_units('kph').metpy.dequantify()
@@ -76,10 +76,10 @@ def plot_files(dss, **args):
     first = True
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
-        vmax_cf_name = utils.find_variable_by_grib_param_id(data, 500164)
+        vmax_cf_name = utils.find_variable_by_long_name(data, "Maximum 10 metre wind gust since previous post-processing")
         pmsl_cf_name = utils.find_variable_by_grib_param_id(data, 500002)
-        u10m_cf_name = utils.find_variable_by_grib_param_id(data, 500027)
-        v10m_cf_name = utils.find_variable_by_grib_param_id(data, 500029)
+        u10m_cf_name = utils.find_variable_by_long_name(data, "10 metre U wind component")
+        v10m_cf_name = utils.find_variable_by_long_name(data, "10 metre V wind component")
         data[pmsl_cf_name].values = mpcalc.smooth_n_point(data[pmsl_cf_name].values, n=9, passes=10)
         cum_hour = int(
             ((data["valid_time"] - data["time"]).dt.total_seconds() / 3600).item()

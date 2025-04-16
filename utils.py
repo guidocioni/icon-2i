@@ -221,6 +221,13 @@ def find_variable_by_grib_param_id(dataset, param_id):
     raise ValueError(f"No variable with GRIB_paramId {param_id} found in the dataset.")
 
 
+def find_variable_by_long_name(dataset, long_name):
+    for var_name, var_data in dataset.data_vars.items():
+        if var_data.attrs.get("long_name") == long_name:
+            return var_name
+    raise ValueError(f"No variable with long_name {long_name} found in the dataset.")
+
+
 def get_projection(
     dset=None,
     projection="it",
@@ -472,6 +479,8 @@ def add_vals_on_map(
     shift_y=0.0,
     fontsize=7.5,
     lcolors=True,
+    font_border_color="gray",
+    font_border_width=1
 ):
     """Given an input projection, a variable containing the values and a plot put
     the values on a map exlcuing NaNs and taking care of not going
@@ -519,9 +528,9 @@ def add_vals_on_map(
                     weight="bold",
                     fontsize=fontsize,
                     path_effects=[
-                        path_effects.withStroke(linewidth=1, foreground="gray")
+                        path_effects.withStroke(linewidth=font_border_width, foreground=font_border_color)
                     ],
-                    zorder=5,
+                    zorder=6,
                 )
             )
 

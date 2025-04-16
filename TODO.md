@@ -16,6 +16,7 @@
 - Integrated water vapour
 - SST
 - Surface radiation
+- Snow limit only on a contourf
 
 
 ## Feature

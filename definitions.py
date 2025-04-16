@@ -14,7 +14,7 @@ SHAPEFILES_DIR = os.path.join(ROOT_DIR, "shapefiles")
 
 
 # Options for savefig
-options_savefig = {"dpi": 100, "bbox_inches": "tight", "transparent": False}
+options_savefig = {"dpi": 110, "bbox_inches": "tight", "transparent": False}
 
 chunks_size = 10
 processes = 4

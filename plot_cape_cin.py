@@ -64,8 +64,8 @@ def plot_files(dss, **args):
     first = True
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
-        u10m_cf_name = utils.find_variable_by_grib_param_id(data, 500027)
-        v10m_cf_name = utils.find_variable_by_grib_param_id(data, 500029)
+        u10m_cf_name = utils.find_variable_by_long_name(data, "10 metre U wind component")
+        v10m_cf_name = utils.find_variable_by_long_name(data, "10 metre V wind component")
         cape_cf_name = utils.find_variable_by_grib_param_id(data, 500153)
         cin_cf_name = utils.find_variable_by_grib_param_id(data, 500154)
         cum_hour = int(
