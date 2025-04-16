@@ -2,7 +2,6 @@
 - Geopotential/temperature/humidity 925 hPa
 - Geopotential/temperature/humidity 850 hPa
 - Geopotential/temperature/humidity 850 hPa
-- 2m Dewpoint
 - ThetaE
 - Thunderstorm parameters ?
     - Storm Relative Helicity
@@ -16,7 +15,6 @@
 - Integrated water vapour
 - SST
 - Surface radiation
-- Snow limit only on a contourf
 
 
 ## Feature
