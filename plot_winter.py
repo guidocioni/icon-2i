@@ -133,18 +133,18 @@ def plot_files(dss, **args):
             data[snowlmt_cf_name],
             levels=args["levels_snowlmt"],
             colors="red",
-            linewidths=0.5,
+            linewidths=1,
         )
 
-        labels = args["ax"].clabel(c, c.levels, inline=True, fmt="%4.0f", fontsize=5)
+        labels = args["ax"].clabel(c, c.levels, inline=True, fmt="%4.0f", fontsize=5.5)
 
-        density = 13
-        if projection == 'nord':
-            density = 8
-        elif projection == 'sud':
-            density = 7
-        elif projection == 'centro':
-            density = 5
+        # density = 13
+        # if projection == 'nord':
+        #     density = 8
+        # elif projection == 'sud':
+        #     density = 7
+        # elif projection == 'centro':
+        #     density = 5
         # vals = utils.add_vals_on_map(
         #     ax=args["ax"],
         #     var=data["hsnow_change"],
