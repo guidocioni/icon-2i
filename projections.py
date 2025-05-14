@@ -3,6 +3,15 @@ import os
 
 
 proj_defs = {
+    "toscana": {
+        "projection": "merc",
+        "llcrnrlon": 9.6,
+        "llcrnrlat": 42.2,
+        "urcrnrlon": 12.4,
+        "urcrnrlat": 44.5,
+        "resolution": "h",
+        "epsg": 3857,
+    },
     "nord": {
         "projection": "merc",
         "llcrnrlon": 6.,
