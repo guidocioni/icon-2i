@@ -92,14 +92,13 @@ def plot_files(dss, **args):
         an_run = utils.annotation_run(args["ax"], run)
 
         if first:
-            cb = plt.colorbar(
-                cs,
-                orientation="horizontal",
-                label="PWAT [mm]",
-                pad=0.035,
-                fraction=0.035,
+            utils.add_colorbar(
+                ax=args["ax"],
+                c=cs,
+                cbar_kwargs=dict(
+                    label="PWAT [mm]",
+                ),
             )
-            cb.minorticks_off()
 
         if debug:
             plt.show(block=True)

@@ -115,15 +115,14 @@ def plot_files(dss, **args):
         an_run = utils.annotation_run(args["ax"], run)
 
         if first:
-            cb = plt.colorbar(
-                cs,
-                orientation="horizontal",
-                label="Accumulated precipitation [mm]",
-                pad=0.035,
-                fraction=0.035,
-                ticks=[1, 5, 10, 15, 25, 35, 50, 100, 200, 500, 1000, 2000]
+            utils.add_colorbar(
+                ax=args["ax"],
+                c=cs,
+                cbar_kwargs=dict(
+                    label="Accumulated precipitation [mm]",
+                    ticks=[1, 5, 10, 15, 25, 35, 50, 100, 200, 500, 1000, 2000]
+                ),
             )
-            cb.minorticks_off()
 
         if debug:
             plt.show(block=True)

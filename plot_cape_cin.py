@@ -64,8 +64,12 @@ def plot_files(dss, **args):
     first = True
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
-        u10m_cf_name = utils.find_variable_by_long_name(data, "10 metre U wind component")
-        v10m_cf_name = utils.find_variable_by_long_name(data, "10 metre V wind component")
+        u10m_cf_name = utils.find_variable_by_long_name(
+            data, ["10 metre U wind component", "U-Component of Wind"]
+        )
+        v10m_cf_name = utils.find_variable_by_long_name(
+            data, ["10 metre V wind component", "V-Component of Wind"]
+        )
         cape_cf_name = utils.find_variable_by_grib_param_id(data, 500153)
         cin_cf_name = utils.find_variable_by_grib_param_id(data, 500154)
         cum_hour = int(
@@ -143,14 +147,13 @@ def plot_files(dss, **args):
         an_run = utils.annotation_run(args["ax"], run)
 
         if first:
-            cb = plt.colorbar(
-                cs,
-                orientation="horizontal",
-                label="CAPE [J/kg]",
-                pad=0.03,
-                fraction=0.04,
+            utils.add_colorbar(
+                ax=args["ax"],
+                c=cs,
+                cbar_kwargs=dict(
+                    label="CAPE [J/kg]",
+                ),
             )
-            cb.minorticks_off()
 
         if debug:
             plt.show(block=True)

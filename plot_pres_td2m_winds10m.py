@@ -75,8 +75,12 @@ def plot_files(dss, **args):
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
         pmsl_cf_name = utils.find_variable_by_grib_param_id(data, 500002)
-        u10m_cf_name = utils.find_variable_by_long_name(data, "10 metre U wind component")
-        v10m_cf_name = utils.find_variable_by_long_name(data, "10 metre V wind component")
+        u10m_cf_name = utils.find_variable_by_long_name(
+            data, ["10 metre U wind component", "U-Component of Wind"]
+        )
+        v10m_cf_name = utils.find_variable_by_long_name(
+            data, ["10 metre V wind component", "V-Component of Wind"]
+        )
         td2m_cf_name = utils.find_variable_by_long_name(data, "2 metre dewpoint temperature")
         data[pmsl_cf_name].values = mpcalc.smooth_n_point(data[pmsl_cf_name].values, n=9, passes=10)
         cum_hour = int(
@@ -188,14 +192,13 @@ def plot_files(dss, **args):
         an_run = utils.annotation_run(args["ax"], run)
 
         if first:
-            cb = plt.colorbar(
-                cs,
-                orientation="horizontal",
-                label="Dewpoint [C]",
-                pad=0.03,
-                fraction=0.04,
+            utils.add_colorbar(
+                ax=args["ax"],
+                c=cs,
+                cbar_kwargs=dict(
+                    label="Dewpoint [C]",
+                ),
             )
-            cb.minorticks_off()
 
         if debug:
             plt.show(block=True)
