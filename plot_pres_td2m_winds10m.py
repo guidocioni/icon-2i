@@ -33,7 +33,7 @@ def main():
         vars=["U_10M", "V_10M", "TD_2M", "PMSL"], projection=projection
     )
     pmsl_cf_name = utils.find_variable_by_grib_param_id(dset, 500002)
-    td2m_cf_name = utils.find_variable_by_long_name(dset, "2 metre dewpoint temperature")
+    td2m_cf_name = utils.find_variable_by_long_name(dset, ["2 metre dewpoint temperature", "2m Dew Point Temperature"])
     dset[td2m_cf_name] = dset[td2m_cf_name].metpy.convert_units("degC").metpy.dequantify()
     dset[pmsl_cf_name] = dset[pmsl_cf_name].metpy.convert_units("hPa").metpy.dequantify()
 
@@ -81,7 +81,7 @@ def plot_files(dss, **args):
         v10m_cf_name = utils.find_variable_by_long_name(
             data, ["10 metre V wind component", "V-Component of Wind"]
         )
-        td2m_cf_name = utils.find_variable_by_long_name(data, "2 metre dewpoint temperature")
+        td2m_cf_name = utils.find_variable_by_long_name(data, ["2 metre dewpoint temperature", "2m Dew Point Temperature"])
         data[pmsl_cf_name].values = mpcalc.smooth_n_point(data[pmsl_cf_name].values, n=9, passes=10)
         cum_hour = int(
             ((data["valid_time"] - data["time"]).dt.total_seconds() / 3600).item()

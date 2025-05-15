@@ -65,7 +65,7 @@ def plot_files(dss, **args):
     first = True
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
-        tp_cf_name = utils.find_variable_by_long_name(data, "Total Precipitation")
+        tp_cf_name = utils.find_variable_by_long_name(data, ["Total Precipitation", "Total Precipitation rate (S)"])
         cum_hour = int(
             ((data["valid_time"] - data["time"]).dt.total_seconds() / 3600).item()
         )

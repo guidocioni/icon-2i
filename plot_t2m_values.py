@@ -32,7 +32,7 @@ def main():
     dset = utils.get_files_sfc(
         vars=["T_2M"], projection=projection
     )
-    t2m_cf_name = utils.find_variable_by_long_name(dset, "2 metre temperature")
+    t2m_cf_name = utils.find_variable_by_long_name(dset, ["2 metre temperature", "2m Temperature"])
     dset[t2m_cf_name] = dset[t2m_cf_name].metpy.convert_units("degC").metpy.dequantify()
 
     levels_t2m = np.arange(-25, 45, 1)
@@ -68,7 +68,7 @@ def plot_files(dss, **args):
     first = True
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
-        t2m_cf_name = utils.find_variable_by_long_name(data, "2 metre temperature")
+        t2m_cf_name = utils.find_variable_by_long_name(data, ["2 metre temperature", "2m Temperature"])
         cum_hour = int(
             ((data["valid_time"] - data["time"]).dt.total_seconds() / 3600).item()
         )
