@@ -121,7 +121,7 @@ def plot_files(dss, **args):
         cs = args["ax"].contourf(
             args["x"],
             args["y"],
-            data[vmax_cf_name],
+            data[vmax_cf_name].where(data[vmax_cf_name] > 1),
             extend="max",
             cmap=args["cmap"],
             norm=args["norm"],
