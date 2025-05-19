@@ -185,9 +185,8 @@ def plot_files(dss, **args):
         an_fc = utils.annotation_forecast(args["ax"], data["valid_time"].to_pandas())
         an_var = utils.annotation(
             args["ax"],
-            "MSLP [hPa], Winds@10m and Temperature@2m",
+            "MSLP (hPa), 10m Winds and 2m Temperature (C)",
             loc="lower left",
-            fontsize=6,
         )
         an_run = utils.annotation_run(args["ax"], run)
 
@@ -196,7 +195,7 @@ def plot_files(dss, **args):
                 ax=args["ax"],
                 c=cs,
                 cbar_kwargs=dict(
-                    label="Temperature [C]",
+                    label="Temperature (C)",
                 ),
             )
 

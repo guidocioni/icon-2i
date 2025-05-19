@@ -118,7 +118,6 @@ def plot_files(dss, **args):
             args["ax"],
             "Snow depth change [cm] since run beginning",
             loc="lower left",
-            fontsize=6,
         )
         an_run = utils.annotation_run(args["ax"], run)
 
@@ -126,9 +125,6 @@ def plot_files(dss, **args):
             utils.add_colorbar(
                 ax=args["ax"],
                 c=cs,
-                cbar_kwargs=dict(
-                    label="Snow height change [cm]",
-                ),
             )
 
         if debug:

@@ -361,7 +361,7 @@ def convert_timezone(dt_from, from_tz="utc", to_tz="Europe/Berlin"):
     return dt_to.tz_localize(None)
 
 
-def annotation(ax, text, loc="upper right", fontsize=8):
+def annotation(ax, text, loc="upper right", fontsize=7):
     """Put a general annotation in the plot."""
     at = AnchoredText("%s" % text, prop=dict(size=fontsize), frameon=True, loc=loc)
     at.patch.set_boxstyle("round,pad=0.,rounding_size=0.1")

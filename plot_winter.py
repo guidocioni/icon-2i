@@ -161,7 +161,6 @@ def plot_files(dss, **args):
             args["ax"],
             "New snow and rain since forecast start",
             loc="lower left",
-            fontsize=6,
         )
         an_run = utils.annotation_run(args["ax"], run)
 

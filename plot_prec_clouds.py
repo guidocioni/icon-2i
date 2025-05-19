@@ -246,7 +246,6 @@ def plot_files(dss, **args):
             args["ax"],
             "Clouds, rain, snow and MSLP",
             loc="lower left",
-            fontsize=6,
         )
         an_run = utils.annotation_run(args["ax"], run)
 
