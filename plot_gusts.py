@@ -23,7 +23,9 @@ output_dir = utils.set_output_dir(projection)
 
 if not debug:
     import matplotlib
+
     matplotlib.use("Agg")
+
 
 def main():
     logging.info(
@@ -32,23 +34,37 @@ def main():
     dset = utils.get_files_sfc(
         vars=["U_10M", "V_10M", "VMAX_10M", "PMSL"], projection=projection
     )
-    vmax_cf_name = utils.find_variable_by_long_name(dset, "Maximum 10 metre wind gust since previous post-processing")
+    vmax_cf_name = utils.find_variable_by_long_name(
+        dset,
+        [
+            "Maximum 10 metre wind gust since previous post-processing",
+            "maximum Wind 10m",
+        ],
+    )
     pmsl_cf_name = utils.find_variable_by_grib_param_id(dset, 500002)
     # Convert units
-    dset[vmax_cf_name] = dset[vmax_cf_name].metpy.convert_units('kph').metpy.dequantify()
-    dset[pmsl_cf_name] = dset[pmsl_cf_name].metpy.convert_units("hPa").metpy.dequantify()
+    dset[vmax_cf_name] = (
+        dset[vmax_cf_name].metpy.convert_units("kph").metpy.dequantify()
+    )
+    dset[pmsl_cf_name] = (
+        dset[pmsl_cf_name].metpy.convert_units("hPa").metpy.dequantify()
+    )
     # Define contour levels
     levels_mslp = np.arange(
-        dset[pmsl_cf_name].min().astype("int"), dset[pmsl_cf_name].max().astype("int"), 3.0
+        dset[pmsl_cf_name].min().astype("int"),
+        dset[pmsl_cf_name].max().astype("int"),
+        3.0,
     )
-    levels_winds_10m = np.arange(0, 255, 1)
+    levels_winds_10m = np.arange(1, 258, 2)
     # Define colormaps and normalization
-    cmap, norm = utils.get_colormap_norm("winds_wxcharts", levels_winds_10m, extend='max')
+    cmap, norm = utils.get_colormap_norm(
+        "winds_wxcharts", levels_winds_10m, extend="max"
+    )
     # Initialize background figure
     _ = plt.figure(figsize=(figsize_x, figsize_y))
     ax = plt.gca()
     m, x, y = utils.get_projection(dset, projection)
-    m.arcgisimage(service='World_Shaded_Relief', xpixels=1500)
+    m.arcgisimage(service="World_Shaded_Relief", xpixels=1500)
 
     # All the arguments that need to be passed to the plotting function
     args = dict(
@@ -58,7 +74,7 @@ def main():
         cmap=cmap,
         norm=norm,
         levels_mslp=levels_mslp,
-        levels_winds_10m=levels_winds_10m
+        levels_winds_10m=levels_winds_10m,
     )
 
     logging.info("Pre-processing finished, launching plotting scripts")
@@ -76,11 +92,23 @@ def plot_files(dss, **args):
     first = True
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
-        vmax_cf_name = utils.find_variable_by_long_name(data, "Maximum 10 metre wind gust since previous post-processing")
+        vmax_cf_name = utils.find_variable_by_long_name(
+            data,
+            [
+                "Maximum 10 metre wind gust since previous post-processing",
+                "maximum Wind 10m",
+            ],
+        )
         pmsl_cf_name = utils.find_variable_by_grib_param_id(data, 500002)
-        u10m_cf_name = utils.find_variable_by_long_name(data, "10 metre U wind component")
-        v10m_cf_name = utils.find_variable_by_long_name(data, "10 metre V wind component")
-        data[pmsl_cf_name].values = mpcalc.smooth_n_point(data[pmsl_cf_name].values, n=9, passes=10)
+        u10m_cf_name = utils.find_variable_by_long_name(
+            data, ["10 metre U wind component", "U-Component of Wind"]
+        )
+        v10m_cf_name = utils.find_variable_by_long_name(
+            data, ["10 metre V wind component", "V-Component of Wind"]
+        )
+        data[pmsl_cf_name].values = mpcalc.smooth_n_point(
+            data[pmsl_cf_name].values, n=9, passes=10
+        )
         cum_hour = int(
             ((data["valid_time"] - data["time"]).dt.total_seconds() / 3600).item()
         )
@@ -89,11 +117,11 @@ def plot_files(dss, **args):
         filename = utils.find_image_filename(
             projection=projection, variable_name=variable_name, forecast_hour=cum_hour
         )
-        
+
         cs = args["ax"].contourf(
             args["x"],
             args["y"],
-            data[vmax_cf_name],
+            data[vmax_cf_name].where(data[vmax_cf_name] > 1),
             extend="max",
             cmap=args["cmap"],
             norm=args["norm"],
@@ -179,14 +207,32 @@ def plot_files(dss, **args):
         an_run = utils.annotation_run(args["ax"], run)
 
         if first:
-            cb = plt.colorbar(
-                cs,
-                orientation="horizontal",
-                label="Wind gust (km/h)",
-                pad=0.03,
-                fraction=0.04,
+            utils.add_colorbar(
+                ax=args["ax"],
+                c=cs,
+                cbar_kwargs=dict(
+                    label="Wind gust (km/h)",
+                    ticks=[
+                        5,
+                        11,
+                        19,
+                        28,
+                        38,
+                        49,
+                        61,
+                        74,
+                        88,
+                        102,
+                        117,
+                        133,
+                        149,
+                        165,
+                        183,
+                        200,
+                        250,
+                    ],
+                ),
             )
-            cb.minorticks_off()
 
         if debug:
             plt.show(block=True)

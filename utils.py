@@ -10,6 +10,8 @@ import xarray as xr
 from matplotlib.offsetbox import AnchoredText
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+
 
 from definitions import (
     COLORMAPS_DIR,
@@ -233,10 +235,15 @@ def find_variable_by_grib_param_id(dataset, param_id):
 
 
 def find_variable_by_long_name(dataset, long_name):
-    for var_name, var_data in dataset.data_vars.items():
-        if var_data.attrs.get("long_name") == long_name:
-            return var_name
-    raise ValueError(f"No variable with long_name {long_name} found in the dataset.")
+    # Allow long_name to be a string or a list of strings
+    if not isinstance(long_name, list):
+        long_name = [long_name]
+    for name in long_name:
+        logging.debug(f'Looking for variable name {name}')
+        for var_name, var_data in dataset.data_vars.items():
+            if var_data.attrs.get("long_name") == name:
+                return var_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
 
 
 def get_projection(
@@ -649,3 +656,19 @@ def plot_cities(
                     ],
                 )
             )
+
+
+def add_colorbar(ax, c, size="2%", pad=0.1, position='bottom', cbar_kwargs={}):
+    '''Add colorbar to the bottom'''
+    ax_divider = make_axes_locatable(ax)
+    # Create an axis on the bottom of the main plot axis to host the colorbar
+    ax_colorbar = ax_divider.append_axes(position, size=size, pad=pad)
+    # and draw the colorbar inside. We grab the figure so that we
+    # don't have to pass it in the function
+    orientation = 'vertical'
+    if position == 'bottom':
+        orientation='horizontal'
+    colorbar = plt.gcf().colorbar(c, cax=ax_colorbar, orientation=orientation, **cbar_kwargs)
+    colorbar.minorticks_off()
+
+    return colorbar

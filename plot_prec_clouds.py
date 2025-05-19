@@ -44,8 +44,8 @@ def main():
     #
     rain_gsp_cf_name = utils.find_variable_by_grib_param_id(dset, 500134)
     rain_con_cf_name = utils.find_variable_by_grib_param_id(dset, 500137)
-    snow_gsp_cf_name = utils.find_variable_by_long_name(dset, "Large-scale snowfall water equivalent")
-    snow_con_cf_name = utils.find_variable_by_long_name(dset, "Convective snowfall water equivalent")
+    snow_gsp_cf_name = utils.find_variable_by_long_name(dset, ["Large-scale snowfall water equivalent", "Large-Scale snowfall rate water equivalent (s)"])
+    snow_con_cf_name = utils.find_variable_by_long_name(dset, ["Convective snowfall water equivalent", "Convective Snowfall rate water equivalent (s)"])
     pmsl_cf_name = utils.find_variable_by_grib_param_id(dset, 500002)
     # De-accumulate precipitation
     rain_acc = dset[rain_gsp_cf_name] + dset[rain_con_cf_name]
