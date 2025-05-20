@@ -12,6 +12,7 @@ IMAGES_DIR = os.getenv("IMAGES_DIR", os.path.join(ROOT_DIR, "images"))
 COLORMAPS_DIR = os.path.join(ROOT_DIR, "colormaps")
 SHAPEFILES_DIR = os.path.join(ROOT_DIR, "shapefiles")
 
+REMOTE_FOLDER = "https://meteohub.mistralportal.it/nwp/ICON-2I_all2km"
 
 # Options for savefig
 options_savefig = {"dpi": 110, "bbox_inches": "tight", "transparent": False}

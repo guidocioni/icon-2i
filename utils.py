@@ -1,6 +1,8 @@
 import argparse
 import fsspec
 import os
+import re
+import requests
 import matplotlib.cm as mplcm
 import matplotlib.colors as colors
 import matplotlib.patheffects as path_effects
@@ -16,14 +18,31 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from definitions import (
     COLORMAPS_DIR,
     SHAPEFILES_DIR,
+    REMOTE_FOLDER,
     logging,
 )
 from projections import proj_defs, subfolder_images
 
 
+def get_latest_model_run(url=REMOTE_FOLDER):
+    """
+    Fetches the directory listing from the given URL and returns the latest model run folder.
+    """
+    response = requests.get(url)
+    response.raise_for_status()
+    # Find all folder names matching the pattern YYYYMMDDHH/
+    folder_names = re.findall(r'href="(\d{10}/)"', response.text)
+    if not folder_names:
+        raise ValueError("No model run folders found at the URL.")
+    # Remove trailing slash and sort
+    folder_names = [f.rstrip('/') for f in folder_names]
+    latest_run = sorted(folder_names)[-1]
+    return latest_run
+
+
 def get_files_sfc(
     vars=["T_2M", "U_10M", "V_10M"],
-    run=pd.to_datetime("now").strftime("%Y%m%d00"),
+    run=get_latest_model_run(),
     projection=None,
 ):
     if not isinstance(vars, list):
@@ -86,7 +105,7 @@ def get_files_sfc(
             surface_mapping = "meanSea-0"
         elif var in ["CAPE_ML", "CIN_ML"]:
             surface_mapping = "atmML-0"
-        url = f"https://meteohub.mistralportal.it/nwp/ICON-2I_all2km/{run}/{var}/icon_2I_{run}_{surface_mapping}.grib"
+        url = f"{REMOTE_FOLDER}/{run}/{var}/icon_2I_{run}_{surface_mapping}.grib"
         logging.debug(f"Fetching file {url}")
         file = fsspec.open_local(
             f"simplecache::{url}", simplecache={"cache_storage": "/tmp/"}
@@ -142,7 +161,7 @@ def get_file_mapping(var, lev_sel=None):
 
 def get_files_levels(
     vars=["T", "U", "V"],
-    run=pd.to_datetime("now").strftime("%Y%m%d00"),
+    run=get_latest_model_run(),
     projection=None,
     lev_sel=None
 ):
@@ -173,7 +192,7 @@ def get_files_levels(
     for var in vars:
         mappings = get_file_mapping(var, lev_sel=lev_sel)
         for mapping, _ in mappings:
-            url = f"https://meteohub.mistralportal.it/nwp/ICON-2I_all2km/{run}/{var}/icon_2I_{run}_{mapping}.grib"
+            url = f"{REMOTE_FOLDER}/{run}/{var}/icon_2I_{run}_{mapping}.grib"
             logging.debug(f"Fetching file {url}")
             file = fsspec.open_local(
                 f"simplecache::{url}", simplecache={"cache_storage": "/tmp/"}
@@ -597,7 +616,7 @@ def parse_arguments():
         "--projection", type=str, default="it", help="Map projection to use"
     )
     parser.add_argument(
-        "--run", type=str, default=pd.to_datetime("now").strftime("%Y%m%d00"), help="Forecast run to fetch (format %Y%m%d%H)"
+        "--run", type=str, default=get_latest_model_run(), help="Forecast run to fetch (format %Y%m%d%H)"
     )
     return parser.parse_args()
 
