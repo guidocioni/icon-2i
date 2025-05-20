@@ -17,7 +17,7 @@ args = utils.parse_arguments()
 debug = args.debug
 projection = args.projection
 run = args.run
-variable_name ='clct'
+variable_name ='lpi'
 output_dir = utils.set_output_dir(projection)
 
 if not debug:
@@ -28,17 +28,17 @@ def main():
     logging.info(
         f"Plotting {variable_name} for projection {projection}. Writing images in {output_dir}"
     )
-    dset = utils.get_files_sfc(vars=["CLCT"], projection=projection, run=run)
+    dset = utils.get_files_sfc(vars=["LPI"], projection=projection, run=run)
 
-    levels_clc = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 99]
-    cmap, norm = utils.get_colormap_norm("cloud_cover_mlgx", levels=levels_clc, extend='both')
+    levels_lpi = [0, 1, 2, 5, 10, 20, 30, 50, 100, 200]
+    cmap, norm = utils.get_colormap_norm("cape_wxcharts", levels=levels_lpi, extend='max')
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
     ax = plt.gca()
     m, x, y = utils.get_projection(dset, projection)
 
     # All the arguments that need to be passed to the plotting function
-    args = dict(x=x, y=y, ax=ax, levels_clc=levels_clc, cmap=cmap, norm=norm)
+    args = dict(x=x, y=y, ax=ax, levels_lpi=levels_lpi, cmap=cmap, norm=norm)
 
     logging.info("Pre-processing finished, launching plotting scripts")
     if debug:
@@ -55,7 +55,7 @@ def plot_files(dss, **args):
     first = True
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
-        clc_cf_name = utils.find_variable_by_long_name(data, ["Total Cloud Cover"])
+        lpi_cf_name = utils.find_variable_by_long_name(data, ["Lightning Potential Index"])
         cum_hour = int(
             ((data["valid_time"] - data["time"]).dt.total_seconds() / 3600).item()
         )
@@ -68,18 +68,18 @@ def plot_files(dss, **args):
         cs = args["ax"].contourf(
             args["x"],
             args["y"],
-            data[clc_cf_name],
-            extend="both",
+            data[lpi_cf_name],
+            extend="max",
             cmap=args["cmap"],
             norm=args["norm"],
-            levels=args["levels_clc"],
+            levels=args["levels_lpi"],
         )
     
 
         an_fc = utils.annotation_forecast(args["ax"], data["valid_time"].to_pandas())
         an_var = utils.annotation(
             args["ax"],
-            "Cloud Cover (%)",
+            "Lighthing Potential Index (flashes per hour)",
             loc="lower left",
         )
         an_run = utils.annotation_run(args["ax"], run)

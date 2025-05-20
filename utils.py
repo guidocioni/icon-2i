@@ -48,46 +48,46 @@ def get_files_sfc(
     if not isinstance(vars, list):
         vars = [vars]
     valid_vars = [
-        "ALB_RAD",
-        "ALHFL_S",
-        "ASHFL_S",
-        "ASOB_S",
-        "ASWDIFD_S",
-        "ASWDIR_S",
-        "ATHB_S",
-        "ATHD_S",
-        "ATHU_S",
-        "AUMFL_S",
-        "AVMFL_S",
+        "ALB_RAD", # Shortwave broadband albedo for diffuse radiation 
+        "ALHFL_S", # Latent heat net flux at surface (average since model start)
+        "ASHFL_S", # Sensible heat net flux at surface (average since model start) 
+        "ASOB_S", # Net short-wave radiation flux at surface (average since model start
+        "ASWDIFD_S", # Surface down solar diffuse radiation (average since model start)
+        "ASWDIR_S", # Surface down solar direct radiation (average since model start)
+        "ATHB_S", # Net long-wave radiation flux at surface (average since model start) 
+        "ATHD_S", # 
+        "ATHU_S", #
+        "AUMFL_S", # U-momentum flux at surface ρu0w0
+        "AVMFL_S", # V-momentum flux at surface ρv0w0
         "CAPE_CON",
         "CAPE_ML",
         "CIN_ML",
         "CLCT",
         "FR_LAND",
-        "GRAU_GSP",
+        "GRAU_GSP", # Large scale graupel
         "HSURF",
-        "HZEROCL",
-        "H_SNOW",
-        "LPI",
+        "HZEROCL", # Height of 0 degree Celsius isotherm above MSL
+        "H_SNOW", # Snow Depth
+        "LPI", # Lightning Potential Index 
         "PMSL",
         "PS",
         "RAIN_CON",
         "RAIN_GSP",
-        "SDI_2",
-        "SNOWLMT",
+        "SDI_2", # Supercell Detection Index
+        "SNOWLMT", # Height of snowfall limit above MSL
         "SNOW_CON",
         "SNOW_GSP",
         "TD_2M",
-        "TOT_PREC",
+        "TOT_PREC", # Total precipitation
         "TQV",
-        "TWATER",
-        "T_2M",
-        "T_G",
+        "TWATER", # Column integrated water (grid scale, including rain)
+        "T_2M", # Column integrated water vapour (grid scale)
+        "T_G", # Ground temperature
         "U_10M",
         "VMAX_10M",
         "V_10M",
-        "WW",
-        "W_SNOW",
+        "WW", # Weather code
+        "W_SNOW", # Snow depth water equivalent (mm)
     ]
     for var in vars:
         if var not in valid_vars:
@@ -125,7 +125,7 @@ def get_files_sfc(
 
 def get_file_mapping(var, lev_sel=None):
     # Define valid variables and their corresponding levels and mappings
-    pressure_vars = ["U", "V", "T", "QV", "OMEGA", "FI"]
+    pressure_vars = ["U", "V", "T", "QV", "OMEGA", "FI", "RELHUM"]
     pressure_levels = [1000, 925, 850, 700, 500, 250]
     soil_vars = ["W_SO", "T_SO"]
     soil_levels = [0, 1, 2, 7]
@@ -155,6 +155,8 @@ def get_file_mapping(var, lev_sel=None):
         mappings = [("isobaricLayer-800", 800)]
     elif var == "CLCM":
         mappings = [("isobaricLayer-400", 400)]
+    elif var == "UH_MAX":
+        mappings = [("heightAboveSeaLayer-2000", 2000)]
 
     return mappings
 
@@ -173,15 +175,17 @@ def get_files_levels(
         "V",
         "T",
         "QV",
+        "RELHUM",
         "OMEGA",
-        "FI",
+        "FI", # Geopotential height
         "W_SO",
         "T_SO",
-        "WSHEAR_U",
-        "WSHEAR_V",
+        "WSHEAR_U", # U-component of (vertical) wind shear vector between two levels
+        "WSHEAR_V", # V-component of (vertical) wind shear vector between two levels
         "CLCH",
         "CLCL",
         "CLCM",
+        "UH_MAX", # Maximum amplitude of updraft helicity
     ]
 
     for var in vars:
