@@ -190,7 +190,7 @@ def plot_files(dss, **args):
             u_norm,
             v_norm,
             scale=scale,
-            alpha=0.6,
+            alpha=0.8,
             color="gray",
             width=width,
             headwidth=headwidth,

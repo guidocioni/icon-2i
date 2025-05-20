@@ -20,7 +20,7 @@ args = utils.parse_arguments()
 debug = args.debug
 projection = args.projection
 run = args.run
-variable_name ="prec_clouds"
+variable_name = "prec_clouds"
 output_dir = utils.set_output_dir(projection)
 
 if not debug:
@@ -36,18 +36,30 @@ def main():
     dset = utils.get_files_sfc(
         vars=["RAIN_GSP", "RAIN_CON", "SNOW_GSP", "SNOW_CON", "PMSL"],
         projection=projection,
-        run=run
+        run=run,
     )
     # We need to parse cloud layers separately for the moment
     dset_high_clouds = utils.get_files_levels(["CLCH"], projection=projection)
     dset_low_clouds = utils.get_files_levels(["CLCL"], projection=projection)
-    dset['clc_h'] = dset_high_clouds.to_dataarray().squeeze()
-    dset['clc_l'] = dset_low_clouds.to_dataarray().squeeze()
+    dset["clc_h"] = dset_high_clouds.to_dataarray().squeeze()
+    dset["clc_l"] = dset_low_clouds.to_dataarray().squeeze()
     #
     rain_gsp_cf_name = utils.find_variable_by_grib_param_id(dset, 500134)
     rain_con_cf_name = utils.find_variable_by_grib_param_id(dset, 500137)
-    snow_gsp_cf_name = utils.find_variable_by_long_name(dset, ["Large-scale snowfall water equivalent", "Large-Scale snowfall rate water equivalent (s)"])
-    snow_con_cf_name = utils.find_variable_by_long_name(dset, ["Convective snowfall water equivalent", "Convective Snowfall rate water equivalent (s)"])
+    snow_gsp_cf_name = utils.find_variable_by_long_name(
+        dset,
+        [
+            "Large-scale snowfall water equivalent",
+            "Large-Scale snowfall rate water equivalent (s)",
+        ],
+    )
+    snow_con_cf_name = utils.find_variable_by_long_name(
+        dset,
+        [
+            "Convective snowfall water equivalent",
+            "Convective Snowfall rate water equivalent (s)",
+        ],
+    )
     pmsl_cf_name = utils.find_variable_by_grib_param_id(dset, 500002)
     # De-accumulate precipitation
     rain_acc = dset[rain_gsp_cf_name] + dset[rain_con_cf_name]
@@ -56,10 +68,20 @@ def main():
     snow = snow_acc.differentiate(coord="step", datetime_unit="h")
     rain = xr.DataArray(rain, name="rain_rate")
     snow = xr.DataArray(snow, name="snow_rate")
-    dset = xr.merge([dset.drop_vars([rain_gsp_cf_name, rain_con_cf_name, snow_gsp_cf_name, snow_con_cf_name]), rain, snow])
+    dset = xr.merge(
+        [
+            dset.drop_vars(
+                [rain_gsp_cf_name, rain_con_cf_name, snow_gsp_cf_name, snow_con_cf_name]
+            ),
+            rain,
+            snow,
+        ]
+    )
 
     # Convert units
-    dset[pmsl_cf_name] = dset[pmsl_cf_name].metpy.convert_units("hPa").metpy.dequantify()
+    dset[pmsl_cf_name] = (
+        dset[pmsl_cf_name].metpy.convert_units("hPa").metpy.dequantify()
+    )
 
     levels_rain = (
         0.1,
@@ -104,13 +126,19 @@ def main():
     )
     levels_clouds = (30, 50, 80, 90, 100)
     levels_mslp = np.arange(
-        dset[pmsl_cf_name].min().astype("int"), dset[pmsl_cf_name].max().astype("int"), 3.0
+        dset[pmsl_cf_name].min().astype("int"),
+        dset[pmsl_cf_name].max().astype("int"),
+        3.0,
     )
 
-    cmap_snow, norm_snow = utils.get_colormap_norm('snow', levels_snow, extend='max')
-    cmap_rain, norm_rain = utils.get_colormap_norm("prec", levels_rain, extend='max')
-    cmap_low_clouds, norm_low_clouds = utils.get_colormap_norm("clouds", levels_clouds, extend='max')
-    cmap_high_clouds, norm_high_clouds = utils.get_colormap_norm("clouds_orange", levels_clouds, extend='max')
+    cmap_snow, norm_snow = utils.get_colormap_norm("snow", levels_snow, extend="max")
+    cmap_rain, norm_rain = utils.get_colormap_norm("prec", levels_rain, extend="max")
+    cmap_low_clouds, norm_low_clouds = utils.get_colormap_norm(
+        "clouds", levels_clouds, extend="max"
+    )
+    cmap_high_clouds, norm_high_clouds = utils.get_colormap_norm(
+        "clouds_orange", levels_clouds, extend="max"
+    )
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
 
@@ -134,7 +162,7 @@ def main():
         norm_snow=norm_snow,
         norm_low_clouds=norm_low_clouds,
         cmap_high_clouds=cmap_high_clouds,
-        norm_high_clouds=norm_high_clouds
+        norm_high_clouds=norm_high_clouds,
     )
 
     logging.info("Pre-processing finished, launching plotting scripts")
@@ -153,7 +181,9 @@ def plot_files(dss, **args):
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
         pmsl_cf_name = utils.find_variable_by_grib_param_id(data, 500002)
-        data[pmsl_cf_name].values = mpcalc.smooth_n_point(data[pmsl_cf_name].values, n=9, passes=10)
+        data[pmsl_cf_name].values = mpcalc.smooth_n_point(
+            data[pmsl_cf_name].values, n=9, passes=10
+        )
         cum_hour = int(
             ((data["valid_time"] - data["time"]).dt.total_seconds() / 3600).item()
         )
@@ -187,25 +217,25 @@ def plot_files(dss, **args):
         cs_clouds = args["ax"].contourf(
             args["x"],
             args["y"],
-            data['clc_l'],
+            data["clc_l"].where(data["clc_l"] >= 30),
             extend="max",
             cmap=args["cmap_low_clouds"],
             norm=args["norm_low_clouds"],
             levels=args["levels_clouds"],
             zorder=3,
-            antialiased=True
+            antialiased=True,
         )
         cs_high_clouds = args["ax"].contourf(
             args["x"],
             args["y"],
-            data['clc_h'],
+            data["clc_h"].where(data["clc_h"] >= 30),
             extend="max",
             cmap=args["cmap_high_clouds"],
             norm=args["norm_high_clouds"],
             levels=args["levels_clouds"],
             zorder=2,
             antialiased=True,
-            alpha=0.3
+            alpha=0.3,
         )
 
         c = args["ax"].contour(
@@ -254,13 +284,23 @@ def plot_files(dss, **args):
         if first:
             ax_cbar, ax_cbar_2 = utils.divide_axis_for_cbar(args["ax"])
             cbar_snow = plt.gcf().colorbar(
-                cs_snow, cax=ax_cbar, orientation="horizontal", label="Snow [cm/hr]"
+                cs_snow,
+                cax=ax_cbar,
+                orientation="horizontal",
+                label="Snow [cm/hr]",
+                ticks=[0.2, 0.6, 1, 2, 3, 5, 10],
             )
             cbar_rain = plt.gcf().colorbar(
-                cs_rain, cax=ax_cbar_2, orientation="horizontal", label="Rain [mm/hr]"
+                cs_rain,
+                cax=ax_cbar_2,
+                orientation="horizontal",
+                label="Rain [mm/hr]",
+                ticks=[0.2, 0.6, 1, 2, 3, 5, 10, 20, 40, 80, 120],
             )
             cbar_snow.minorticks_off()
+            cbar_snow.ax.tick_params(labelsize=7)
             cbar_rain.minorticks_off()
+            cbar_rain.ax.tick_params(labelsize=7)
 
         if debug:
             plt.show(block=True)

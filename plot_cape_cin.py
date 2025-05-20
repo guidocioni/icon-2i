@@ -150,6 +150,10 @@ def plot_files(dss, **args):
             utils.add_colorbar(
                 ax=args["ax"],
                 c=cs,
+                cbar_kwargs=dict(
+                    ticks=[100, 500, 1000, 1500, 2000, 2500,
+                           3000, 4000, 5000, 6000, 7000],
+                ),
             )
 
         if debug:

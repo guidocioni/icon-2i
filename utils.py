@@ -682,17 +682,25 @@ def plot_cities(
             )
 
 
-def add_colorbar(ax, c, size="2%", pad=0.1, position='bottom', cbar_kwargs={}):
-    '''Add colorbar to the bottom'''
+def add_colorbar(ax, c, size="2%", pad=0.1, position="bottom", cbar_kwargs={}):
+    """Add colorbar to the bottom"""
     ax_divider = make_axes_locatable(ax)
     # Create an axis on the bottom of the main plot axis to host the colorbar
     ax_colorbar = ax_divider.append_axes(position, size=size, pad=pad)
     # and draw the colorbar inside. We grab the figure so that we
     # don't have to pass it in the function
-    orientation = 'vertical'
-    if position == 'bottom':
-        orientation='horizontal'
-    colorbar = plt.gcf().colorbar(c, cax=ax_colorbar, orientation=orientation, **cbar_kwargs)
+    orientation = "vertical"
+    if position == "bottom":
+        orientation = "horizontal"
+    colorbar = plt.gcf().colorbar(
+        c, cax=ax_colorbar, orientation=orientation, drawedges=True, **cbar_kwargs
+    )
     colorbar.minorticks_off()
+    colorbar.dividers.set_color("white")
+    colorbar.dividers.set_linewidth(0.4)
+    colorbar.dividers.set_alpha(0.5)
+    colorbar.outline.set_color("gray")
+    colorbar.outline.set_alpha(0.5)
+    colorbar.ax.tick_params(labelsize=7)
 
     return colorbar

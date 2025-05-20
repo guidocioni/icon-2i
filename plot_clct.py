@@ -2,6 +2,7 @@ from functools import partial
 from multiprocessing import Pool
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 import utils
 from definitions import (
@@ -17,7 +18,7 @@ args = utils.parse_arguments()
 debug = args.debug
 projection = args.projection
 run = args.run
-variable_name ="h_snow"
+variable_name ='clct'
 output_dir = utils.set_output_dir(projection)
 
 if not debug:
@@ -28,30 +29,17 @@ def main():
     logging.info(
         f"Plotting {variable_name} for projection {projection}. Writing images in {output_dir}"
     )
-    dset = utils.get_files_sfc(
-        vars=["H_SNOW"], projection=projection, run=run
-    )
-    cf_var_name = utils.find_variable_by_grib_param_id(dset, 500045)
+    dset = utils.get_files_sfc(vars=["CLCT"], projection=projection, run=run)
 
-    dset[cf_var_name] = dset[cf_var_name].metpy.convert_units('cm').metpy.dequantify()
-    levels_snow = (.1 , 1, 2, 5, 10, 15, 20, 25, 30, 40, 50, 75, 100, 125, 150, 175, 200)
+    levels_clc = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 99]
+    cmap, norm = utils.get_colormap_norm("cloud_cover_mlgx", levels=levels_clc, extend='both')
 
-    cmap, norm = utils.get_colormap_norm("snow_acc_wxcharts", levels_snow, extend='max')
     _ = plt.figure(figsize=(figsize_x, figsize_y))
-
     ax = plt.gca()
-    m, x, y = utils.get_projection(dset, projection, cities=True)
-    m.arcgisimage(service='World_Shaded_Relief', xpixels=1500)
+    m, x, y = utils.get_projection(dset, projection)
 
     # All the arguments that need to be passed to the plotting function
-    args = dict(
-        x=x,
-        y=y,
-        ax=ax,
-        cmap=cmap,
-        norm=norm,
-        levels_snow=levels_snow,
-    )
+    args = dict(x=x, y=y, ax=ax, levels_clc=levels_clc, cmap=cmap, norm=norm)
 
     logging.info("Pre-processing finished, launching plotting scripts")
     if debug:
@@ -68,7 +56,7 @@ def plot_files(dss, **args):
     first = True
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
-        cf_var_name = utils.find_variable_by_grib_param_id(data, 500045)
+        clc_cf_name = utils.find_variable_by_long_name(data, ["Total Cloud Cover"])
         cum_hour = int(
             ((data["valid_time"] - data["time"]).dt.total_seconds() / 3600).item()
         )
@@ -81,17 +69,18 @@ def plot_files(dss, **args):
         cs = args["ax"].contourf(
             args["x"],
             args["y"],
-            data[cf_var_name],
-            extend="max",
+            data[clc_cf_name],
+            extend="both",
             cmap=args["cmap"],
             norm=args["norm"],
-            levels=args["levels_snow"],
+            levels=args["levels_clc"],
         )
+    
 
         an_fc = utils.annotation_forecast(args["ax"], data["valid_time"].to_pandas())
         an_var = utils.annotation(
             args["ax"],
-            "Snow height (cm)",
+            "Cloud Cover (%)",
             loc="lower left",
         )
         an_run = utils.annotation_run(args["ax"], run)
@@ -100,10 +89,6 @@ def plot_files(dss, **args):
             utils.add_colorbar(
                 ax=args["ax"],
                 c=cs,
-                cbar_kwargs=dict(
-                    ticks=[1, 2, 5, 10, 15, 20, 25, 30, 40, 50, 75, 100,
-                           125, 150, 175, 200],
-                ),
             )
 
         if debug:
@@ -112,12 +97,7 @@ def plot_files(dss, **args):
             plt.savefig(filename, **options_savefig)
 
         utils.remove_collections(
-            [
-                cs,
-                an_fc,
-                an_var,
-                an_run,
-            ]
+            [cs, an_fc, an_var, an_run]
         )
 
         first = False
