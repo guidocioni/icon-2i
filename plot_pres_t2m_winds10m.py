@@ -18,7 +18,8 @@ from definitions import (
 args = utils.parse_arguments()
 debug = args.debug
 projection = args.projection
-variable_name = "t_v_pres"
+run = args.run
+variable_name ="t_v_pres"
 output_dir = utils.set_output_dir(projection)
 
 if not debug:
@@ -30,7 +31,7 @@ def main():
         f"Plotting {variable_name} for projection {projection}. Writing images in {output_dir}"
     )
     dset = utils.get_files_sfc(
-        vars=["U_10M", "V_10M", "T_2M", "PMSL"], projection=projection
+        vars=["U_10M", "V_10M", "T_2M", "PMSL"], projection=projection, run=run
     )
     pmsl_cf_name = utils.find_variable_by_grib_param_id(dset, 500002)
     t2m_cf_name = utils.find_variable_by_long_name(dset, ["2 metre temperature", "2m Temperature"])

@@ -16,6 +16,7 @@ from definitions import (
 args = utils.parse_arguments()
 debug = args.debug
 projection = args.projection
+run = args.run
 variable_name = "h_snow_change"
 output_dir = utils.set_output_dir(projection)
 
@@ -29,7 +30,7 @@ def main():
     logging.info(
         f"Plotting {variable_name} for projection {projection}. Writing images in {output_dir}"
     )
-    dset = utils.get_files_sfc(vars=["H_SNOW"], projection=projection)
+    dset = utils.get_files_sfc(vars=["H_SNOW"], projection=projection, run=run)
     cf_var_name = utils.find_variable_by_grib_param_id(dset, 500045)
     dset[cf_var_name] = dset[cf_var_name].metpy.convert_units("cm").metpy.dequantify()
     hsnow = dset[cf_var_name] - dset[cf_var_name].isel(step=0)

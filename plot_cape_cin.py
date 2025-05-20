@@ -17,6 +17,7 @@ from definitions import (
 args = utils.parse_arguments()
 debug = args.debug
 projection = args.projection
+run = args.run
 variable_name = "cape_cin"
 output_dir = utils.set_output_dir(projection)
 
@@ -31,7 +32,7 @@ def main():
         f"Plotting {variable_name} for projection {projection}. Writing images in {output_dir}"
     )
     dset = utils.get_files_sfc(
-        vars=["CAPE_ML", "CIN_ML", "U_10M", "V_10M"], projection=projection
+        vars=["CAPE_ML", "CIN_ML", "U_10M", "V_10M"], projection=projection, run=run
     )
     cape_cf_name = utils.find_variable_by_grib_param_id(dset, 500153)
     dset[cape_cf_name] = dset[cape_cf_name].where(dset[cape_cf_name] >= 100)

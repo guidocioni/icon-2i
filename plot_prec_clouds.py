@@ -19,7 +19,8 @@ from definitions import (
 args = utils.parse_arguments()
 debug = args.debug
 projection = args.projection
-variable_name = "prec_clouds"
+run = args.run
+variable_name ="prec_clouds"
 output_dir = utils.set_output_dir(projection)
 
 if not debug:
@@ -35,6 +36,7 @@ def main():
     dset = utils.get_files_sfc(
         vars=["RAIN_GSP", "RAIN_CON", "SNOW_GSP", "SNOW_CON", "PMSL"],
         projection=projection,
+        run=run
     )
     # We need to parse cloud layers separately for the moment
     dset_high_clouds = utils.get_files_levels(["CLCH"], projection=projection)

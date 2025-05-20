@@ -18,7 +18,8 @@ from definitions import (
 args = utils.parse_arguments()
 debug = args.debug
 projection = args.projection
-variable_name = "t_2m"
+run = args.run
+variable_name ="t_2m"
 output_dir = utils.set_output_dir(projection)
 
 if not debug:
@@ -30,7 +31,7 @@ def main():
         f"Plotting {variable_name} for projection {projection}. Writing images in {output_dir}"
     )
     dset = utils.get_files_sfc(
-        vars=["T_2M"], projection=projection
+        vars=["T_2M"], projection=projection, run=run
     )
     t2m_cf_name = utils.find_variable_by_long_name(dset, ["2 metre temperature", "2m Temperature"])
     dset[t2m_cf_name] = dset[t2m_cf_name].metpy.convert_units("degC").metpy.dequantify()

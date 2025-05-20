@@ -87,6 +87,7 @@ def get_files_sfc(
         elif var in ["CAPE_ML", "CIN_ML"]:
             surface_mapping = "atmML-0"
         url = f"https://meteohub.mistralportal.it/nwp/ICON-2I_all2km/{run}/{var}/icon_2I_{run}_{surface_mapping}.grib"
+        logging.debug(f"Fetching file {url}")
         file = fsspec.open_local(
             f"simplecache::{url}", simplecache={"cache_storage": "/tmp/"}
         )
@@ -173,6 +174,7 @@ def get_files_levels(
         mappings = get_file_mapping(var, lev_sel=lev_sel)
         for mapping, _ in mappings:
             url = f"https://meteohub.mistralportal.it/nwp/ICON-2I_all2km/{run}/{var}/icon_2I_{run}_{mapping}.grib"
+            logging.debug(f"Fetching file {url}")
             file = fsspec.open_local(
                 f"simplecache::{url}", simplecache={"cache_storage": "/tmp/"}
             )
@@ -592,7 +594,10 @@ def parse_arguments():
         "--debug", action="store_true", default=False, help="Enable debug mode"
     )
     parser.add_argument(
-        "--projection", type=str, default="nord", help="Map projection to use"
+        "--projection", type=str, default="it", help="Map projection to use"
+    )
+    parser.add_argument(
+        "--run", type=str, default=pd.to_datetime("now").strftime("%Y%m%d00"), help="Forecast run to fetch (format %Y%m%d%H)"
     )
     return parser.parse_args()
 

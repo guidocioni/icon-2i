@@ -18,6 +18,7 @@ from definitions import (
 args = utils.parse_arguments()
 debug = args.debug
 projection = args.projection
+run = args.run
 variable_name = "gusts"
 output_dir = utils.set_output_dir(projection)
 
@@ -32,7 +33,7 @@ def main():
         f"Plotting {variable_name} for projection {projection}. Writing images in {output_dir}"
     )
     dset = utils.get_files_sfc(
-        vars=["U_10M", "V_10M", "VMAX_10M", "PMSL"], projection=projection
+        vars=["U_10M", "V_10M", "VMAX_10M", "PMSL"], projection=projection, run=run
     )
     vmax_cf_name = utils.find_variable_by_long_name(
         dset,

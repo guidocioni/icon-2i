@@ -17,7 +17,8 @@ from definitions import (
 args = utils.parse_arguments()
 debug = args.debug
 projection = args.projection
-variable_name = 'pwat'
+run = args.run
+variable_name ='pwat'
 output_dir = utils.set_output_dir(projection)
 
 if not debug:
@@ -28,7 +29,7 @@ def main():
     logging.info(
         f"Plotting {variable_name} for projection {projection}. Writing images in {output_dir}"
     )
-    dset = utils.get_files_sfc(vars=["TQV"], projection=projection)
+    dset = utils.get_files_sfc(vars=["TQV"], projection=projection, run=run)
 
     levels_pwat = np.concatenate(
         [

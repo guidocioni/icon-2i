@@ -17,7 +17,8 @@ from definitions import (
 args = utils.parse_arguments()
 debug = args.debug
 projection = args.projection
-variable_name = 'precip_acc'
+run = args.run
+variable_name ='precip_acc'
 output_dir = utils.set_output_dir(projection)
 
 if not debug:
@@ -28,7 +29,7 @@ def main():
     logging.info(
         f"Plotting {variable_name} for projection {projection}. Writing images in {output_dir}"
     )
-    dset = utils.get_files_sfc(vars=["TOT_PREC"], projection=projection)
+    dset = utils.get_files_sfc(vars=["TOT_PREC"], projection=projection, run=run)
 
     levels_precip = np.concatenate(
         [
