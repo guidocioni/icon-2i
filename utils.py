@@ -599,7 +599,7 @@ def add_vals_on_map(
                     path_effects=[
                         path_effects.withStroke(linewidth=font_border_width, foreground=font_border_color)
                     ],
-                    zorder=6,
+                    zorder=10,
                 )
             )
 
