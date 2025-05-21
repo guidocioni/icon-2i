@@ -138,9 +138,4 @@ def plot_files(dss, **args):
 
 
 if __name__ == "__main__":
-    import time
-
-    start_time = time.time()
-    main()
-    elapsed_time = time.time() - start_time
-    logging.info("script took " + time.strftime("%H:%M:%S", time.gmtime(elapsed_time)))
+    utils.run_main_with_timing(main)

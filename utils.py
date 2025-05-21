@@ -1,6 +1,7 @@
 import fsspec
 import os
 import re
+import time
 import requests
 import matplotlib.cm as mplcm
 import matplotlib.colors as colors
@@ -751,3 +752,10 @@ def vector_plot(
     )
 
     return cv
+
+
+def run_main_with_timing(main_func):
+    start_time = time.time()
+    main_func()
+    elapsed_time = time.time() - start_time
+    logging.info("script took " + time.strftime("%H:%M:%S", time.gmtime(elapsed_time)))
