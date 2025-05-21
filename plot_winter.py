@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import utils
+from args import debug, projection, run
 from definitions import (
     chunks_size,
     figsize_x,
@@ -13,22 +14,16 @@ from definitions import (
     processes,
 )
 
-args = utils.parse_arguments()
-debug = args.debug
-projection = args.projection
-run = args.run
 variable_name ="winter"
-output_dir = utils.set_output_dir(projection)
 
 if not debug:
     import matplotlib
-
     matplotlib.use("Agg")
 
 
 def main():
     logging.info(
-        f"Plotting {variable_name} for projection {projection}. Writing images in {output_dir}"
+        f"Plotting {variable_name} for projection {projection}."
     )
     dset = utils.get_files_sfc(
         vars=["H_SNOW", "RAIN_GSP", "RAIN_CON", "SNOWLMT"], projection=projection, run=run

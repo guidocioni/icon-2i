@@ -1,4 +1,3 @@
-import argparse
 import fsspec
 import os
 import re
@@ -607,30 +606,12 @@ def divide_axis_for_cbar(ax, width="45%", height="2%", pad=-2, adjust=0.05):
 
 
 def find_image_filename(projection, variable_name, forecast_hour):
-    filename = f"{subfolder_images.get(projection, '')}/{variable_name}_{forecast_hour:03d}.png"
-    return filename
-
-
-def parse_arguments():
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--debug", action="store_true", default=False, help="Enable debug mode"
-    )
-    parser.add_argument(
-        "--projection", type=str, default="it", help="Map projection to use"
-    )
-    parser.add_argument(
-        "--run", type=str, default=get_latest_model_run(), help="Forecast run to fetch (format %Y%m%d%H)"
-    )
-    return parser.parse_args()
-
-
-def set_output_dir(projection):
     output_dir = subfolder_images.get(projection, "")
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
         logging.info(f"Created directory: {output_dir}")
-    return output_dir
+    filename = f"{output_dir}/{variable_name}_{forecast_hour:03d}.png"
+    return filename
 
 
 def plot_cities(

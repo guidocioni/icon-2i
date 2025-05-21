@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 import utils
+from args import debug, projection, run
 from definitions import (
     chunks_size,
     figsize_x,
@@ -14,22 +15,16 @@ from definitions import (
     processes,
 )
 
-args = utils.parse_arguments()
-debug = args.debug
-projection = args.projection
-run = args.run
 variable_name = "cape_cin"
-output_dir = utils.set_output_dir(projection)
 
 if not debug:
     import matplotlib
-
     matplotlib.use("Agg")
 
 
 def main():
     logging.info(
-        f"Plotting {variable_name} for projection {projection}. Writing images in {output_dir}"
+        f"Plotting {variable_name} for projection {projection}."
     )
     dset = utils.get_files_sfc(
         vars=["CAPE_ML", "CIN_ML", "U_10M", "V_10M"], projection=projection, run=run
