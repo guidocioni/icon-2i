@@ -221,7 +221,8 @@ def get_files_levels(
             attrs = next(iter(ds.data_vars.values())).attrs
             if "GRIB_typeOfLevel" in attrs:
                 level_type = attrs["GRIB_typeOfLevel"]
-                ds = ds.expand_dims(dim=level_type)
+                if level_type not in ds.dims:
+                    ds = ds.expand_dims(dim=level_type)
             dss.append(ds)
 
     dss = xr.merge(dss, compat="override")

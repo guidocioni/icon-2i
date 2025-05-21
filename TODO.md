@@ -1,8 +1,6 @@
 ## New plots
 - Geopotential/temperature/humidity 925 hPa
 - Geopotential/temperature/humidity 850 hPa
-- Thunderstorm parameters
-    - Maximum amplitude of updraft helicity (UH_MAX)
 - Convergence ?
 - Surface moisture flux divergence
 - Soil moisture saturation ?
