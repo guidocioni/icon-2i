@@ -1,9 +1,6 @@
 ## New plots
-- Geopotential/temperature/humidity 925 hPa
-- Geopotential/temperature/humidity 850 hPa
 - Convergence ?
 - Surface moisture flux divergence
-- Soil moisture saturation ?
 - Add graupel to prec_clouds plot
 - Surface radiation
 
