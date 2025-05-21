@@ -95,14 +95,12 @@ def plot_files(dss, **args):
             density=density
         )
 
-        an_fc = utils.annotation_forecast(args["ax"], data["valid_time"].to_pandas())
-        an_var = utils.annotation(
+        an_fc, an_var, an_run = utils.add_annotations(
             args["ax"],
+            data["valid_time"].to_pandas(),
             "2m Temperature (C)",
-            loc="lower left",
-            fontsize=6,
+            run
         )
-        an_run = utils.annotation_run(args["ax"], run)
 
         if first:
             utils.add_colorbar(

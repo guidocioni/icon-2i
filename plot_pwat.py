@@ -74,13 +74,12 @@ def plot_files(dss, **args):
         )
     
 
-        an_fc = utils.annotation_forecast(args["ax"], data["valid_time"].to_pandas())
-        an_var = utils.annotation(
+        an_fc, an_var, an_run = utils.add_annotations(
             args["ax"],
+            data["valid_time"].to_pandas(),
             "Precipitable Water / Vertically integrated water vapour (mm)",
-            loc="lower left",
+            run
         )
-        an_run = utils.annotation_run(args["ax"], run)
 
         if first:
             utils.add_colorbar(

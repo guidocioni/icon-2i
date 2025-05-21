@@ -103,13 +103,12 @@ def plot_files(dss, **args):
             levels=args["levels_snow"],
         )
 
-        an_fc = utils.annotation_forecast(args["ax"], data["valid_time"].to_pandas())
-        an_var = utils.annotation(
+        an_fc, an_var, an_run = utils.add_annotations(
             args["ax"],
+            data["valid_time"].to_pandas(),
             "Snow depth change [cm] since run beginning",
-            loc="lower left",
+            run
         )
-        an_run = utils.annotation_run(args["ax"], run)
 
         if first:
             utils.add_colorbar(

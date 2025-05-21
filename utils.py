@@ -410,6 +410,18 @@ def annotation(ax, text, loc="upper right", fontsize=7):
     return at
 
 
+def add_annotations(ax, time, title, run):
+    an_fc = annotation_forecast(ax, time)
+    an_var = annotation(
+        ax,
+        title,
+        loc="lower left",
+    )
+    an_run = annotation_run(ax, run)
+
+    return an_fc, an_var, an_run
+
+
 def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=256):
     """Truncate a colormap by specifying the start and endpoint."""
     new_cmap = colors.LinearSegmentedColormap.from_list(

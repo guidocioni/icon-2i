@@ -147,13 +147,12 @@ def plot_files(dss, **args):
             projection=projection,
         )
 
-        an_fc = utils.annotation_forecast(args["ax"], data["valid_time"].to_pandas())
-        an_var = utils.annotation(
+        an_fc, an_var, an_run = utils.add_annotations(
             args["ax"],
+            data["valid_time"].to_pandas(),
             "MSLP (hPa), 10m Winds and 2m Dewpoint (C)",
-            loc="lower left",
+            run
         )
-        an_run = utils.annotation_run(args["ax"], run)
 
         if first:
             utils.add_colorbar(

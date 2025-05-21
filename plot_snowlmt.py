@@ -93,14 +93,12 @@ def plot_files(dss, **args):
 
         labels = args["ax"].clabel(c, c.levels, inline=True, fmt="%4.0f", fontsize=5)
 
-        an_fc = utils.annotation_forecast(args["ax"], data["valid_time"].to_pandas())
-        an_var = utils.annotation(
+        an_fc, an_var, an_run = utils.add_annotations(
             args["ax"],
+            data["valid_time"].to_pandas(),
             "Snow Limit Altitude (above surface, m)",
-            loc="lower left",
-            fontsize=6,
+            run
         )
-        an_run = utils.annotation_run(args["ax"], run)
 
         if first:
             utils.add_colorbar(
