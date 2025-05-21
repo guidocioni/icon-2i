@@ -2,7 +2,6 @@
 - Geopotential/temperature/humidity 925 hPa
 - Geopotential/temperature/humidity 850 hPa
 - Thunderstorm parameters
-    - Bulk shear (WSHEAR_U, WSHEAR_V already avail as parameters)
     - Maximum amplitude of updraft helicity (UH_MAX)
 - Convergence ?
 - Surface moisture flux divergence
