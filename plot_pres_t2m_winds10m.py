@@ -9,8 +9,6 @@ import utils
 from args import debug, projection, run
 from definitions import (
     chunks_size,
-    figsize_x,
-    figsize_y,
     logging,
     options_savefig,
     processes,

@@ -32,7 +32,7 @@ def setup_figure_and_projection(dset, projection, **kwargs):
     Returns (m, x, y, ax).
     """
     import matplotlib.pyplot as plt
-    fig = plt.figure(figsize=(figsize_x, figsize_y))
+    _ = plt.figure(figsize=(figsize_x, figsize_y))
     ax = plt.gca()
     m, x, y = get_projection(dset, projection, **kwargs)
 
