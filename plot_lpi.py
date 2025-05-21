@@ -29,9 +29,7 @@ def main():
     levels_lpi = [0, 1, 2, 5, 10, 20, 30, 50, 100, 200]
     cmap, norm = utils.get_colormap_norm("cape_wxcharts", levels=levels_lpi, extend='max')
 
-    _ = plt.figure(figsize=(figsize_x, figsize_y))
-    ax = plt.gca()
-    m, x, y = utils.get_projection(dset, projection)
+    m, x, y, ax = utils.setup_figure_and_projection(dset, projection)
 
     # All the arguments that need to be passed to the plotting function
     args = dict(x=x, y=y, ax=ax, levels_lpi=levels_lpi, cmap=cmap, norm=norm)

@@ -33,10 +33,7 @@ def main():
     levels_t2m = np.arange(-25, 45, 1)
 
     cmap, norm = utils.get_colormap_norm("temp_mlgx", levels_t2m, extend='both')
-    _ = plt.figure(figsize=(figsize_x, figsize_y))
-
-    ax = plt.gca()
-    _, x, y = utils.get_projection(dset, projection)
+    m, x, y, ax = utils.setup_figure_and_projection(dset, projection)
 
     # All the arguments that need to be passed to the plotting function
     args = dict(

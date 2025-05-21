@@ -135,11 +135,7 @@ def main():
         "clouds_orange", levels_clouds, extend="max"
     )
 
-    _ = plt.figure(figsize=(figsize_x, figsize_y))
-
-    ax = plt.gca()
-    m, x, y = utils.get_projection(dset, projection)
-    m.arcgisimage(service="World_Shaded_Relief", xpixels=1500)
+    m, x, y, ax = utils.setup_figure_and_projection(dset, projection, background=True)
 
     # All the arguments that need to be passed to the plotting function
     args = dict(

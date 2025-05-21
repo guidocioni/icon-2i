@@ -29,9 +29,7 @@ def main():
     levels_clc = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 99]
     cmap, norm = utils.get_colormap_norm("cloud_cover_mlgx", levels=levels_clc, extend='both')
 
-    _ = plt.figure(figsize=(figsize_x, figsize_y))
-    ax = plt.gca()
-    m, x, y = utils.get_projection(dset, projection)
+    m, x, y, ax = utils.setup_figure_and_projection(dset, projection)
 
     # All the arguments that need to be passed to the plotting function
     args = dict(x=x, y=y, ax=ax, levels_clc=levels_clc, cmap=cmap, norm=norm)

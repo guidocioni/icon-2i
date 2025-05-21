@@ -40,10 +40,7 @@ def main():
     )
 
     cmap, norm = utils.get_colormap_norm("temp_mlgx", levels_t2m, extend='both')
-    _ = plt.figure(figsize=(figsize_x, figsize_y))
-
-    ax = plt.gca()
-    _, x, y = utils.get_projection(dset, projection)
+    m, x, y, ax = utils.setup_figure_and_projection(dset, projection)
 
     # All the arguments that need to be passed to the plotting function
     args = dict(
@@ -142,41 +139,14 @@ def plot_files(dss, **args):
             color="coral",
             random=True,
         )
-        # We need to reduce the number of points before plotting the vectors,
-        # these values work pretty well
-        density = 15
-        width = 0.0015
-        headwidth = 3.5
-        min_wind_threshold = 2
-        max_wind_threshold = 80
-        scale = 5
-        if projection == "nord":
-            density = 10
-        wind_magnitude = np.clip(
-            np.sqrt(
-                data[u10m_cf_name][::density, ::density] ** 2
-                + data[v10m_cf_name][::density, ::density] ** 2
-            ),
-            min_wind_threshold,
-            max_wind_threshold,
-        )
-        u_norm = data[u10m_cf_name][::density, ::density] / wind_magnitude
-        v_norm = data[v10m_cf_name][::density, ::density] / wind_magnitude
-        x = args["x"][::density, ::density]
-        y = args["y"][::density, ::density]
-
-        cv = args["ax"].quiver(
-            x,
-            y,
-            u_norm,
-            v_norm,
-            scale=scale,
-            alpha=0.8,
-            color="gray",
-            width=width,
-            headwidth=headwidth,
-            headlength=4.5,
-            scale_units="inches",
+        cv = utils.vector_plot(
+            ax=args["ax"],
+            x=args["x"],
+            y=args["y"],
+            data=data,
+            u_name=u10m_cf_name,
+            v_name=v10m_cf_name,
+            projection=projection,
         )
 
         an_fc = utils.annotation_forecast(args["ax"], data["valid_time"].to_pandas())

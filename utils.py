@@ -18,9 +18,25 @@ from definitions import (
     COLORMAPS_DIR,
     SHAPEFILES_DIR,
     REMOTE_FOLDER,
+    CACHE_DIR,
     logging,
+    figsize_x,
+    figsize_y
 )
 from projections import proj_defs, subfolder_images
+
+
+def setup_figure_and_projection(dset, projection, **kwargs):
+    """
+    Sets up the matplotlib figure, axis, and projection for plotting scripts.
+    Returns (m, x, y, ax).
+    """
+    import matplotlib.pyplot as plt
+    fig = plt.figure(figsize=(figsize_x, figsize_y))
+    ax = plt.gca()
+    m, x, y = get_projection(dset, projection, **kwargs)
+
+    return m, x, y, ax
 
 
 def get_latest_model_run(url=REMOTE_FOLDER):
@@ -107,7 +123,7 @@ def get_files_sfc(
         url = f"{REMOTE_FOLDER}/{run}/{var}/icon_2I_{run}_{surface_mapping}.grib"
         logging.debug(f"Fetching file {url}")
         file = fsspec.open_local(
-            f"simplecache::{url}", simplecache={"cache_storage": "/tmp/"}
+            f"simplecache::{url}", simplecache={"cache_storage": CACHE_DIR}
         )
         dss.append(xr.open_dataset(file, engine="cfgrib", decode_timedelta=True))
     dss = xr.merge(dss, compat="override")
@@ -198,7 +214,7 @@ def get_files_levels(
             url = f"{REMOTE_FOLDER}/{run}/{var}/icon_2I_{run}_{mapping}.grib"
             logging.debug(f"Fetching file {url}")
             file = fsspec.open_local(
-                f"simplecache::{url}", simplecache={"cache_storage": "/tmp/"}
+                f"simplecache::{url}", simplecache={"cache_storage": CACHE_DIR}
             )
             ds = xr.open_dataset(file, engine="cfgrib", decode_timedelta=True)
             attrs = next(iter(ds.data_vars.values())).attrs
@@ -278,11 +294,15 @@ def get_projection(
     labels=False,
     cities=False,
     color_borders="black",
+    background=False
 ):
     from mpl_toolkits.basemap import Basemap
 
     proj_options = proj_defs[projection]
     m = Basemap(**proj_options)
+    if background:
+        m.arcgisimage(service="World_Shaded_Relief", xpixels=1500)
+
     if regions:
         m.readshapefile(
             f"{SHAPEFILES_DIR}/ITA_adm/ITA_adm1",
@@ -320,12 +340,6 @@ def get_projection(
         x, y = m(lon2d, lat2d)
 
     return m, x, y
-
-
-def chunks(l, n):
-    """Yield successive n-sized chunks from l."""
-    for i in range(0, len(l), n):
-        yield l[i : i + n]
 
 
 def chunks_dataset(ds, n):
@@ -689,3 +703,51 @@ def add_colorbar(ax, c, size="2%", pad=0.1, position="bottom", cbar_kwargs={}):
     colorbar.ax.tick_params(labelsize=7)
 
     return colorbar
+
+def vector_plot(
+    ax,
+    data,
+    u_name,
+    v_name,
+    projection,
+    x,
+    y,
+    density=15,
+    width=0.0015,
+    headwidth=3.5,
+    min_wind_threshold=2,
+    max_wind_threshold=80,
+    scale=5,
+):
+    # We need to reduce the number of points before plotting the vectors,
+    # these values work pretty well
+    if projection == "nord":
+        density = 10
+    wind_magnitude = np.clip(
+        np.sqrt(
+            data[u_name][::density, ::density] ** 2
+            + data[v_name][::density, ::density] ** 2
+        ),
+        min_wind_threshold,
+        max_wind_threshold,
+    )
+    u_norm = data[u_name][::density, ::density] / wind_magnitude
+    v_norm = data[v_name][::density, ::density] / wind_magnitude
+    x_sub = x[::density, ::density]
+    y_sub = y[::density, ::density]
+
+    cv = ax.quiver(
+        x_sub,
+        y_sub,
+        u_norm,
+        v_norm,
+        scale=scale,
+        alpha=0.6,
+        color="gray",
+        width=width,
+        headwidth=headwidth,
+        headlength=4.5,
+        scale_units="inches",
+    )
+
+    return cv

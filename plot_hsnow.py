@@ -33,11 +33,7 @@ def main():
     levels_snow = (.1 , 1, 2, 5, 10, 15, 20, 25, 30, 40, 50, 75, 100, 125, 150, 175, 200)
 
     cmap, norm = utils.get_colormap_norm("snow_acc_wxcharts", levels_snow, extend='max')
-    _ = plt.figure(figsize=(figsize_x, figsize_y))
-
-    ax = plt.gca()
-    m, x, y = utils.get_projection(dset, projection, cities=True)
-    m.arcgisimage(service='World_Shaded_Relief', xpixels=1500)
+    m, x, y, ax = utils.setup_figure_and_projection(dset, projection, background=True)
 
     # All the arguments that need to be passed to the plotting function
     args = dict(
