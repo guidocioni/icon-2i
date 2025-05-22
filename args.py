@@ -9,7 +9,7 @@ parser.add_argument(
     "--projection", type=str, default="it", help="Map projection to use"
 )
 parser.add_argument(
-    "--level", type=int, default=None, help="Level (used only for some plots)"
+    "--level", type=int, default=850, help="Level (used only for some plots)"
 )
 parser.add_argument(
     "--run",
