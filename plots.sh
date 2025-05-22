@@ -1,4 +1,6 @@
 cd "$(dirname "$0")";
+current_dir=$(pwd)
+export ECCODES_DEFINITION_PATH="$current_dir/grib_tables/dwd"
 
 # scripts=("plot_cape_cin.py" "plot_gusts.py" "plot_lpi.py" "plot_pres_t2m_winds10m.py" "plot_rh.py" \
 #     "plot_snowlmt.py" "plot_winter.py" "plot_clct.py" "plot_hsnow.py" "plot_prec_clouds.py" \

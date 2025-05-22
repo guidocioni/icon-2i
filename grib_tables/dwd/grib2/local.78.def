@@ -1,0 +1,45 @@
+#local section DWD
+
+#weil in section.4.def benutzt und diese ist wegen ieeefloat Fehler local
+constant productDefinitionTemplateNumberInternal=0 : hidden,no_copy;
+
+#DL as this definition file is used by different centres per link define aliases
+# according to centreForLocal
+if (centreForLocal != 78) {
+alias localDefinitionNumber=grib2LocalSectionNumber;
+} else {
+alias grib2LocalSectionNumber=localDefinitionNumber;
+}
+
+#if (section2Length==20) {
+# if (section2Length==20 && tiggeSuiteID == 255) {
+ if (section2Length==20 && !(defined(suiteName))) {
+#  unsigned[1] localDefinitionNumber: dump;
+  unsigned[1] localHostIdentifier: dump;
+  unsigned[2] localCreationDateYear: dump;
+  unsigned[1] localCreationDateMonth: dump;
+  unsigned[1] localCreationDateDay: dump;
+  unsigned[1] localCreationDateHour: dump;
+  unsigned[1] localCreationDateMinute: dump;
+  unsigned[1] localCreationDateSecond: dump;
+  unsigned[2] localInformationNumber: dump;
+  unsigned[2] localVersionNumber: dump;
+  unsigned[2] reserved;
+
+  meta localDecodeDateL evaluate(localCreationDateYear*10000000000 + localCreationDateMonth*100000000 + localCreationDateDay*1000000 + localCreationDateHour*10000 + localCreationDateMinute*100 + localCreationDateSecond);
+  meta localDecodeDate sprintf("%d",localDecodeDateL): no_copy, dump;
+
+ } else {
+
+   if ( (localDefinitionNumber == 252 ) || (localDefinitionNumber == 253 )
+      || (localDefinitionNumber == 28 )
+      || (localDefinitionNumber == 250 ) || (localDefinitionNumber == 254 ) 
+      || (localDefinitionNumber == 123 ) || (localDefinitionNumber == 124 ) 
+      || (localDefinitionNumber == 125 ) || (localDefinitionNumber == 230 ) ){
+      template  localSection  "grib2/local.78.[localDefinitionNumber:l].def";
+   } else {
+      section_padding section2Padding : read_only;
+#      meta localDecodeDate sprintf("%d",localDecodeDateL): no_copy, dump;
+#      meta localValidityDate sprintf("%d",localValidityDateL): dump;
+   }
+}

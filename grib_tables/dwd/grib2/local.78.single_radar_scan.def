@@ -1,0 +1,136 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+#
+# START 1/local use section ------------------------------------------------------
+# LOCAL DWD part for synthetic and observational radar scan
+# manually edited by sborcher
+#
+# local use section 2 of DWD (part for radar products)
+# to be included in a local section 2
+# ---------------------------------------------
+#
+# Name                                    Octet       Description
+#                                         (relative)
+#
+# localNumberOfRadarStations              1-2         Local number of radar stations (NRS)
+# localIndexOfRadarStation                3-4         Local index of radar station (IRS = 1, 2, ..., NRS)
+# localCountryId                          5-6         Local county ID
+# localNationalStationId                  7-8         Local national station ID
+# localStationName                        9-12        Local station name (alphanumeric)
+# localStationLatitude                    13-16       Local station latitude (in 10-6 degree)
+# localStationLongitude                   17-20       Local station longitude (in 10-6 degree)
+# localScaleFactorOfStationHeightAboveMSL 21          Local scale factor of station height above mean sea level (see Note 1)
+# localScaledValueOfStationHeightAboveMSL 22-25       Local scaled value of station height above mean sea level (see Note 1)
+# localScaleFactorOfAntennaElevationAngle 26          Local scale factor of antenna elevation angle (relative to horizontal plane, see Note 1)
+# localScaledValueOfAntennaElevationAngle 27-30       Local scaled value of antenna elevation angle (relative to horizontal plane, see Note 1)
+# localIndicatorOfUnitOfTimeRange         31          Local indicator of unit of time range (see Code table 4.4)
+# localAccumulationInterval               32-33       Local accumulation interval (time required for one complete radar scan)
+# localTypeOfRadar                        34          Local type of radar (see Code table 4.3)
+# localOperatingMode                      35          Local operating mode (see Code table 4.12)
+# localQualityControlIndicator            36          Local quality control indicator (see Code table 4.13)
+# localClutterFilterIndicator             37          Local Clutter filter indicator (see Code table 4.14)
+# localTypeOfDataMaskedByBitmap           38          Local type of data masked by bitmap (see Code table 2.120.table, see Note 2)
+# localScaleFactorOfBitmapValue           39          Local scale factor of bitmap value (see Note 2)
+# localScaledValueOfBitmapValue           40-43       Local scaled value of bitmap value (see Note 2)
+# reservedSRS                             44-63       Reserved (20 octets for additional (table-driven) metadata in the future, SRS = Single Radar Scan)
+#
+#                                                     Because there are so many of them, and different radar products may use different subsets of them, 
+#                                                     and future developments may require even more of them, the rest of the scaled metadata is arranged in a list
+#
+# localNumberOfScaledMetadata             64-65       Local number of (additional) scaled metadata (NSM)
+# 
+#                                                     Repeat the following 9 octets for each scaled metadata, (i = 1, ..., ISM, ..., NSM)
+#
+# localIndexOfScaledMetadata              66+9*(i-1)
+#                                        -67+9*(i-1)  Local index of scaled metadata (ISM = 1, 2, ..., NSM)
+# localScaledMetadataTableNumber          68+9*(i-1)  Local scaled metadata table number
+# localScaledMetadataId                   69+9*(i-1)  Local scaled metadata ID (see Code table 2.[localScaledMetadataTableNumber].table)
+# localScaleFactorOfMetadata              70+9*(i-1)  Local scale factor of metadata
+# localScaledValueOfMetadata              71+9*(i-1)
+#                                        -74+9*(i-1)  Local scaled value of metadata
+#
+# Note 1: Station height above mean sea level in meter. 
+#         Constant antenna elevation angle in degree between the horizontal plane and the line of sight of the antenna 
+#         measured in the vertical plane.
+#
+# Note 2: The type of data masked by a bitmap can be missing values, for instance. 
+#         The scale factor and scaled value of the bitmap value are intended to code the value of the data
+#         that are masked by a bitmap, e.g. the missing value.
+#
+# Auxiliary quantities:
+constant     tab4p5EMVORADO            = 225;
+constant     tab4p5DualPolDopplerRadar = 226;
+constant     tab78RadarInEns           = 123;
+constant     tab78RadarInDet           = 124;
+constant     tab78RadarObs             = 125;
+######################################################################################################################
+unsigned[2]  localNumberOfRadarStations = 0                                         : can_be_missing,dump;
+
+if (localNumberOfRadarStations == 0 || localNumberOfRadarStations == 1) {
+unsigned[2]  localIndexOfRadarStation = localNumberOfRadarStations                  : dump;
+} else {
+unsigned[2]  localIndexOfRadarStation = 1                                           : dump;
+} 
+
+unsigned[2]  localCountryId                          = missing()                    : can_be_missing,dump;
+unsigned[2]  localNationalStationId                  = missing()                    : can_be_missing,dump;
+ascii[4]     localStationName                        = "MISS"                       : dump;
+signed[4]    localStationLatitude                    = missing()                    : can_be_missing,dump;
+signed[4]    localStationLongitude                   = missing()                    : can_be_missing,dump;
+unsigned[1]  localScaleFactorOfStationHeightAboveMSL = missing()                    : can_be_missing,dump;
+signed[4]    localScaledValueOfStationHeightAboveMSL = missing()                    : can_be_missing,dump;
+unsigned[1]  localScaleFactorOfAntennaElevationAngle = missing()                    : can_be_missing,dump;
+signed[4]    localScaledValueOfAntennaElevationAngle = missing()                    : can_be_missing,dump;
+codetable[1] localIndicatorOfUnitOfTimeRange ('4.4.table',masterDir,localDir) = 255 : dump;
+unsigned[2]  localAccumulationInterval               = missing()                    : can_be_missing,dump;
+
+if (localDefinitionNumber == tab78RadarInEns || localDefinitionNumber == tab78RadarInDet) {
+codetable[1] localTypeOfRadar ('4.3.table',masterDir,localDir)  = tab4p5EMVORADO             : dump;
+} else {
+  if (localDefinitionNumber == tab78RadarObs) {
+codetable[1] localTypeOfRadar ('4.3.table',masterDir,localDir)  = tab4p5DualPolDopplerRadar  : dump;
+  } else {
+codetable[1] localTypeOfRadar ('4.3.table',masterDir,localDir)  = 255                        : dump;
+  }
+}
+
+codetable[1] localOperatingMode            ('4.12.table',masterDir,localDir)  = 255   : dump;
+codetable[1] localQualityControlIndicator  ('4.13.table',masterDir,localDir)  = 255   : dump;
+codetable[1] localClutterFilterIndicator   ('4.14.table',masterDir,localDir)  = 255   : dump;
+codetable[1] localTypeOfDataMaskedByBitmap ('2.120.table',masterDir,localDir) = 255   : dump;
+unsigned[1]  localScaleFactorOfBitmapValue = missing()                                : can_be_missing,dump;
+signed[4]    localScaledValueOfBitmapValue = missing()                                : can_be_missing,dump;
+unsigned[20] reservedSRS;
+
+include "grib2/local.78.scaled_metadata_list.def"
+######################################################################################################################
+
+# Derived variables
+alias NRS=localNumberOfRadarStations;
+alias numberOfRadarStations=localNumberOfRadarStations;
+alias IRS=localIndexOfRadarStation;
+alias indexOfRadarStation=localIndexOfRadarStation;
+alias countryId=localCountryId;
+alias nationalStationId=localNationalStationId;
+alias stationName=localStationName;
+alias stationLatitude=localStationLatitude;
+alias stationLongitude=localStationLongitude;
+
+meta stationLatitudeInDegrees scale(localStationLatitude,one,grib2divider,truncateDegrees) : no_copy, dump;
+meta stationLongitudeInDegrees scale(localStationLongitude,one,grib2divider,truncateDegrees) : no_copy, dump;
+meta stationHeight from_scale_factor_scaled_value(
+     localScaleFactorOfStationHeightAboveMSL, localScaledValueOfStationHeightAboveMSL) : no_copy, dump;
+meta elevationAngle from_scale_factor_scaled_value(
+     localScaleFactorOfAntennaElevationAngle, localScaledValueOfAntennaElevationAngle) : no_copy, dump;
+meta bitmapValue from_scale_factor_scaled_value(
+     localScaleFactorOfBitmapValue, localScaledValueOfBitmapValue) : no_copy, dump;
+
+
+
+
+
+

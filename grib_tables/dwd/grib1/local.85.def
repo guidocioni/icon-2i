@@ -1,0 +1,14 @@
+# Copyright 2005-2007 ECMWF
+# 
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+# Local definition for Offenbach
+label "Local definition for Offenbach in files from LFPW";
+#template  localDefinition  "grib1/local.[identificationOfOriginatingGeneratingCentre:l].[localDefinitionNumber:l].def";
+codetable[1] localDefinitionNumber 'grib1/localDefinitionNumber.others-78.table' : dump;
+template  localDefinition  "grib1/local.others-78.254.def";
+
+

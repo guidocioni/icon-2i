@@ -1,0 +1,47 @@
+# DWD local Section 2
+
+byte[5]      backupData : hidden; 
+
+#byte5 backupDay
+meta edzw_byte5   bits(backupData,0,8) : dump,long_type,no_copy ;
+#byte6 backupType
+meta edzw_byte6   bits(backupData,8,8) : dump,long_type,no_copy ;
+
+# byte7, byte8, byte9 recordNummberOfbackupFile
+meta byte7   bits(backupData,16,8) : dump,long_type,no_copy ;
+meta byte8   bits(backupData,24 ,8) : dump,long_type,no_copy ;
+meta byte9   bits(backupData,32,8) : dump,long_type,no_copy ;
+
+# byte7, byte8, byte9 recordNummberOfbackupFile
+transient record = byte7 *1024 + byte8*256 + byte9;
+
+meta edzw_recordNumber sprintf("%.8d",record) : dump,long_type,read_only ;
+#alias edzw_recordNumber=edzw_recordNumber;
+
+byte[9]      keyData : hidden; 
+#byte10 machine
+meta edzw_machine   bits(keyData,0,8) : dump,long_type,no_copy ;
+#byte11 decodingYearYY
+meta edzw_decodingYearYY bits(keyData,8,8) : dump,long_type,no_copy ;
+#byte12 decodingMonth
+meta edzw_decodingMonth   bits(keyData,16,8) : dump,long_type,no_copy ;
+#byte13 decodingDay
+meta edzw_decodingDay   bits(keyData,24,8) : dump,long_type,no_copy ;
+#byte14 decodingHour
+meta edzw_decodingHour   bits(keyData,32,8) : dump,long_type,no_copy ;
+#byte15 decodingMinute 
+meta edzw_decodingMinute   bits(keyData,40,8) : dump,long_type,no_copy ;
+
+#No for bufr_ls
+#meta ls.edzw_decodingDate sprintf("%.2d%.2d%.2d",edzw_decodingYearYY,edzw_decodingMonth,edzw_decodingDay) : dump,no_copy;
+#meta ls.edzw_decodingTime sprintf("%.2d%.2d00",edzw_decodingHour,edzw_decodingMinute) :dump,no_copy;
+
+#byte16, byte17  IKZ
+#meta byte17   bits(keyData,56,8) : long_type,no_copy ;
+meta edzw_IKZ   bits(keyData,48,16) : dump,long_type,no_copy ;
+
+meta ls.edzw_InternalId sprintf("%.5d",edzw_IKZ):dump,long_type,read_only;
+
+#byte18 empty
+meta edzw_byte18   bits(keyData,64,8) : dump,long_type,no_copy ;
+

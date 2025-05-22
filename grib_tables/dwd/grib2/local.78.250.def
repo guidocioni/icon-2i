@@ -1,0 +1,31 @@
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+# START 1/local use section ----------------------------------------------------------------------
+# LOCAL COSMO 250
+# manually edited by dliermann
+#
+# local use section 2 of COSMO
+# ----------------------------
+#
+# Name                          Octet   Description
+#
+# section2Length                1-4     Length of the section in octets (N=16)
+# numberOfSection               5       Number of the section (2)
+# localDefinitionNumber         6       Identifier for content (250)
+# localInformationNumber        7-8
+# localNumberOfExperiment       9-10
+# localReserved1                11-12
+# localReserved2                13-14
+# localReserved3                15-16
+
+#alias grib2LocalSectionNumber = localDefinitionNumber : dump;
+
+unsigned[2] localInformationNumber : dump;
+unsigned[2] localNumberOfExperiment: dump;
+unsigned[2] localReserved1         : dump;
+unsigned[2] localReserved2         : dump;
+unsigned[2] localReserved3         : dump;

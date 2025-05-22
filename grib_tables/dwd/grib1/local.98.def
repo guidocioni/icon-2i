@@ -1,0 +1,8 @@
+# Copyright 2005-2019 ECMWF.
+
+# Local definition for Offenbach
+label "Local definition for Offenbach in files from EZMW";
+#template  localDefinition  "grib1/local.[identificationOfOriginatingGeneratingCentre:l].[localDefinitionNumber:l].def";
+codetable[1] localDefinitionNumber 'grib1/localDefinitionNumber.98-78.table' : dump;
+template  localDefinition  "grib1/local.98-78.[localDefinitionNumber:l].def";
+

@@ -1,0 +1,20 @@
+# Copyright 2005-2018 ECMWF.
+
+# Tigge
+# Skip TIGGE definitions for COSMO-LEPS coding,
+# to support explicit coding through host program in this case.
+# DWD add form products_4.def  - If block added by jean-marie.bettems@meteoswiss.ch
+# Modifications for namespace parameter/mars by doerte.liermann@dwd.de
+
+constant marsExpver = 'test';
+
+
+if (centre!=80 && centre!=250 && centre!=78) {
+include "grib2/products_tigge.def";
+ } else {
+
+# only include the definitions for namespaces parameter/mars and some aliases
+
+include "grib2/products_tigge_leps.def";
+
+}

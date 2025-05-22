@@ -1,0 +1,25 @@
+# (C) Copyright 2005- ECMWF.
+
+# Type of generating process
+codetable[1] typeOfGeneratingProcess ('4.3.table',masterDir,localDir) : dump;
+
+# Loesungsvorschlag v. U.Schaettler wg. field-extra-Problem berichet von J.M.Bettem Dez13/Jan14
+# uebernommen aus template.4.parameter.def
+# Background generating process identifier
+# (defined by originating centre)
+if (centre == 78) {
+codetable[1] backgroundProcess ('backgroundProcess.table',masterDir,localDir) : dump ;
+alias backgroundGeneratingProcessIdentifier=backgroundProcess;
+} else {
+unsigned[1] backgroundProcess = 255 : edition_specific; 
+}
+alias backgroundGeneratingProcessIdentifier=backgroundProcess;
+
+#  Analysis or forecast generating processes identifier
+# (defined by originating centre)
+if (centre == 78) {
+codetable[1] generatingProcessIdentifier ('generatingProcessIdentifier.table',masterDir,localDir) : dump ;
+} else {
+unsigned[1] generatingProcessIdentifier  : dump;
+}
+
