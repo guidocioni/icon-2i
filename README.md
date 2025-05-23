@@ -24,6 +24,8 @@ Every plot script creates file names with a prefix that depends on a plot type a
 
 In `definitions.py` some settings can be changed.
 
+The script `plots.sh` can be used to launch many plotting in parallel. Which scripts to be executed and which projections to be plotted need to be configured in a `plots.conf` file. `plots.conf.default` shows the default options for this file.
+
 ## Colormaps
 In the folder `colormaps` some colormaps to be used in matplotlib are provided. Here are some of the non-standard ones
 
