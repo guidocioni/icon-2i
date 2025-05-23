@@ -139,7 +139,7 @@ def get_files_sfc(
             longitude=slice(proj["llcrnrlon"], proj["urcrnrlon"]),
         )
 
-    return dss
+    return dss.compute()
 
 
 def get_file_mapping(var, lev_sel=None):
@@ -247,7 +247,7 @@ def get_files_levels(
             longitude=slice(proj["llcrnrlon"], proj["urcrnrlon"]),
         )
 
-    return dss
+    return dss.compute()
 
 
 def download_file(url):
