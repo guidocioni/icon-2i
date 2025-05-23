@@ -13,6 +13,7 @@ from matplotlib.offsetbox import AnchoredText
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from tqdm.contrib.concurrent import process_map
 
 
 from definitions import (
@@ -22,7 +23,7 @@ from definitions import (
     CACHE_DIR,
     logging,
     figsize_x,
-    figsize_y
+    figsize_y,
 )
 from projections import proj_defs, subfolder_images
 
@@ -33,6 +34,7 @@ def setup_figure_and_projection(dset, projection, **kwargs):
     Returns (m, x, y, ax).
     """
     import matplotlib.pyplot as plt
+
     _ = plt.figure(figsize=(figsize_x, figsize_y))
     ax = plt.gca()
     m, x, y = get_projection(dset, projection, **kwargs)
@@ -51,7 +53,7 @@ def get_latest_model_run(url=REMOTE_FOLDER):
     if not folder_names:
         raise ValueError("No model run folders found at the URL.")
     # Remove trailing slash and sort
-    folder_names = [f.rstrip('/') for f in folder_names]
+    folder_names = [f.rstrip("/") for f in folder_names]
     latest_run = sorted(folder_names)[-1]
     return latest_run
 
@@ -64,51 +66,52 @@ def get_files_sfc(
     if not isinstance(vars, list):
         vars = [vars]
     valid_vars = [
-        "ALB_RAD", # Shortwave broadband albedo for diffuse radiation 
-        "ALHFL_S", # Latent heat net flux at surface (average since model start)
-        "ASHFL_S", # Sensible heat net flux at surface (average since model start) 
-        "ASOB_S", # Net short-wave radiation flux at surface (average since model start
-        "ASWDIFD_S", # Surface down solar diffuse radiation (average since model start)
-        "ASWDIR_S", # Surface down solar direct radiation (average since model start)
-        "ATHB_S", # Net long-wave radiation flux at surface (average since model start) 
-        "ATHD_S", # 
-        "ATHU_S", #
-        "AUMFL_S", # U-momentum flux at surface ρu0w0
-        "AVMFL_S", # V-momentum flux at surface ρv0w0
+        "ALB_RAD",  # Shortwave broadband albedo for diffuse radiation
+        "ALHFL_S",  # Latent heat net flux at surface (average since model start)
+        "ASHFL_S",  # Sensible heat net flux at surface (average since model start)
+        "ASOB_S",  # Net short-wave radiation flux at surface (average since model start
+        "ASWDIFD_S",  # Surface down solar diffuse radiation (average since model start)
+        "ASWDIR_S",  # Surface down solar direct radiation (average since model start)
+        "ATHB_S",  # Net long-wave radiation flux at surface (average since model start)
+        "ATHD_S",  #
+        "ATHU_S",  #
+        "AUMFL_S",  # U-momentum flux at surface ρu0w0
+        "AVMFL_S",  # V-momentum flux at surface ρv0w0
         "CAPE_CON",
         "CAPE_ML",
         "CIN_ML",
         "CLCT",
         "FR_LAND",
-        "GRAU_GSP", # Large scale graupel
+        "GRAU_GSP",  # Large scale graupel
         "HSURF",
-        "HZEROCL", # Height of 0 degree Celsius isotherm above MSL
-        "H_SNOW", # Snow Depth
-        "LPI", # Lightning Potential Index 
+        "HZEROCL",  # Height of 0 degree Celsius isotherm above MSL
+        "H_SNOW",  # Snow Depth
+        "LPI",  # Lightning Potential Index
         "PMSL",
         "PS",
         "RAIN_CON",
         "RAIN_GSP",
-        "SDI_2", # Supercell Detection Index
-        "SNOWLMT", # Height of snowfall limit above MSL
+        "SDI_2",  # Supercell Detection Index
+        "SNOWLMT",  # Height of snowfall limit above MSL
         "SNOW_CON",
         "SNOW_GSP",
         "TD_2M",
-        "TOT_PREC", # Total precipitation
+        "TOT_PREC",  # Total precipitation
         "TQV",
-        "TWATER", # Column integrated water (grid scale, including rain)
-        "T_2M", # Column integrated water vapour (grid scale)
-        "T_G", # Ground temperature
+        "TWATER",  # Column integrated water (grid scale, including rain)
+        "T_2M",  # Column integrated water vapour (grid scale)
+        "T_G",  # Ground temperature
         "U_10M",
         "VMAX_10M",
         "V_10M",
-        "WW", # Weather code
-        "W_SNOW", # Snow depth water equivalent (mm)
+        "WW",  # Weather code
+        "W_SNOW",  # Snow depth water equivalent (mm)
     ]
     for var in vars:
         if var not in valid_vars:
             raise ValueError(f"Invalid variable {var}. Must be one of {valid_vars}")
-    dss = []
+
+    urls = []
     for var in vars:
         surface_mapping = "surface-0"
         if "_2M" in var:
@@ -122,12 +125,12 @@ def get_files_sfc(
         elif var in ["CAPE_ML", "CIN_ML"]:
             surface_mapping = "atmML-0"
         url = f"{REMOTE_FOLDER}/{run}/{var}/icon_2I_{run}_{surface_mapping}.grib"
-        logging.debug(f"Fetching file {url}")
-        file = fsspec.open_local(
-            f"simplecache::{url}", simplecache={"cache_storage": CACHE_DIR}
-        )
-        dss.append(xr.open_dataset(file, engine="cfgrib", decode_timedelta=True))
-    dss = xr.merge(dss, compat="override")
+        urls.append(url)
+
+    files = process_map(download_file, urls, chunksize=1, max_workers=4, disable=True)
+    dss = xr.open_mfdataset(
+        files, engine="cfgrib", decode_timedelta=True, compat="override"
+    )
 
     if projection is not None and projection in proj_defs:
         proj = proj_defs[projection]
@@ -143,8 +146,10 @@ def get_file_mapping(var, lev_sel=None):
     # Define valid variables and their corresponding levels and mappings
     pressure_vars = ["U", "V", "T", "QV", "OMEGA", "FI", "RELHUM"]
     pressure_levels = [1000, 925, 850, 700, 500, 250]
-    soil_vars = ["W_SO", "T_SO"]
+    soil_vars = ["W_SO"]
     soil_levels = [0, 1, 2, 7]
+    soil_vars_t = ["T_SO"]
+    soil_levels_t = [0, 1, 2, 5, 15]
     shear_vars = ["WSHEAR_U", "WSHEAR_V"]
 
     mappings = []
@@ -163,6 +168,13 @@ def get_file_mapping(var, lev_sel=None):
             else:
                 raise ValueError(f"Selected level is not in {soil_levels}")
         mappings = [(f"depthBelowLandLayer-{lev}", lev) for lev in soil_levels]
+    elif var in soil_vars_t:
+        if lev_sel is not None:
+            if lev_sel in soil_levels_t:
+                soil_levels_t = [lev_sel]
+            else:
+                raise ValueError(f"Selected level is not in {soil_levels_t}")
+        mappings = [(f"depthBelowLand-{lev}", lev) for lev in soil_levels_t]
     elif var in shear_vars:
         mappings = [("heightAboveGroundLayer-6000", 6000)]
     elif var == "CLCH":
@@ -178,10 +190,7 @@ def get_file_mapping(var, lev_sel=None):
 
 
 def get_files_levels(
-    vars=["T", "U", "V"],
-    run=get_latest_model_run(),
-    projection=None,
-    lev_sel=None
+    vars=["T", "U", "V"], run=get_latest_model_run(), projection=None, lev_sel=None
 ):
     if not isinstance(vars, list):
         vars = [vars]
@@ -193,39 +202,43 @@ def get_files_levels(
         "QV",
         "RELHUM",
         "OMEGA",
-        "FI", # Geopotential height
+        "FI",  # Geopotential height
         "W_SO",
         "T_SO",
-        "WSHEAR_U", # U-component of (vertical) wind shear vector between two levels
-        "WSHEAR_V", # V-component of (vertical) wind shear vector between two levels
+        "WSHEAR_U",  # U-component of (vertical) wind shear vector between two levels
+        "WSHEAR_V",  # V-component of (vertical) wind shear vector between two levels
         "CLCH",
         "CLCL",
         "CLCM",
-        "UH_MAX", # Maximum amplitude of updraft helicity
+        "UH_MAX",  # Maximum amplitude of updraft helicity
     ]
 
     for var in vars:
         if var not in valid_vars:
             raise ValueError(f"Invalid variable {var}. Must be one of {valid_vars}")
 
-    dss = []
+    urls = []
     for var in vars:
         mappings = get_file_mapping(var, lev_sel=lev_sel)
         for mapping, _ in mappings:
-            url = f"{REMOTE_FOLDER}/{run}/{var}/icon_2I_{run}_{mapping}.grib"
-            logging.debug(f"Fetching file {url}")
-            file = fsspec.open_local(
-                f"simplecache::{url}", simplecache={"cache_storage": CACHE_DIR}
-            )
-            ds = xr.open_dataset(file, engine="cfgrib", decode_timedelta=True)
-            attrs = next(iter(ds.data_vars.values())).attrs
-            if "GRIB_typeOfLevel" in attrs:
-                level_type = attrs["GRIB_typeOfLevel"]
-                if level_type not in ds.dims:
-                    ds = ds.expand_dims(dim=level_type)
-            dss.append(ds)
+            urls.append(f"{REMOTE_FOLDER}/{run}/{var}/icon_2I_{run}_{mapping}.grib")
 
-    dss = xr.merge(dss, compat="override")
+    files = process_map(download_file, urls, chunksize=1, max_workers=4, disable=True)
+
+    def preprocess(ds):
+        attrs = next(iter(ds.data_vars.values())).attrs
+        if "GRIB_typeOfLevel" in attrs:
+            level_type = attrs["GRIB_typeOfLevel"]
+            if level_type not in ds.dims:
+                ds = ds.expand_dims(dim=level_type)
+        return ds
+
+    dss = xr.open_mfdataset(
+        files,
+        engine="cfgrib",
+        decode_timedelta=True,
+        preprocess=preprocess,
+    )
 
     if projection is not None and projection in proj_defs:
         proj = proj_defs[projection]
@@ -235,6 +248,14 @@ def get_files_levels(
         )
 
     return dss
+
+
+def download_file(url):
+    logging.debug(f"Fetching file {url}")
+    file = fsspec.open_local(
+        f"simplecache::{url}", simplecache={"cache_storage": CACHE_DIR}
+    )
+    return file
 
 
 def get_coordinates(ds):
@@ -281,7 +302,7 @@ def find_variable_by_long_name(dataset, long_name):
     if not isinstance(long_name, list):
         long_name = [long_name]
     for name in long_name:
-        logging.debug(f'Looking for variable name {name}')
+        logging.debug(f"Looking for variable name {name}")
         for var_name, var_data in dataset.data_vars.items():
             if var_data.attrs.get("long_name") == name:
                 return var_name
@@ -296,7 +317,7 @@ def get_projection(
     labels=False,
     cities=False,
     color_borders="black",
-    background=False
+    background=False,
 ):
     from mpl_toolkits.basemap import Basemap
 
@@ -550,7 +571,7 @@ def add_vals_on_map(
     fontsize=7.5,
     lcolors=True,
     font_border_color="gray",
-    font_border_width=1
+    font_border_width=1,
 ):
     """Given an input projection, a variable containing the values and a plot put
     the values on a map exlcuing NaNs and taking care of not going
@@ -598,7 +619,9 @@ def add_vals_on_map(
                     weight="bold",
                     fontsize=fontsize,
                     path_effects=[
-                        path_effects.withStroke(linewidth=font_border_width, foreground=font_border_color)
+                        path_effects.withStroke(
+                            linewidth=font_border_width, foreground=font_border_color
+                        )
                     ],
                     zorder=10,
                 )
@@ -717,6 +740,7 @@ def add_colorbar(ax, c, size="2%", pad=0.1, position="bottom", cbar_kwargs={}):
     colorbar.ax.tick_params(labelsize=7)
 
     return colorbar
+
 
 def vector_plot(
     ax,
