@@ -14,4 +14,17 @@ scripts=("plot_gusts.py" \
     "plot_t2m_values.py" "plot_hsnow_change.py" \
     "plot_precip_acc.py" "plot_shear.py")
 
-parallel -j 3 --delay 1 python ::: "${scripts[@]}"
+#projections=("nord" "sud" "centro" "it")
+projections=("nord" "sud" "centro")
+
+
+run_script() {
+  script=$1
+  proj=$2
+  python "$script" --projection "$proj"
+}
+
+export -f run_script
+
+
+parallel -j 3 --delay 1 run_script ::: "${scripts[@]}" ::: "${projections[@]}"
