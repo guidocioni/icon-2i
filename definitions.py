@@ -13,7 +13,7 @@ COLORMAPS_DIR = os.path.join(ROOT_DIR, "colormaps")
 SHAPEFILES_DIR = os.path.join(ROOT_DIR, "shapefiles")
 CACHE_DIR = os.getenv("CACHE_DIR", "/tmp/")
 
-REMOTE_FOLDER = "https://meteohub.mistralportal.it/nwp/ICON-2I_all2km"
+REMOTE_FOLDER = "https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS"
 
 # Options for savefig
 options_savefig = {"dpi": 110, "bbox_inches": "tight", "transparent": False}

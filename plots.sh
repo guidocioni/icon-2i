@@ -12,5 +12,5 @@ fi
 
 for proj in "${projections[@]}"; do
     echo "Running scripts for projection: $proj"
-    printf "%s\n" "${scripts[@]}" | parallel -j 0 python {} --projection "$proj"
+    printf "%s\n" "${scripts[@]}" | parallel -j 2 python {} --projection "$proj"
 done
