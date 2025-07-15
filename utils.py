@@ -128,6 +128,7 @@ def get_files_sfc(
         urls.append(url)
 
     files = process_map(download_file, urls, chunksize=1, max_workers=4, disable=True)
+    logging.info("Loading files into xarray")
     dss = xr.open_mfdataset(
         files, engine="cfgrib", decode_timedelta=True, compat="override"
     )
@@ -233,6 +234,7 @@ def get_files_levels(
                 ds = ds.expand_dims(dim=level_type)
         return ds
 
+    logging.info("Loading files into xarray")
     dss = xr.open_mfdataset(
         files,
         engine="cfgrib",
@@ -251,7 +253,7 @@ def get_files_levels(
 
 
 def download_file(url):
-    logging.debug(f"Fetching file {url}")
+    logging.info(f"Fetching file {url}")
     file = fsspec.open_local(
         f"simplecache::{url}", simplecache={"cache_storage": CACHE_DIR}
     )
@@ -570,7 +572,7 @@ def add_vals_on_map(
     shift_y=0.0,
     fontsize=7.5,
     lcolors=True,
-    font_border_color="gray",
+    font_border_color="black",
     font_border_width=1,
 ):
     """Given an input projection, a variable containing the values and a plot put

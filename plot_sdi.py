@@ -31,7 +31,7 @@ def main():
     sdi_cf_name = utils.find_variable_by_long_name(
         dset,
         [
-            "supercell detection index 2 (only rot. up drafts)",
+            "Supercell detection index 2 (only rot. updrafts)",
         ],
     )
     dset[sdi_cf_name] *= 1000.
@@ -70,7 +70,7 @@ def plot_files(dss, **args):
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
         sdi_cf_name = utils.find_variable_by_long_name(
-            data, "supercell detection index 2 (only rot. up drafts)",
+            data, "Supercell detection index 2 (only rot. updrafts)",
         )
         u10m_cf_name = utils.find_variable_by_long_name(
             data, ["10 metre U wind component", "U-Component of Wind"]
