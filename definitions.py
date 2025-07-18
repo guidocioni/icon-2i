@@ -18,7 +18,7 @@ REMOTE_FOLDER = "https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_
 # Options for savefig
 options_savefig = {"dpi": 110, "bbox_inches": "tight", "transparent": False}
 
-chunks_size = 10
-processes = 4
+chunks_size = 5
+processes = 6
 figsize_x = 11
 figsize_y = 11

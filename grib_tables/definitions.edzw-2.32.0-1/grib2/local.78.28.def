@@ -1,0 +1,37 @@
+# START 1/local use section ---------------------------------
+# LOCAL COSMO 28
+# manually edited by jean-marie.bettems@meteoswiss.ch
+#
+# local use section 2 of COSMO (COSMO LEPS member)
+# ------------------------------------------------
+#
+# Name                                  Octet   Description
+#
+# section2Length                        1-4     Length of the section in octets (N=32)
+# numberOfSection                       5       Number of the section (2)
+# tiggeLocalVersion                     6-7     Defined in grib2/tiggeLocalVersion.table
+# suiteName                             8-9     Defined in grib2/tigge_suiteName.table
+# localDefinitionNumber                 10-11   Identifier for content (28)
+# marsClass                             12-13   Defined in mars/class.table
+# marsType                              14-15   Defined in mars/type.table
+# marsStream                            16-17   Defined in mars/stream.table
+# experimentVersionNumber               18-21   Number of Experiment
+# baseDateEPS                           22-25   Analysis date of driving EPS
+# baseTimeEPS                           26-27   Analysis time of driving EPS
+# numberOfRepresentativeMember          28      Member identity in driving EPS cluster
+# numberOfMembersInCluster              29      Number of members in driving EPS cluster
+# totalInitialConditions                30      Number of members in driving EPS
+
+
+
+codetable[2] marsClass   "mars/class.table" : dump,string_type,lowercase;
+codetable[2] marsType   "mars/type.table" : dump,string_type,lowercase;
+codetable[2] marsStream "mars/stream.table" : dump,string_type,lowercase ;
+ksec1expver[4] experimentVersionNumber : dump;
+unsigned[4] baseDateEPS : dump;
+unsigned[2] baseTimeEPS  : dump;
+unsigned[1] numberOfRepresentativeMember : dump;
+unsigned[1] numberOfMembersInCluster  : dump;
+unsigned[1] totalInitialConditions  : dump;
+
+

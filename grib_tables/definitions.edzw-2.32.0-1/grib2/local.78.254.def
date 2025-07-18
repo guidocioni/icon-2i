@@ -1,0 +1,60 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+# START 1/local use section ----------------------------------------------------------------------
+# LOCAL DWD 254
+# manually edited by sschuetz
+#
+# local use section 2 of DWD (deterministic system)
+# -------------------------------------------------
+#
+# Name				Octet	Description
+#
+# section2Length		1-4     Length of the section in octets (N=27)
+# numberOfSection		5       Number of the section (2)
+# localDefinitionNumber 	6       Identifier for content (254)
+# localHostIdentifier		7       Identifier for host system/ computer (1: operational, 2: back up, ?)
+# localCreationDateYear		8-9     Creation date: year
+# localCreationDateMonth	10      Creation date: month
+# localCreationDateDay		11      Creation date: day
+# localCreationDateHour		12      Creation date: hour
+# localCreationDateMinute	13      Creation date: minute
+# localCreationDateSecond	14      Creation date: second
+# localValidityDateYear		15-16   Validity date: year
+# localValidityDateMonth	17      Validity date: month
+# localValidityDateDay		18      Validity date: day
+# localValidityDateHour		19      Validity date: hour
+# localValidityDateMinute	20	Validity date: minute
+# localValidityDateSecond	21	Validity date: second
+# localInformationNumber	22-23	ZEN or Additional information number (local use TABLE 2.2)
+# localVersionNumber		24-25	optional version number (VRS)
+# localNumberOfExperiment	26-27
+
+alias grib2LocalSectionNumber = localDefinitionNumber : dump;
+
+unsigned[1] localHostIdentifier: dump;
+unsigned[2] localCreationDateYear: dump;
+unsigned[1] localCreationDateMonth: dump;
+unsigned[1] localCreationDateDay: dump;
+unsigned[1] localCreationDateHour: dump;
+unsigned[1] localCreationDateMinute: dump;
+unsigned[1] localCreationDateSecond: dump;
+unsigned[2] localValidityDateYear: dump;
+unsigned[1] localValidityDateMonth: dump;
+unsigned[1] localValidityDateDay: dump;
+unsigned[1] localValidityDateHour: dump;
+unsigned[1] localValidityDateMinute: dump;
+unsigned[1] localValidityDateSecond: dump;
+unsigned[2] localInformationNumber: dump;
+unsigned[2] localVersionNumber: dump;
+unsigned[2] localNumberOfExperiment: dump;
+
+meta localDecodeDateL evaluate(localCreationDateYear*10000000000 + localCreationDateMonth*100000000 + localCreationDateDay*1000000 + localCreationDateHour*10000 + localCreationDateMinute*100 + localCreationDateSecond);
+meta localDecodeDate sprintf("%d",localDecodeDateL): no_copy, dump;
+meta localValidityDateL evaluate(localValidityDateYear*10000000000 + localValidityDateMonth*100000000 + localValidityDateDay*1000000 + localValidityDateHour*10000 + localValidityDateMinute*100 + localValidityDateSecond);
+meta localValidityDate sprintf("%d",localValidityDateL): dump;
+ 

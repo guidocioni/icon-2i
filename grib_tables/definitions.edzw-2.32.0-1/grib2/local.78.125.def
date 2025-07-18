@@ -1,0 +1,16 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+# START 1/local use section ----------------------------------------------------------------------
+# LOCAL DWD 254
+# manually edited by sborcher
+#
+# local use section 2 of DWD (observational radar volume scan)
+# ------------------------------------------------------------
+# local.78.124.def = local.78.single_radar_scan.def
+#
+include "grib2/local.78.single_radar_scan.def" ;

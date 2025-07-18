@@ -1,0 +1,18 @@
+# See ECC-469
+200 200 Entire atmosphere (considered as a single layer)
+204 204 Highest tropospheric freezing level
+211 211 Boundary layer cloud layer
+212 212 Low cloud bottom level
+213 213 Low cloud top level
+214 214 Low cloud layer
+220 220 Planetary boundary layer
+222 222 Middle cloud bottom level
+223 223 Middle cloud top level
+224 224 Middle cloud layer
+232 232 High cloud bottom level
+233 233 High cloud top level
+234 234 High cloud layer
+242 242 Convective cloud bottom level
+243 243 Convective cloud top level
+244 244 Convective cloud layer
+

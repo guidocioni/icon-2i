@@ -1,0 +1,63 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+# START 1/local.78.253 ----------------------------------------------------------------------
+# LOCAL 78 253
+#
+# localDefinitionTemplate_253
+# ---------------------------
+#
+ 
+pad padding_78_253(5);      
+unsigned[1] localElementNumber : dump ;
+unsigned[1] localDecodeDateYear = yearOfCentury ;
+unsigned[1] localDecodeDateMonth = month ;
+unsigned[1] localDecodeDateDay = day ;
+unsigned[1] localDecodeDateHour = hour ;
+unsigned[1] localDecodeDateMinute = minute ;
+unsigned[2] localVersionNumber : dump ;
+unsigned[2] localUserIdentification : dump ;
+unsigned[2] localExperimentIdentifier : dump ;
+unsigned[1] localEnsembleIdentification : dump ;
+unsigned[2] localNumberOfEnsembleMembers : dump ;
+unsigned[2] localActualNumberOfEnsembleNumber : dump ;
+unsigned[1] localModelMajorVersionNumber : dump ;
+unsigned[1] localModelMinorVersionNumber : dump ;
+
+constant localDecodeDateSecond = 0;
+
+# in DWD 109 for 2009 is used for years from 2000 on ...
+if ( localDecodeDateYear > 99 ) {
+ transient century = 21;
+ transient jahr = localDecodeDateYear - 100;
+} 
+else {
+ transient century = 20;
+ transient jahr = localDecodeDateYear ;
+} 
+
+meta localDecodeDateShort g1date(century,jahr,localDecodeDateMonth,localDecodeDateDay) ;
+meta localDecodeTime time(localDecodeDateHour,localDecodeDateMinute,localDecodeDateSecond);
+meta localDecodeDateL evaluate(localDecodeDateShort*1000000 + localDecodeTime*100);
+
+alias etyp=localEnsembleIdentification;
+alias enum=localActualNumberOfEnsembleNumber;
+alias etot=localNumberOfEnsembleMembers;
+
+alias localInformationNumber = localElementNumber;
+alias localCreationDateYear  = localDecodeDateYear;
+alias localCreationDateMonth = localDecodeDateMonth ;
+alias localCreationDateDay   = localDecodeDateDay;
+alias localCreationDateHour  = localDecodeDateHour;
+alias localCreationDateMinute = localDecodeDateMinute;
+alias localCreationDateSecond = localDecodeDateSecond;
+
+
+
+
+
+

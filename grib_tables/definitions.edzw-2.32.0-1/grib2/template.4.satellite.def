@@ -1,0 +1,28 @@
+# (C) Copyright 2005- ECMWF.
+
+# For grib2 to grib1 conversion
+constant dataRepresentationType = 90;
+
+# dwd - aus template.4.32.def uebernommen (2.21.0)
+# Required for interpolation and MARS. The level type is used to decide whether to apply the Land Sea Mask
+constant typeOfLevel="synSat";
+constant levelType="synSat";
+constant level=0;
+
+# dwd NB=1: dump wahrscheinlich vom dwd vorhanden aus template 4.32 uebernommen (2.21.0)
+# Number of contributing spectral bands (NB)
+# unsigned[1] NB  : dump;
+unsigned[1] NB=1: dump;
+alias numberOfContributingSpectralBands=NB;
+
+listOfContributingSpectralBands list(numberOfContributingSpectralBands){
+  unsigned[2] satelliteSeries : dump;
+  unsigned[2] satelliteNumber : dump;
+  unsigned[2] instrumentType : dump;
+  unsigned[1] scaleFactorOfCentralWaveNumber = missing() : dump,can_be_missing ;
+  unsigned[4] scaledValueOfCentralWaveNumber = missing() : dump,can_be_missing ;
+}
+
+alias instrument = instrumentType;
+alias ident = satelliteNumber;
+

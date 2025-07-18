@@ -1,0 +1,100 @@
+# identification of subcenters for edzw centre 78 (Ofenbach -DWD)
+#              WMO Manual on Codes, Volume I.2, COMMON CODE TABLE C-12, 
+#              Originating Centre 00078,
+#              (Viele Sub-centres bisher noch nicht veröffentlicht) 
+#Stand: 15.02.2013
+#000 - 063   DWD
+#für die Meldungs- und Produktgeneration (MPG) im DWD :
+#001 - 009 DWD (MPGen ..)
+#031 - 039 DWD (MPGen .. Backup)
+#041 - 049 DWD (MPGen .. Test)
+#064 - 127   Militärische Dienste
+#128 - 163   Universitäten
+#164 - 199   Andere Institute
+#200 - 254   Behörden und Sonstige
+#Im Einzelnen werden die Subcenter-Nummern wie folgt vergeben:
+000 RTH-OF DWD Offenbach (RTH)
+#(Subcenter 0 auch GloBUS u.a.) 
+001 MPG1 DWD Offenbach (MPG 1)
+002 MPG2 DWD Offenbach (MPG 2)
+010 Radar Radarprodukte
+011 Wprof Windprofiler
+020 SNOW SNOW Berlin-Buch
+021 MME  Potsdam
+022 SWA Hamburg
+031 MPG1B MPG-Backup (MPG 1 Backup)
+041 MPG1T DWD Offenbach (MPG 1/MPG 1 Backup) Testsystem
+042 MPG2T DWD Offenbach (MPG 2) Testsystem
+064 BGIO Traben-Trarbach
+100 LH  Lufthansa Systems Aeronautics (AMDAR)
+110 NC-Blitz NowCast mobile (Blitzdaten)
+128 U-BT Universität Bayreuth (Institut für Terrestrische Ökosystemforschung) 
+129 FU-B Freie Universität Berlin (Institut für Meteorologie) 
+130 U-BN Universität Bonn (Meteorologisches Institut) 
+131 U-HB Universität Bremen (Institut für Umweltphysik) 
+132 TU-CB Brandenburgische TU Cottbus (Lehrstuhl Umweltmeteorologie/Luftchemie) 
+133 TU-DD TU Dresden (Institut für Hydrologie und Meteorologie) 
+134 U-FFM Universität Frankfurt (Institut für Meteorologie und Geophysik) 
+135 U-FR Universität Freiburg (Meteorologisches Institut) 
+136 U-GOE Universität Göttingen (Institut für Bioklimatologie) 
+137 U-HH Universität Hamburg (Meteorologisches Institut) 
+138 U-H Universität Hannover (Institut für Meteorologie und Klimatologie) 
+139 U-HD Universität Heidelberg (Institut für Umweltphysik) 
+140 U-KA Universität und FZ Karlsruhe (Inst. f. Meteorologie u. Klimaforschung) 
+141 U-KI Universität Kiel (Leibniz-Institut für Meereswissenschaften) 
+142 U-K Universität zu Köln (Institut für Geophysik und Meteorologie) 
+143 U-L Universität Leipzig (Institut für Meteorologie) 
+144 TU-M TU München (Lehrstuhl für Ökoklimatologie) 
+145 U-M Universität München (Meteorologisches Institut) 
+146 U-ROS Universität Rostock (Leibniz-Institut für Atmosphärenphysik) 
+147 U-S Universität Stuttgart-Hohenheim (Institut für Physik und Meteorologie) 
+148 U-TR Universität Trier (Klimatologie) 
+164 AWI-HB Alfred-Wegner-Institut für Polar- und Meeresforschung, Bremerhaven
+165 GKSS Forschungszentrum Geesthacht, Institut fuer Küstenforschung
+166 MPI-HH Max-Planck-Institut für Meteorologie, Hamburg
+167 MPI-HD Max-Planck-Institut für Kernphysik, Heidelberg
+168 FZ-JUEL Forschungszentrum Juelich, Institut für Chemie und Dynamik der Geosphäre
+169 TROPOS-L Leibniz-Institut für Troposphärenforschung, Leipzig
+170 MPI-MZ Max-Planck-Institut für Chemie, Mainz
+171 DLR DLR Oberpfaffenhofen, Institut fuer Physik der Atmosphäre
+172 PIK Institut für Klimafolgenforschung, Potsdam
+173 GFZ Potsdam, Geo-Forschungszentrum
+174 IWES Fraunhofer IWES, Institut für Windenergie und Energiesystemtechnik
+175 RIU Rheinisches Institut für Umweltforschung (RIU) an der Universität zu Köln 
+200 BMVI Bundesministerium für Verkehr und Wohnungswesen
+201 LANU Schleswig-Holstein, Landesamt für Natur und Umwelt (LANU)
+202 BSU-HH Hamburg, Behörde für Stadtentwicklung und Umwelt
+203 LAO-NL Niedersachsen, Niedersächsisches Landesamt für Ökologie (NLÖ)
+204 LUA-B Bremen, Der Senator für Bau, Umwelt und Verkehr
+205 LUA-NRW Nordrhein-Westfalen, Landesumweltamt Nordrhein-Westfalen	(LUA NRW)
+206 HLUG Hessen, Hessisches Landesamt für Umwelt und Geologie	(HLUG)
+207 LFW Rheinland-Pfalz, Landesamt für Wasserwirtschaft (LfW)
+208 LFU Baden-Württemberg, Landesanstalt für Umweltschutz (LfU)
+209 BLFW Bayern, Bayerisches Landesamt für Wasserwirtschaft (BLfW)
+210 LFU-SL Saarland, Landesamt für Umweltschutz (LfU)
+211 SSU-B Berlin, Senatsverwaltung für Stadtentwicklung
+212 LUA-BR Brandenburg, Landesumweltamt Brandenburg	(LUA)
+213 LUNG-MV Mecklenburg-Vorpommern, Landesamt f. Umwelt, Naturschutz, Geologie (LUNG)
+214 LFUG-SN Sachsen, Sächsisches Landesamt für Umwelt und Geologie (LfUG)
+215 LAU-SL Sachsen-Anhalt, Landesamt für Umweltschutz Sachsen-Anhalt (LAU) 
+216 TLUG Thüringen, Thüringer Landesanstalt für Umwelt und Geologie (TLUG)
+217 RGLV Emscher Genossenschaft Lippe Verband EGLV
+221 SWIS-SH Schleswig-Holstein, Verkehrsrechnerzentrale Kiel/Neumünster (SWIS)
+222 SWIS-HH Hamburg, Verkehrsrechnerzentrale Hamburg (SWIS)
+223 SWIS-NS Niedersachsen, Verkehrsrechnerzentrale Hannover (SWIS)
+224 NMC Austria (NMC)
+225 SWIS-NRW Nordrhein-Westfalen, Verkehrsrechnerzentralen Kamen, Leverkusen (SWIS)
+226 SWIS-HE Hessen, Verkehrsrechnerzentrale Rüsselsheim (SWIS)
+227 SWIS-RP Rheinland-Pfalz, Verkehrsrechnerzentrale Koblenz (SWIS)
+228 SWIS-BW Baden-Württemberg, Verkehrsrechnerzentrale Ludwigsburg (SWIS)
+229 SWIS-BY Bayern, Verkehrsrechnerzentrale Freimannn (SWIS)
+230 SWIS-SL Saarland, Verkehrsrechnerzentrale Rohrbach (SWIS)
+231 SWIS-ZSS Bayern, Autobahndirektion Nordbayern, ZSS (SWIS)
+232 SWIS-BR Brandenburg, Verkehrsrechnerzentrale Stolpe (SWIS)
+233 SWIS-MV Mecklenburg-Vorpommern, Verkehrsrechnerzentrale Malchow (SWIS)
+234 SWIS-SN Sachsen, Verkehrsrechnerzentrale Dresden (SWIS)
+235 SWIS-SL Sachsen-Anhalt, Verkehrsrechnerzentrale Halle (SWIS)
+236 SWIS-TH Thüringen, Verkehrsrechnerzentrale Erfurt (SWIS)
+237 EasyWay - Meteotrans (SWIS)
+254 EUMETSAT  EUMETSAT
+255 NIL MISSING

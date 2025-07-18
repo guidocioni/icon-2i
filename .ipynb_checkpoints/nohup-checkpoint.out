@@ -1,0 +1,1103 @@
+Running: python plot_cape_cin.py --projection nord
+2025-07-17 15:44:16 INFO - main: Plotting cape_cin for projection nord.
+2025-07-17 15:44:16 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/CAPE_ML/icon_2I_2025071700_atmML-0.grib
+2025-07-17 15:44:16 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/CIN_ML/icon_2I_2025071700_atmML-0.grib
+2025-07-17 15:44:16 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/U_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 15:44:16 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/V_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 15:44:16 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 15:44:32 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 15:44:58 INFO - run_main_with_timing: script took 00:00:42
+Running: python plot_gusts.py --projection nord
+2025-07-17 15:45:02 INFO - main: Plotting gusts for projection nord.
+2025-07-17 15:45:02 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/U_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 15:45:02 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/V_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 15:45:02 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/VMAX_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 15:45:02 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/PMSL/icon_2I_2025071700_meanSea-0.grib
+2025-07-17 15:45:02 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 15:45:17 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 15:45:52 INFO - run_main_with_timing: script took 00:00:50
+Running: python plot_lpi.py --projection nord
+2025-07-17 15:45:55 INFO - main: Plotting lpi for projection nord
+2025-07-17 15:45:55 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/LPI/icon_2I_2025071700_surface-0.grib
+2025-07-17 15:45:55 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 15:46:05 INFO - main: Pre-processing finished, launching plotting scripts
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_lpi.py", line 50, in plot_files
+    lpi_cf_name = utils.find_variable_by_long_name(data, ["Lightning Potential Index"])
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Lightning Potential Index'] found in the dataset.
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_lpi.py", line 96, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_lpi.py", line 43, in main
+    p.map(plot_files_param, dss)
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 367, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 774, in get
+    raise self._value
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_lpi.py", line 50, in plot_files
+    lpi_cf_name = utils.find_variable_by_long_name(data, ["Lightning Potential Index"])
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Lightning Potential Index'] found in the dataset.
+Running: python plot_pres_t2m_winds10m.py --projection nord
+2025-07-17 15:46:10 INFO - main: Plotting t_v_pres for projection nord.
+2025-07-17 15:46:10 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/U_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 15:46:10 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/V_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 15:46:10 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/PMSL/icon_2I_2025071700_meanSea-0.grib
+2025-07-17 15:46:10 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/T_2M/icon_2I_2025071700_heightAboveGround-2.grib
+2025-07-17 15:46:10 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 15:46:22 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 15:46:59 INFO - run_main_with_timing: script took 00:00:48
+Running: python plot_rh.py --projection nord
+2025-07-17 15:47:01 INFO - main: Plotting rh_850 for projection nord.
+2025-07-17 15:47:01 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/RELHUM/icon_2I_2025071700_isobaricInhPa-850.grib
+2025-07-17 15:47:01 INFO - get_files_levels: Loading files into xarray
+2025-07-17 15:47:05 ERROR - itervalues: skipping corrupted Message
+Traceback (most recent call last):
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/cfgrib/messages.py", line 274, in itervalues
+    yield self.filestream.message_from_file(file, errors=errors)
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/cfgrib/messages.py", line 341, in message_from_file
+    return Message.from_file(file, offset, **kwargs)
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/cfgrib/messages.py", line 97, in from_file
+    codes_id = eccodes.codes_grib_new_from_file(file)
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/gribapi/gribapi.py", line 413, in grib_new_from_file
+    GRIB_CHECK(err)
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/gribapi/gribapi.py", line 230, in GRIB_CHECK
+    errors.raise_grib_error(errid)
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/gribapi/errors.py", line 382, in raise_grib_error
+    raise ERROR_MAP[errid](errid)
+gribapi.errors.PrematureEndOfFileError: End of resource reached when reading message
+2025-07-17 15:47:12 INFO - main: Pre-processing finished, launching plotting scripts
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_rh.py", line 51, in plot_files
+    rh_cf_name = utils.find_variable_by_long_name(data, ["Relative Humidity"])
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Relative Humidity'] found in the dataset.
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_rh.py", line 105, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_rh.py", line 44, in main
+    p.map(plot_files_param, dss)
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 367, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 774, in get
+    raise self._value
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_rh.py", line 51, in plot_files
+    rh_cf_name = utils.find_variable_by_long_name(data, ["Relative Humidity"])
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Relative Humidity'] found in the dataset.
+Running: python plot_snowlmt.py --projection nord
+2025-07-17 15:47:15 INFO - main: Plotting snowlmt for projection nord.
+2025-07-17 15:47:15 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/SNOWLMT/icon_2I_2025071700_isothermZero-0.grib
+2025-07-17 15:47:26 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 15:47:38 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 15:47:59 INFO - run_main_with_timing: script took 00:00:44
+Running: python plot_winter.py --projection nord
+2025-07-17 15:48:02 INFO - main: Plotting winter for projection nord.
+2025-07-17 15:48:02 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/H_SNOW/icon_2I_2025071700_surface-0.grib
+2025-07-17 15:48:02 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/RAIN_GSP/icon_2I_2025071700_surface-0.grib
+2025-07-17 15:48:02 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/RAIN_CON/icon_2I_2025071700_surface-0.grib
+2025-07-17 15:48:02 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/SNOWLMT/icon_2I_2025071700_isothermZero-0.grib
+2025-07-17 15:48:09 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 15:48:27 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 15:49:01 INFO - run_main_with_timing: script took 00:00:59
+Running: python plot_clct.py --projection nord
+2025-07-17 15:49:04 INFO - main: Plotting clct for projection nord.
+2025-07-17 15:49:04 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/CLCT/icon_2I_2025071700_surface-0.grib
+2025-07-17 15:49:07 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 15:49:17 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 15:49:32 INFO - run_main_with_timing: script took 00:00:28
+Running: python plot_hsnow.py --projection nord
+2025-07-17 15:49:35 INFO - main: Plotting h_snow for projection nord.
+2025-07-17 15:49:35 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/H_SNOW/icon_2I_2025071700_surface-0.grib
+2025-07-17 15:49:35 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 15:49:47 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 15:50:18 INFO - run_main_with_timing: script took 00:00:43
+Running: python plot_prec_clouds.py --projection nord
+2025-07-17 15:50:22 INFO - main: Plotting prec_clouds for projection nord.
+2025-07-17 15:50:22 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/RAIN_GSP/icon_2I_2025071700_surface-0.grib
+2025-07-17 15:50:22 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/RAIN_CON/icon_2I_2025071700_surface-0.grib
+2025-07-17 15:50:22 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/SNOW_GSP/icon_2I_2025071700_surface-0.grib
+2025-07-17 15:50:22 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/SNOW_CON/icon_2I_2025071700_surface-0.grib
+2025-07-17 15:50:22 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/PMSL/icon_2I_2025071700_meanSea-0.grib
+2025-07-17 15:50:27 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 15:50:35 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/CLCH/icon_2I_2025071700_isobaricLayer-0.grib
+2025-07-17 15:50:40 INFO - get_files_levels: Loading files into xarray
+2025-07-17 15:50:41 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/CLCL/icon_2I_2025071700_isobaricLayer-800.grib
+2025-07-17 15:50:45 INFO - get_files_levels: Loading files into xarray
+2025-07-17 15:50:54 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 15:51:30 INFO - run_main_with_timing: script took 00:01:08
+Running: python plot_pres_td2m_winds10m.py --projection nord
+2025-07-17 15:51:34 INFO - main: Plotting td_v_pres for projection nord.
+2025-07-17 15:51:34 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/U_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 15:51:34 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/V_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 15:51:34 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/PMSL/icon_2I_2025071700_meanSea-0.grib
+2025-07-17 15:51:34 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/TD_2M/icon_2I_2025071700_heightAboveGround-2.grib
+2025-07-17 15:51:38 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 15:51:50 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 15:52:21 INFO - run_main_with_timing: script took 00:00:47
+Running: python plot_sdi.py --projection nord
+2025-07-17 15:52:24 INFO - main: Plotting sdi for projection nord.
+2025-07-17 15:52:24 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/U_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 15:52:24 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/V_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 15:52:24 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/SDI_2/icon_2I_2025071700_surface-0.grib
+2025-07-17 15:52:28 INFO - get_files_sfc: Loading files into xarray
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_sdi.py", line 169, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_sdi.py", line 31, in main
+    sdi_cf_name = utils.find_variable_by_long_name(
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Supercell detection index 2 (only rot. updrafts)'] found in the dataset.
+Running: python plot_t2m_values.py --projection nord
+2025-07-17 15:52:38 INFO - main: Plotting t_2m for projection nord.
+2025-07-17 15:52:38 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/T_2M/icon_2I_2025071700_heightAboveGround-2.grib
+2025-07-17 15:52:38 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 15:52:48 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 15:56:08 INFO - run_main_with_timing: script took 00:03:30
+Running: python plot_gph_t.py --projection nord
+2025-07-17 15:56:12 INFO - main: Plotting gph_t_850 for projection nord.
+2025-07-17 15:56:12 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/FI/icon_2I_2025071700_isobaricInhPa-850.grib
+2025-07-17 15:56:12 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/T/icon_2I_2025071700_isobaricInhPa-850.grib
+2025-07-17 15:56:18 INFO - get_files_levels: Loading files into xarray
+2025-07-17 15:56:28 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 15:56:50 INFO - run_main_with_timing: script took 00:00:38
+Running: python plot_hsnow_change.py --projection nord
+2025-07-17 15:56:53 INFO - main: Plotting h_snow_change for projection nord.
+2025-07-17 15:56:53 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/H_SNOW/icon_2I_2025071700_surface-0.grib
+2025-07-17 15:56:53 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 15:57:06 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 15:57:33 INFO - run_main_with_timing: script took 00:00:39
+Running: python plot_precip_acc.py --projection nord
+2025-07-17 15:57:36 INFO - main: Plotting precip_acc for projection nord.
+2025-07-17 15:57:36 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/TOT_PREC/icon_2I_2025071700_surface-0.grib
+2025-07-17 15:57:39 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 15:57:52 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 15:58:25 INFO - run_main_with_timing: script took 00:00:49
+Running: python plot_pwat.py --projection nord
+2025-07-17 15:58:28 INFO - main: Plotting pwat for projection nord.
+2025-07-17 15:58:28 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/TQV/icon_2I_2025071700_surface-0.grib
+2025-07-17 15:58:34 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 15:58:45 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 15:59:06 INFO - run_main_with_timing: script took 00:00:38
+Running: python plot_shear.py --projection nord
+2025-07-17 15:59:09 INFO - main: Plotting shear for projection nord.
+2025-07-17 15:59:09 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/WSHEAR_U/icon_2I_2025071700_heightAboveGroundLayer-6000.grib
+2025-07-17 15:59:09 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/WSHEAR_V/icon_2I_2025071700_heightAboveGroundLayer-6000.grib
+2025-07-17 15:59:14 INFO - get_files_levels: Loading files into xarray
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_shear.py", line 110, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_shear.py", line 26, in main
+    dset = utils.get_files_levels(
+  File "/var/models/icon-2i/utils.py", line 238, in get_files_levels
+    dss = xr.open_mfdataset(
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/backends/api.py", line 1663, in open_mfdataset
+    combined = combine_by_coords(
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/structure/combine.py", line 983, in combine_by_coords
+    concatenated_grouped_by_data_vars = tuple(
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/structure/combine.py", line 984, in <genexpr>
+    _combine_single_variable_hypercube(
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/structure/combine.py", line 645, in _combine_single_variable_hypercube
+    combined_ids, concat_dims = _infer_concat_order_from_coords(list(datasets))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/structure/combine.py", line 158, in _infer_concat_order_from_coords
+    raise ValueError(
+ValueError: Could not find any dimension coordinates to use to order the datasets for concatenation
+Running: python plot_uh_max.py --projection nord
+2025-07-17 15:59:21 INFO - main: Plotting uh_max for projection nord
+2025-07-17 15:59:21 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/UH_MAX/icon_2I_2025071700_heightAboveSeaLayer-2000.grib
+2025-07-17 15:59:25 INFO - get_files_levels: Loading files into xarray
+2025-07-17 15:59:36 INFO - main: Pre-processing finished, launching plotting scripts
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_uh_max.py", line 79, in plot_files
+    uh_max_cf_name = utils.find_variable_by_long_name(
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Maximum amplitude (positive or negative) of updraft helicity  (over given time interval)'] found in the dataset.
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_uh_max.py", line 128, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_uh_max.py", line 72, in main
+    p.map(plot_files_param, dss)
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 367, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 774, in get
+    raise self._value
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_uh_max.py", line 79, in plot_files
+    uh_max_cf_name = utils.find_variable_by_long_name(
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Maximum amplitude (positive or negative) of updraft helicity  (over given time interval)'] found in the dataset.
+Running: python plot_cape_cin.py --projection sud
+2025-07-17 15:59:40 INFO - main: Plotting cape_cin for projection sud.
+2025-07-17 15:59:40 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/CAPE_ML/icon_2I_2025071700_atmML-0.grib
+2025-07-17 15:59:40 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/CIN_ML/icon_2I_2025071700_atmML-0.grib
+2025-07-17 15:59:40 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/U_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 15:59:40 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/V_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 15:59:40 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 15:59:59 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:00:27 INFO - run_main_with_timing: script took 00:00:46
+Running: python plot_gusts.py --projection sud
+2025-07-17 16:00:31 INFO - main: Plotting gusts for projection sud.
+2025-07-17 16:00:31 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/U_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 16:00:31 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/V_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 16:00:31 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/VMAX_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 16:00:31 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/PMSL/icon_2I_2025071700_meanSea-0.grib
+2025-07-17 16:00:31 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:00:48 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:01:29 INFO - run_main_with_timing: script took 00:00:58
+Running: python plot_lpi.py --projection sud
+2025-07-17 16:01:32 INFO - main: Plotting lpi for projection sud
+2025-07-17 16:01:32 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/LPI/icon_2I_2025071700_surface-0.grib
+2025-07-17 16:01:32 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:01:42 INFO - main: Pre-processing finished, launching plotting scripts
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_lpi.py", line 50, in plot_files
+    lpi_cf_name = utils.find_variable_by_long_name(data, ["Lightning Potential Index"])
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Lightning Potential Index'] found in the dataset.
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_lpi.py", line 96, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_lpi.py", line 43, in main
+    p.map(plot_files_param, dss)
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 367, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 774, in get
+    raise self._value
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_lpi.py", line 50, in plot_files
+    lpi_cf_name = utils.find_variable_by_long_name(data, ["Lightning Potential Index"])
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Lightning Potential Index'] found in the dataset.
+Running: python plot_pres_t2m_winds10m.py --projection sud
+2025-07-17 16:01:47 INFO - main: Plotting t_v_pres for projection sud.
+2025-07-17 16:01:47 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/U_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 16:01:47 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/V_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 16:01:47 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/T_2M/icon_2I_2025071700_heightAboveGround-2.grib
+2025-07-17 16:01:47 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/PMSL/icon_2I_2025071700_meanSea-0.grib
+2025-07-17 16:01:47 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:01:58 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:02:20 INFO - run_main_with_timing: script took 00:00:33
+Running: python plot_rh.py --projection sud
+2025-07-17 16:02:23 INFO - main: Plotting rh_850 for projection sud.
+2025-07-17 16:02:23 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/RELHUM/icon_2I_2025071700_isobaricInhPa-850.grib
+2025-07-17 16:02:23 INFO - get_files_levels: Loading files into xarray
+2025-07-17 16:02:32 INFO - main: Pre-processing finished, launching plotting scripts
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_rh.py", line 51, in plot_files
+    rh_cf_name = utils.find_variable_by_long_name(data, ["Relative Humidity"])
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Relative Humidity'] found in the dataset.
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_rh.py", line 105, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_rh.py", line 44, in main
+    p.map(plot_files_param, dss)
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 367, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 774, in get
+    raise self._value
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_rh.py", line 51, in plot_files
+    rh_cf_name = utils.find_variable_by_long_name(data, ["Relative Humidity"])
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Relative Humidity'] found in the dataset.
+Running: python plot_snowlmt.py --projection sud
+2025-07-17 16:02:35 INFO - main: Plotting snowlmt for projection sud.
+2025-07-17 16:02:35 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/SNOWLMT/icon_2I_2025071700_isothermZero-0.grib
+2025-07-17 16:02:35 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:02:51 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:03:15 INFO - run_main_with_timing: script took 00:00:40
+Running: python plot_winter.py --projection sud
+2025-07-17 16:03:18 INFO - main: Plotting winter for projection sud.
+2025-07-17 16:03:18 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/H_SNOW/icon_2I_2025071700_surface-0.grib
+2025-07-17 16:03:18 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/RAIN_GSP/icon_2I_2025071700_surface-0.grib
+2025-07-17 16:03:18 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/SNOWLMT/icon_2I_2025071700_isothermZero-0.grib
+2025-07-17 16:03:18 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/RAIN_CON/icon_2I_2025071700_surface-0.grib
+2025-07-17 16:03:18 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:03:37 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:04:09 INFO - run_main_with_timing: script took 00:00:51
+Running: python plot_clct.py --projection sud
+2025-07-17 16:04:11 INFO - main: Plotting clct for projection sud.
+2025-07-17 16:04:11 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/CLCT/icon_2I_2025071700_surface-0.grib
+2025-07-17 16:04:12 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:04:22 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:04:35 INFO - run_main_with_timing: script took 00:00:23
+Running: python plot_hsnow.py --projection sud
+2025-07-17 16:04:38 INFO - main: Plotting h_snow for projection sud.
+2025-07-17 16:04:38 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/H_SNOW/icon_2I_2025071700_surface-0.grib
+2025-07-17 16:04:38 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:04:53 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:05:22 INFO - run_main_with_timing: script took 00:00:43
+Running: python plot_prec_clouds.py --projection sud
+2025-07-17 16:05:25 INFO - main: Plotting prec_clouds for projection sud.
+2025-07-17 16:05:25 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/RAIN_GSP/icon_2I_2025071700_surface-0.grib
+2025-07-17 16:05:25 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/RAIN_CON/icon_2I_2025071700_surface-0.grib
+2025-07-17 16:05:25 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/SNOW_GSP/icon_2I_2025071700_surface-0.grib
+2025-07-17 16:05:25 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/SNOW_CON/icon_2I_2025071700_surface-0.grib
+2025-07-17 16:05:26 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/PMSL/icon_2I_2025071700_meanSea-0.grib
+2025-07-17 16:05:26 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:05:33 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/CLCH/icon_2I_2025071700_isobaricLayer-0.grib
+2025-07-17 16:05:33 INFO - get_files_levels: Loading files into xarray
+2025-07-17 16:05:35 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/CLCL/icon_2I_2025071700_isobaricLayer-800.grib
+2025-07-17 16:05:35 INFO - get_files_levels: Loading files into xarray
+2025-07-17 16:05:48 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:06:26 INFO - run_main_with_timing: script took 00:01:00
+Running: python plot_pres_td2m_winds10m.py --projection sud
+2025-07-17 16:06:30 INFO - main: Plotting td_v_pres for projection sud.
+2025-07-17 16:06:30 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/U_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 16:06:30 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/TD_2M/icon_2I_2025071700_heightAboveGround-2.grib
+2025-07-17 16:06:30 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/V_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 16:06:30 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/PMSL/icon_2I_2025071700_meanSea-0.grib
+2025-07-17 16:06:30 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:06:41 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:07:02 INFO - run_main_with_timing: script took 00:00:32
+Running: python plot_sdi.py --projection sud
+2025-07-17 16:07:04 INFO - main: Plotting sdi for projection sud.
+2025-07-17 16:07:04 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/U_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 16:07:04 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/V_10M/icon_2I_2025071700_heightAboveGround-10.grib
+2025-07-17 16:07:04 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/SDI_2/icon_2I_2025071700_surface-0.grib
+2025-07-17 16:07:05 INFO - get_files_sfc: Loading files into xarray
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_sdi.py", line 169, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_sdi.py", line 31, in main
+    sdi_cf_name = utils.find_variable_by_long_name(
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Supercell detection index 2 (only rot. updrafts)'] found in the dataset.
+Running: python plot_t2m_values.py --projection sud
+2025-07-17 16:07:14 INFO - main: Plotting t_2m for projection sud.
+2025-07-17 16:07:14 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/T_2M/icon_2I_2025071700_heightAboveGround-2.grib
+2025-07-17 16:07:14 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:07:24 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:11:58 INFO - run_main_with_timing: script took 00:04:44
+Running: python plot_gph_t.py --projection sud
+2025-07-17 16:12:02 INFO - main: Plotting gph_t_850 for projection sud.
+2025-07-17 16:12:02 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/FI/icon_2I_2025071700_isobaricInhPa-850.grib
+2025-07-17 16:12:02 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/T/icon_2I_2025071700_isobaricInhPa-850.grib
+2025-07-17 16:12:02 INFO - get_files_levels: Loading files into xarray
+2025-07-17 16:12:12 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:12:31 INFO - run_main_with_timing: script took 00:00:29
+Running: python plot_hsnow_change.py --projection sud
+2025-07-17 16:12:34 INFO - main: Plotting h_snow_change for projection sud.
+2025-07-17 16:12:34 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/H_SNOW/icon_2I_2025071700_surface-0.grib
+2025-07-17 16:12:34 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:12:50 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:13:17 INFO - run_main_with_timing: script took 00:00:43
+Running: python plot_precip_acc.py --projection sud
+2025-07-17 16:13:20 INFO - main: Plotting precip_acc for projection sud.
+2025-07-17 16:13:20 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071700/TOT_PREC/icon_2I_2025071700_surface-0.grib
+2025-07-17 16:13:20 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:13:37 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:14:15 INFO - run_main_with_timing: script took 00:00:55
+Running: python plot_pwat.py --projection sud
+2025-07-17 16:14:18 INFO - main: Plotting pwat for projection sud.
+2025-07-17 16:14:18 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/TQV/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:14:20 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:14:35 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:15:00 INFO - run_main_with_timing: script took 00:00:42
+Running: python plot_shear.py --projection sud
+2025-07-17 16:15:03 INFO - main: Plotting shear for projection sud.
+2025-07-17 16:15:03 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/WSHEAR_U/icon_2I_2025071712_heightAboveGroundLayer-6000.grib
+2025-07-17 16:15:03 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/WSHEAR_V/icon_2I_2025071712_heightAboveGroundLayer-6000.grib
+2025-07-17 16:15:11 INFO - get_files_levels: Loading files into xarray
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_shear.py", line 110, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_shear.py", line 26, in main
+    dset = utils.get_files_levels(
+  File "/var/models/icon-2i/utils.py", line 238, in get_files_levels
+    dss = xr.open_mfdataset(
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/backends/api.py", line 1663, in open_mfdataset
+    combined = combine_by_coords(
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/structure/combine.py", line 983, in combine_by_coords
+    concatenated_grouped_by_data_vars = tuple(
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/structure/combine.py", line 984, in <genexpr>
+    _combine_single_variable_hypercube(
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/structure/combine.py", line 645, in _combine_single_variable_hypercube
+    combined_ids, concat_dims = _infer_concat_order_from_coords(list(datasets))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/structure/combine.py", line 158, in _infer_concat_order_from_coords
+    raise ValueError(
+ValueError: Could not find any dimension coordinates to use to order the datasets for concatenation
+Running: python plot_uh_max.py --projection sud
+2025-07-17 16:15:18 INFO - main: Plotting uh_max for projection sud
+2025-07-17 16:15:18 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/UH_MAX/icon_2I_2025071712_heightAboveSeaLayer-2000.grib
+2025-07-17 16:15:21 INFO - get_files_levels: Loading files into xarray
+2025-07-17 16:15:32 INFO - main: Pre-processing finished, launching plotting scripts
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_uh_max.py", line 79, in plot_files
+    uh_max_cf_name = utils.find_variable_by_long_name(
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Maximum amplitude (positive or negative) of updraft helicity  (over given time interval)'] found in the dataset.
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_uh_max.py", line 128, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_uh_max.py", line 72, in main
+    p.map(plot_files_param, dss)
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 367, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 774, in get
+    raise self._value
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_uh_max.py", line 79, in plot_files
+    uh_max_cf_name = utils.find_variable_by_long_name(
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Maximum amplitude (positive or negative) of updraft helicity  (over given time interval)'] found in the dataset.
+Running: python plot_cape_cin.py --projection centro
+2025-07-17 16:15:36 INFO - main: Plotting cape_cin for projection centro.
+2025-07-17 16:15:36 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/CAPE_ML/icon_2I_2025071712_atmML-0.grib
+2025-07-17 16:15:36 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/CIN_ML/icon_2I_2025071712_atmML-0.grib
+2025-07-17 16:15:36 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/U_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:15:36 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/V_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:15:47 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:16:04 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:16:30 INFO - run_main_with_timing: script took 00:00:54
+Running: python plot_gusts.py --projection centro
+2025-07-17 16:16:34 INFO - main: Plotting gusts for projection centro.
+2025-07-17 16:16:34 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/U_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:16:34 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/V_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:16:34 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/VMAX_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:16:34 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/PMSL/icon_2I_2025071712_meanSea-0.grib
+2025-07-17 16:16:40 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:16:55 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:17:28 INFO - run_main_with_timing: script took 00:00:53
+Running: python plot_lpi.py --projection centro
+2025-07-17 16:17:30 INFO - main: Plotting lpi for projection centro
+2025-07-17 16:17:30 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/LPI/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:17:34 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:17:44 INFO - main: Pre-processing finished, launching plotting scripts
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_lpi.py", line 50, in plot_files
+    lpi_cf_name = utils.find_variable_by_long_name(data, ["Lightning Potential Index"])
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Lightning Potential Index'] found in the dataset.
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_lpi.py", line 96, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_lpi.py", line 43, in main
+    p.map(plot_files_param, dss)
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 367, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 774, in get
+    raise self._value
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_lpi.py", line 50, in plot_files
+    lpi_cf_name = utils.find_variable_by_long_name(data, ["Lightning Potential Index"])
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Lightning Potential Index'] found in the dataset.
+Running: python plot_pres_t2m_winds10m.py --projection centro
+2025-07-17 16:17:49 INFO - main: Plotting t_v_pres for projection centro.
+2025-07-17 16:17:49 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/U_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:17:49 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/V_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:17:49 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/PMSL/icon_2I_2025071712_meanSea-0.grib
+2025-07-17 16:17:49 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/T_2M/icon_2I_2025071712_heightAboveGround-2.grib
+2025-07-17 16:17:52 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:18:04 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:18:26 INFO - run_main_with_timing: script took 00:00:37
+Running: python plot_rh.py --projection centro
+2025-07-17 16:18:29 INFO - main: Plotting rh_850 for projection centro.
+2025-07-17 16:18:29 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/RELHUM/icon_2I_2025071712_isobaricInhPa-850.grib
+2025-07-17 16:18:32 INFO - get_files_levels: Loading files into xarray
+2025-07-17 16:18:42 INFO - main: Pre-processing finished, launching plotting scripts
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_rh.py", line 51, in plot_files
+    rh_cf_name = utils.find_variable_by_long_name(data, ["Relative Humidity"])
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Relative Humidity'] found in the dataset.
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_rh.py", line 105, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_rh.py", line 44, in main
+    p.map(plot_files_param, dss)
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 367, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 774, in get
+    raise self._value
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_rh.py", line 51, in plot_files
+    rh_cf_name = utils.find_variable_by_long_name(data, ["Relative Humidity"])
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Relative Humidity'] found in the dataset.
+Running: python plot_snowlmt.py --projection centro
+2025-07-17 16:18:45 INFO - main: Plotting snowlmt for projection centro.
+2025-07-17 16:18:45 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/SNOWLMT/icon_2I_2025071712_isothermZero-0.grib
+2025-07-17 16:18:49 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:19:02 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:19:22 INFO - run_main_with_timing: script took 00:00:37
+Running: python plot_winter.py --projection centro
+2025-07-17 16:19:25 INFO - main: Plotting winter for projection centro.
+2025-07-17 16:19:25 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/H_SNOW/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:19:25 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/RAIN_GSP/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:19:25 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/RAIN_CON/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:19:25 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/SNOWLMT/icon_2I_2025071712_isothermZero-0.grib
+2025-07-17 16:19:32 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:19:50 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:20:20 INFO - run_main_with_timing: script took 00:00:55
+Running: python plot_clct.py --projection centro
+2025-07-17 16:20:23 INFO - main: Plotting clct for projection centro.
+2025-07-17 16:20:23 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/CLCT/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:20:26 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:20:35 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:20:45 INFO - run_main_with_timing: script took 00:00:22
+Running: python plot_hsnow.py --projection centro
+2025-07-17 16:20:48 INFO - main: Plotting h_snow for projection centro.
+2025-07-17 16:20:48 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/H_SNOW/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:20:48 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:21:01 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:21:28 INFO - run_main_with_timing: script took 00:00:39
+Running: python plot_prec_clouds.py --projection centro
+2025-07-17 16:21:31 INFO - main: Plotting prec_clouds for projection centro.
+2025-07-17 16:21:32 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/RAIN_GSP/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:21:32 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/RAIN_CON/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:21:32 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/SNOW_GSP/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:21:32 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/SNOW_CON/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:21:32 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/PMSL/icon_2I_2025071712_meanSea-0.grib
+2025-07-17 16:21:36 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:21:44 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/CLCH/icon_2I_2025071712_isobaricLayer-0.grib
+2025-07-17 16:21:49 INFO - get_files_levels: Loading files into xarray
+2025-07-17 16:21:51 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/CLCL/icon_2I_2025071712_isobaricLayer-800.grib
+2025-07-17 16:21:57 INFO - get_files_levels: Loading files into xarray
+2025-07-17 16:22:06 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:22:35 INFO - run_main_with_timing: script took 00:01:03
+Running: python plot_pres_td2m_winds10m.py --projection centro
+2025-07-17 16:22:39 INFO - main: Plotting td_v_pres for projection centro.
+2025-07-17 16:22:39 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/U_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:22:39 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/V_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:22:39 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/PMSL/icon_2I_2025071712_meanSea-0.grib
+2025-07-17 16:22:39 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/TD_2M/icon_2I_2025071712_heightAboveGround-2.grib
+2025-07-17 16:22:42 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:22:54 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:23:16 INFO - run_main_with_timing: script took 00:00:37
+Running: python plot_sdi.py --projection centro
+2025-07-17 16:23:18 INFO - main: Plotting sdi for projection centro.
+2025-07-17 16:23:18 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/U_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:23:19 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/V_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:23:19 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/SDI_2/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:23:23 INFO - get_files_sfc: Loading files into xarray
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_sdi.py", line 169, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_sdi.py", line 31, in main
+    sdi_cf_name = utils.find_variable_by_long_name(
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Supercell detection index 2 (only rot. updrafts)'] found in the dataset.
+Running: python plot_t2m_values.py --projection centro
+2025-07-17 16:23:33 INFO - main: Plotting t_2m for projection centro.
+2025-07-17 16:23:33 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/T_2M/icon_2I_2025071712_heightAboveGround-2.grib
+2025-07-17 16:23:34 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:23:43 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:27:44 INFO - run_main_with_timing: script took 00:04:10
+Running: python plot_gph_t.py --projection centro
+2025-07-17 16:27:48 INFO - main: Plotting gph_t_850 for projection centro.
+2025-07-17 16:27:48 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/FI/icon_2I_2025071712_isobaricInhPa-850.grib
+2025-07-17 16:27:48 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/T/icon_2I_2025071712_isobaricInhPa-850.grib
+2025-07-17 16:27:54 INFO - get_files_levels: Loading files into xarray
+2025-07-17 16:28:03 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:28:18 INFO - run_main_with_timing: script took 00:00:30
+Running: python plot_hsnow_change.py --projection centro
+2025-07-17 16:28:21 INFO - main: Plotting h_snow_change for projection centro.
+2025-07-17 16:28:21 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/H_SNOW/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:28:21 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:28:34 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:28:59 INFO - run_main_with_timing: script took 00:00:38
+Running: python plot_precip_acc.py --projection centro
+2025-07-17 16:29:02 INFO - main: Plotting precip_acc for projection centro.
+2025-07-17 16:29:02 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/TOT_PREC/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:29:04 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:29:18 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:29:47 INFO - run_main_with_timing: script took 00:00:45
+Running: python plot_pwat.py --projection centro
+2025-07-17 16:29:50 INFO - main: Plotting pwat for projection centro.
+2025-07-17 16:29:50 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/TQV/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:29:50 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:30:03 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:30:24 INFO - run_main_with_timing: script took 00:00:34
+Running: python plot_shear.py --projection centro
+2025-07-17 16:30:27 INFO - main: Plotting shear for projection centro.
+2025-07-17 16:30:27 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/WSHEAR_U/icon_2I_2025071712_heightAboveGroundLayer-6000.grib
+2025-07-17 16:30:27 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/WSHEAR_V/icon_2I_2025071712_heightAboveGroundLayer-6000.grib
+2025-07-17 16:30:27 INFO - get_files_levels: Loading files into xarray
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_shear.py", line 110, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_shear.py", line 26, in main
+    dset = utils.get_files_levels(
+  File "/var/models/icon-2i/utils.py", line 238, in get_files_levels
+    dss = xr.open_mfdataset(
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/backends/api.py", line 1663, in open_mfdataset
+    combined = combine_by_coords(
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/structure/combine.py", line 983, in combine_by_coords
+    concatenated_grouped_by_data_vars = tuple(
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/structure/combine.py", line 984, in <genexpr>
+    _combine_single_variable_hypercube(
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/structure/combine.py", line 645, in _combine_single_variable_hypercube
+    combined_ids, concat_dims = _infer_concat_order_from_coords(list(datasets))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/structure/combine.py", line 158, in _infer_concat_order_from_coords
+    raise ValueError(
+ValueError: Could not find any dimension coordinates to use to order the datasets for concatenation
+Running: python plot_uh_max.py --projection centro
+2025-07-17 16:30:34 INFO - main: Plotting uh_max for projection centro
+2025-07-17 16:30:34 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/UH_MAX/icon_2I_2025071712_heightAboveSeaLayer-2000.grib
+2025-07-17 16:30:34 INFO - get_files_levels: Loading files into xarray
+2025-07-17 16:30:44 INFO - main: Pre-processing finished, launching plotting scripts
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_uh_max.py", line 79, in plot_files
+    uh_max_cf_name = utils.find_variable_by_long_name(
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Maximum amplitude (positive or negative) of updraft helicity  (over given time interval)'] found in the dataset.
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_uh_max.py", line 128, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_uh_max.py", line 72, in main
+    p.map(plot_files_param, dss)
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 367, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 774, in get
+    raise self._value
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_uh_max.py", line 79, in plot_files
+    uh_max_cf_name = utils.find_variable_by_long_name(
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Maximum amplitude (positive or negative) of updraft helicity  (over given time interval)'] found in the dataset.
+Running: python plot_cape_cin.py --projection it
+2025-07-17 16:30:47 INFO - main: Plotting cape_cin for projection it.
+2025-07-17 16:30:47 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/CAPE_ML/icon_2I_2025071712_atmML-0.grib
+2025-07-17 16:30:47 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/CIN_ML/icon_2I_2025071712_atmML-0.grib
+2025-07-17 16:30:47 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/U_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:30:47 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/V_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:30:47 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:31:03 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:31:46 INFO - run_main_with_timing: script took 00:00:58
+Running: python plot_gusts.py --projection it
+2025-07-17 16:31:49 INFO - main: Plotting gusts for projection it.
+2025-07-17 16:31:49 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/U_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:31:49 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/V_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:31:49 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/VMAX_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:31:49 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/PMSL/icon_2I_2025071712_meanSea-0.grib
+2025-07-17 16:31:50 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:32:04 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:33:13 INFO - run_main_with_timing: script took 00:01:23
+Running: python plot_lpi.py --projection it
+2025-07-17 16:33:15 INFO - main: Plotting lpi for projection it
+2025-07-17 16:33:15 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/LPI/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:33:15 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:33:23 INFO - main: Pre-processing finished, launching plotting scripts
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_lpi.py", line 50, in plot_files
+    lpi_cf_name = utils.find_variable_by_long_name(data, ["Lightning Potential Index"])
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Lightning Potential Index'] found in the dataset.
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_lpi.py", line 96, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_lpi.py", line 43, in main
+    p.map(plot_files_param, dss)
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 367, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 774, in get
+    raise self._value
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_lpi.py", line 50, in plot_files
+    lpi_cf_name = utils.find_variable_by_long_name(data, ["Lightning Potential Index"])
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Lightning Potential Index'] found in the dataset.
+Running: python plot_pres_t2m_winds10m.py --projection it
+2025-07-17 16:33:28 INFO - main: Plotting t_v_pres for projection it.
+2025-07-17 16:33:28 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/U_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:33:28 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/V_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:33:28 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/T_2M/icon_2I_2025071712_heightAboveGround-2.grib
+2025-07-17 16:33:28 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/PMSL/icon_2I_2025071712_meanSea-0.grib
+2025-07-17 16:33:28 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:33:37 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:34:28 INFO - run_main_with_timing: script took 00:01:00
+Running: python plot_rh.py --projection it
+2025-07-17 16:34:31 INFO - main: Plotting rh_850 for projection it.
+2025-07-17 16:34:31 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/RELHUM/icon_2I_2025071712_isobaricInhPa-850.grib
+2025-07-17 16:34:31 INFO - get_files_levels: Loading files into xarray
+2025-07-17 16:34:38 INFO - main: Pre-processing finished, launching plotting scripts
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_rh.py", line 51, in plot_files
+    rh_cf_name = utils.find_variable_by_long_name(data, ["Relative Humidity"])
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Relative Humidity'] found in the dataset.
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_rh.py", line 105, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_rh.py", line 44, in main
+    p.map(plot_files_param, dss)
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 367, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 774, in get
+    raise self._value
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_rh.py", line 51, in plot_files
+    rh_cf_name = utils.find_variable_by_long_name(data, ["Relative Humidity"])
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Relative Humidity'] found in the dataset.
+Running: python plot_snowlmt.py --projection it
+2025-07-17 16:34:42 INFO - main: Plotting snowlmt for projection it.
+2025-07-17 16:34:42 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/SNOWLMT/icon_2I_2025071712_isothermZero-0.grib
+2025-07-17 16:34:42 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:34:55 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:35:26 INFO - run_main_with_timing: script took 00:00:43
+Running: python plot_winter.py --projection it
+2025-07-17 16:35:28 INFO - main: Plotting winter for projection it.
+2025-07-17 16:35:28 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/H_SNOW/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:35:28 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/RAIN_GSP/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:35:28 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/RAIN_CON/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:35:28 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/SNOWLMT/icon_2I_2025071712_isothermZero-0.grib
+2025-07-17 16:35:28 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:35:45 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:36:40 INFO - run_main_with_timing: script took 00:01:11
+Running: python plot_clct.py --projection it
+2025-07-17 16:36:43 INFO - main: Plotting clct for projection it.
+2025-07-17 16:36:43 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/CLCT/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:36:43 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:36:50 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:37:12 INFO - run_main_with_timing: script took 00:00:28
+Running: python plot_hsnow.py --projection it
+2025-07-17 16:37:14 INFO - main: Plotting h_snow for projection it.
+2025-07-17 16:37:14 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/H_SNOW/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:37:14 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:37:27 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:38:19 INFO - run_main_with_timing: script took 00:01:05
+Running: python plot_prec_clouds.py --projection it
+2025-07-17 16:38:23 INFO - main: Plotting prec_clouds for projection it.
+2025-07-17 16:38:23 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/RAIN_GSP/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:38:23 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/SNOW_GSP/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:38:23 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/SNOW_CON/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:38:23 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/RAIN_CON/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:38:23 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/PMSL/icon_2I_2025071712_meanSea-0.grib
+2025-07-17 16:38:23 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:38:30 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/CLCH/icon_2I_2025071712_isobaricLayer-0.grib
+2025-07-17 16:38:31 INFO - get_files_levels: Loading files into xarray
+2025-07-17 16:38:31 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/CLCL/icon_2I_2025071712_isobaricLayer-800.grib
+2025-07-17 16:38:32 INFO - get_files_levels: Loading files into xarray
+2025-07-17 16:38:41 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:39:46 INFO - run_main_with_timing: script took 00:01:22
+Running: python plot_pres_td2m_winds10m.py --projection it
+2025-07-17 16:39:50 INFO - main: Plotting td_v_pres for projection it.
+2025-07-17 16:39:50 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/U_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:39:50 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/V_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:39:50 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/PMSL/icon_2I_2025071712_meanSea-0.grib
+2025-07-17 16:39:50 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/TD_2M/icon_2I_2025071712_heightAboveGround-2.grib
+2025-07-17 16:39:50 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:39:59 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:40:49 INFO - run_main_with_timing: script took 00:00:59
+Running: python plot_sdi.py --projection it
+2025-07-17 16:40:52 INFO - main: Plotting sdi for projection it.
+2025-07-17 16:40:52 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/U_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:40:52 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/V_10M/icon_2I_2025071712_heightAboveGround-10.grib
+2025-07-17 16:40:52 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/SDI_2/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:40:52 INFO - get_files_sfc: Loading files into xarray
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_sdi.py", line 169, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_sdi.py", line 31, in main
+    sdi_cf_name = utils.find_variable_by_long_name(
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Supercell detection index 2 (only rot. updrafts)'] found in the dataset.
+Running: python plot_t2m_values.py --projection it
+2025-07-17 16:41:01 INFO - main: Plotting t_2m for projection it.
+2025-07-17 16:41:01 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/T_2M/icon_2I_2025071712_heightAboveGround-2.grib
+2025-07-17 16:41:01 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:41:08 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:46:18 INFO - run_main_with_timing: script took 00:05:16
+Running: python plot_gph_t.py --projection it
+2025-07-17 16:46:22 INFO - main: Plotting gph_t_850 for projection it.
+2025-07-17 16:46:22 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/T/icon_2I_2025071712_isobaricInhPa-850.grib
+2025-07-17 16:46:22 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/FI/icon_2I_2025071712_isobaricInhPa-850.grib
+2025-07-17 16:46:22 INFO - get_files_levels: Loading files into xarray
+2025-07-17 16:46:29 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:47:03 INFO - run_main_with_timing: script took 00:00:41
+Running: python plot_hsnow_change.py --projection it
+2025-07-17 16:47:06 INFO - main: Plotting h_snow_change for projection it.
+2025-07-17 16:47:06 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/H_SNOW/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:47:06 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:47:19 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:48:11 INFO - run_main_with_timing: script took 00:01:05
+Running: python plot_precip_acc.py --projection it
+2025-07-17 16:48:14 INFO - main: Plotting precip_acc for projection it.
+2025-07-17 16:48:14 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/TOT_PREC/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:48:14 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:48:26 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:49:29 INFO - run_main_with_timing: script took 00:01:15
+Running: python plot_pwat.py --projection it
+2025-07-17 16:49:31 INFO - main: Plotting pwat for projection it.
+2025-07-17 16:49:31 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/TQV/icon_2I_2025071712_surface-0.grib
+2025-07-17 16:49:31 INFO - get_files_sfc: Loading files into xarray
+2025-07-17 16:49:43 INFO - main: Pre-processing finished, launching plotting scripts
+2025-07-17 16:50:15 INFO - run_main_with_timing: script took 00:00:44
+Running: python plot_shear.py --projection it
+2025-07-17 16:50:18 INFO - main: Plotting shear for projection it.
+2025-07-17 16:50:18 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/WSHEAR_U/icon_2I_2025071712_heightAboveGroundLayer-6000.grib
+2025-07-17 16:50:18 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/WSHEAR_V/icon_2I_2025071712_heightAboveGroundLayer-6000.grib
+2025-07-17 16:50:18 INFO - get_files_levels: Loading files into xarray
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_shear.py", line 110, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_shear.py", line 26, in main
+    dset = utils.get_files_levels(
+  File "/var/models/icon-2i/utils.py", line 238, in get_files_levels
+    dss = xr.open_mfdataset(
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/backends/api.py", line 1663, in open_mfdataset
+    combined = combine_by_coords(
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/structure/combine.py", line 983, in combine_by_coords
+    concatenated_grouped_by_data_vars = tuple(
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/structure/combine.py", line 984, in <genexpr>
+    _combine_single_variable_hypercube(
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/structure/combine.py", line 645, in _combine_single_variable_hypercube
+    combined_ids, concat_dims = _infer_concat_order_from_coords(list(datasets))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/site-packages/xarray/structure/combine.py", line 158, in _infer_concat_order_from_coords
+    raise ValueError(
+ValueError: Could not find any dimension coordinates to use to order the datasets for concatenation
+Running: python plot_uh_max.py --projection it
+2025-07-17 16:50:25 INFO - main: Plotting uh_max for projection it
+2025-07-17 16:50:25 INFO - download_file: Fetching file https://meteohub.mistralportal.it/nwp/ICON-2I_SURFACE_PRESSURE_LEVELS/2025071712/UH_MAX/icon_2I_2025071712_heightAboveSeaLayer-2000.grib
+2025-07-17 16:50:25 INFO - get_files_levels: Loading files into xarray
+2025-07-17 16:50:32 INFO - main: Pre-processing finished, launching plotting scripts
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_uh_max.py", line 79, in plot_files
+    uh_max_cf_name = utils.find_variable_by_long_name(
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Maximum amplitude (positive or negative) of updraft helicity  (over given time interval)'] found in the dataset.
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/models/icon-2i/plot_uh_max.py", line 128, in <module>
+    utils.run_main_with_timing(main)
+  File "/var/models/icon-2i/utils.py", line 798, in run_main_with_timing
+    main_func()
+  File "/var/models/icon-2i/plot_uh_max.py", line 72, in main
+    p.map(plot_files_param, dss)
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 367, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 774, in get
+    raise self._value
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cioni/miniforge3/envs/models/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/var/models/icon-2i/plot_uh_max.py", line 79, in plot_files
+    uh_max_cf_name = utils.find_variable_by_long_name(
+  File "/var/models/icon-2i/utils.py", line 311, in find_variable_by_long_name
+    raise ValueError(f"No variable with long_name in {long_name} found in the dataset.")
+ValueError: No variable with long_name in ['Maximum amplitude (positive or negative) of updraft helicity  (over given time interval)'] found in the dataset.

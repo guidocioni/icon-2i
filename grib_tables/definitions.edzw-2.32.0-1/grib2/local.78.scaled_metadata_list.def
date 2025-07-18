@@ -1,0 +1,49 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+#
+# START 1/local use section ------------------------------------------------------
+# LOCAL DWD part for synthetic and observational radar scan
+# manually edited by sborcher
+#
+# local use section 2 of DWD (list of additional scaled metadata)
+# to be included in a local section 2
+# ---------------------------------------------
+#
+# Name                                    Octet       Description
+#
+# localNumberOfScaledMetadata             1-2         Local number of (additional) scaled metadata (NSM)
+# 
+#                                                     Repeat the following 9 octets for each scaled metadata, (i = 1, ..., ISM, ..., NSM)
+#
+# localIndexOfScaledMetadata              3+9*(i-1)
+#                                        -4+9*(i-1)   Local index of scaled metadata (ISM = 1, 2, ..., NSM)
+# localScaledMetadataTableNumber          5+9*(i-1)   Local scaled metadata table number
+# localScaledMetadataId                   6+9*(i-1)   Local scaled metadata ID (see Code table 2.[localScaledMetadataTableNumber].table)
+# localScaleFactorOfMetadata              7+9*(i-1)   Local scale factor of metadata
+# localScaledValueOfMetadata              8+9*(i-1)
+#                                        -11+9*(i-1)  Local scaled value of metadata
+#
+# There is only table number 120 for the time being:
+  constant defaultTableNumber = 120;
+######################################################################################################################
+  unsigned[2]  localNumberOfScaledMetadata = 0                           : dump;
+  alias NSM=localNumberOfScaledMetadata; 
+
+scaledMetadataList list(localNumberOfScaledMetadata) {
+
+if (localNumberOfScaledMetadata == 0 || localNumberOfScaledMetadata == 1) {
+  unsigned[2]  localIndexOfScaledMetadata = localNumberOfScaledMetadata  : dump;
+} else {
+  unsigned[2]  localIndexOfScaledMetadata = 1                            : dump;
+} 
+
+  unsigned[1]  localScaledMetadataTableNumber = defaultTableNumber       : can_be_missing, dump;
+  codetable[1] localScaledMetadataId ('2.[localScaledMetadataTableNumber:l].table',masterDir,localDir) = 255 : dump;
+  unsigned[1]  localScaleFactorOfMetadata = missing()                    : can_be_missing, dump;
+  signed[4]    localScaledValueOfMetadata = missing()                    : can_be_missing, dump;
+}
+######################################################################################################################

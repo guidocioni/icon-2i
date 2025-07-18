@@ -1,0 +1,13 @@
+# local table for SOILTYP 
+# GRIB1: ee=57, tab=202
+# GRIB2: dis=0, cat=2, par=196
+1 1  Ice  
+2 2  Rock          
+3 3  Sand
+4 4  Sandy loam
+5 5  Loam
+6 6  Clay loam 
+7 7  Clay
+8 8  Peat
+9 9  Sea water
+10 10  Sea ice

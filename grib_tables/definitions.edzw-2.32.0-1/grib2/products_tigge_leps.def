@@ -1,0 +1,38 @@
+# only include the definitions for namespaces parameter/mars and some aliases
+
+alias is_tigge = one;
+
+alias tigge_short_name=shortName;
+alias short_name=shortName;
+alias parameter=paramId;
+alias tigge_name=name;
+
+alias parameter.paramId=paramId;
+alias parameter.shortName=shortName;
+alias parameter.units=units;
+alias parameter.name=name;
+
+if(levtype is "sfc")
+{
+    unalias mars.levelist;
+}
+
+alias mars.expver = marsExpver;
+alias mars.class  = marsClass;
+alias mars.param = paramId;
+alias mars.model = marsModel;
+alias mars.origin = centre;
+
+# Tigge-LAM rules
+# productionStatusOfProcessedData == 4
+if (section2Used == 1) {
+    constant marsLamModel = 'lam';
+    alias mars.model = marsLamModel;    # model redefined. It is not 'glob'
+    alias mars.origin = tiggeSuiteID;   # origin is the suiteName for Tigge-LAM
+    unalias mars.domain;                # No mars domain needed
+}
+
+alias mars.stream = marsStream;
+alias mars.type   = marsType;
+
+

@@ -1,0 +1,398 @@
+# Copyright 2005-2016 ECMWF.
+#
+# This software is licensed under the terms of the Apache Licence Version 2.0
+# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+# 
+# In applying this licence, ECMWF does not waive the privileges and immunities granted to it by
+# virtue of its status as an intergovernmental organisation nor does it submit to any jurisdiction.
+#
+
+constant ECMWF = 98 : hidden;
+constant ECMWF_s = "ecmf" : hidden;
+constant WMO= 0;
+#dwd +2
+constant thirtytwo = 32;
+constant nine = 9;
+constant conceptsMasterDir="grib1" : hidden;
+constant conceptsLocalDirECMF="grib1/localConcepts/ecmf" : hidden;
+constant conceptsLocalDirAll="grib1/localConcepts/[centre:s]" : hidden;
+
+constant tablesMasterDir="grib1" : hidden;
+constant tablesLocalDir="grib1/local/[centre:s]" : hidden;
+
+# ECC-806: Local concepts precedence order
+if (preferLocalConcepts) {
+    constant conceptsDir1 = conceptsMasterDir : hidden;
+    constant conceptsDir2 = conceptsLocalDirAll : hidden;
+} else {
+    constant conceptsDir1 = conceptsLocalDirAll : hidden;
+    constant conceptsDir2 = conceptsMasterDir : hidden;
+}
+
+transient productionStatusOfProcessedData=0;
+position offsetSection1;
+section_length[3] section1Length ;
+meta section1Pointer section_pointer(offsetSection1,section1Length,1);
+constant wrongPadding=0;
+
+#  GRIB tables Version No.
+# (currently 3 for international exchange)
+unsigned[1] table2Version  : edition_specific,dump;
+alias gribTablesVersionNo=table2Version;
+
+
+#assert(section1Length > 5);
+
+#  Identification of originating/generating centre
+#codetable[1] centre 'grib1/0.table' : dump,string_type;
+codetable[1] centre 'common/c-1.table' : dump,string_type;
+alias identificationOfOriginatingGeneratingCentre=centre;
+meta centreDescription codetable_title(centre);
+
+alias parameter.centre=centre;
+alias originatingCentre=centre;
+alias ls.centre = centre;
+
+#dwd +2
+meta dateTimeL evaluate(date*10000 + time ) ;
+meta dateTime sprintf("%d",dateTimeL): no_copy, dump;
+
+#  Generating process identification number
+# (allocated by originating centre)
+#dwd -1,+5
+#unsigned[1] generatingProcessIdentifier : dump ;
+if (centre == 78) {
+#codetable[1] generatingProcessIdentifier 'grib1/generatingProcessIdentifier.table' : dump ;
+codetable[1] generatingProcessIdentifier ('generatingProcessIdentifier.table',tablesLocalDir,tablesMasterDir) : dump ;
+} else {
+unsigned[1] generatingProcessIdentifier : dump ;
+}
+
+alias generatingProcessIdentificationNumber=generatingProcessIdentifier;
+alias process=generatingProcessIdentifier;
+
+unsigned[1] gridDefinition = 255 : edition_specific ;
+flags[1] section1Flags 'grib1/1.table' = 128 : hidden ; # = section 2 present
+
+alias centreForTable2=centre;
+
+codetable[1] indicatorOfParameter 'grib1/2.[centreForTable2:l].[table2Version:l].table' : edition_specific,no_copy,dump;
+meta parameterName codetable_title(indicatorOfParameter);
+meta parameterUnits codetable_units(indicatorOfParameter);
+
+# Local comes before Master to give precedence to the local, centre-specific table
+codetable[1] indicatorOfTypeOfLevel ('3.table',tablesLocalDir,tablesMasterDir) : edition_specific,no_copy,dump,string_type;
+alias levelType=indicatorOfTypeOfLevel;
+
+transient pressureUnits="hPa";
+
+concept_nofail typeOfLevelECMF      (unknown,         "typeOfLevel.def",conceptsMasterDir,conceptsLocalDirECMF); 
+# to_del: concept_nofail vertical.typeOfLevel (typeOfLevelECMF, "typeOfLevel.def",conceptsMasterDir,conceptsLocalDirAll);
+concept_nofail vertical.typeOfLevel (typeOfLevelECMF, "typeOfLevel.def",conceptsDir2,conceptsDir1);
+
+when ( typeOfLevel is "isobaricInPa" ) { set pressureUnits="Pa"; }
+else { set pressureUnits="hPa";}
+
+alias ls.typeOfLevel=typeOfLevel;
+
+if ( indicatorOfTypeOfLevel == 101 or
+     indicatorOfTypeOfLevel == 104 or
+     indicatorOfTypeOfLevel == 106 or
+     indicatorOfTypeOfLevel == 108 or
+     indicatorOfTypeOfLevel == 110 or
+     indicatorOfTypeOfLevel == 112 or
+     indicatorOfTypeOfLevel == 114 or
+     indicatorOfTypeOfLevel == 116 or
+     indicatorOfTypeOfLevel == 120 or
+     indicatorOfTypeOfLevel == 121 or
+     indicatorOfTypeOfLevel == 128 or
+     indicatorOfTypeOfLevel == 141 )
+{
+    unsigned[1] topLevel : can_be_missing,dump;
+    unsigned[1] bottomLevel : can_be_missing,dump;
+    meta levels sprintf("%d-%d",topLevel,bottomLevel) : dump;
+    alias ls.levels=levels;
+
+   #orig alias vertical.level = topLevel;
+    if (centre == 78 ) {
+    alias vertical.level = bottomLevel; # DWD only, EZMW: topLevel #
+    } else {
+    alias vertical.level = topLevel;
+    }
+    alias vertical.topLevel = topLevel;
+    alias vertical.bottomLevel = bottomLevel;
+}
+else
+{
+  unsigned[2] level : can_be_missing,dump;
+  if (indicatorOfTypeOfLevel == 210) {
+    meta marsLevel scale(level,oneConstant,hundred) : read_only;
+	alias mars.levelist = marsLevel;
+  } 
+  alias vertical.level=level;
+  alias vertical.topLevel    = level;
+  alias vertical.bottomLevel = level;
+  alias ls.level=level;
+  alias lev=level;
+
+}
+
+if(	indicatorOfTypeOfLevel == 109 ||
+	indicatorOfTypeOfLevel == 100 ||
+	indicatorOfTypeOfLevel == 110 ||
+	indicatorOfTypeOfLevel == 113 ||
+	indicatorOfTypeOfLevel == 117)
+{
+	  alias mars.levelist = level;
+}
+# mit 2.30.2 nicht mehr in definitions ecmwf vorhanden, auskommentiert AT, 15.06.2023
+# Aus Version 2.29.0 ezmwf-definitions uebernommen
+# if (indicatorOfTypeOfLevel == 117) {
+#     # See ECC-1081
+#     constant levelFactor = 6;
+# }
+
+unsigned[1] yearOfCentury : edition_specific ;
+unsigned[1] month  ;
+unsigned[1] day ;
+unsigned[1] hour  ;
+unsigned[1] minute  ;
+transient second = 0;
+
+codetable[1] unitOfTimeRange 'grib1/4.table' = 1 : edition_specific;
+alias unitOfTime=unitOfTimeRange;
+alias indicatorOfUnitOfTimeRange=unitOfTimeRange;
+
+unsigned[1] P1 : edition_specific;
+
+unsigned[1] P2 : edition_specific;
+
+# Local comes before Master to give precedence to the local, centre-specific table
+codetable[1] timeRangeIndicator ('5.table',tablesLocalDir,tablesMasterDir) = 1 : dump,edition_specific; 
+
+unsigned[2] numberIncludedInAverage;
+
+# mit 2.30.0 nicht mehr in definitions ezmw vorhanden, auskommentiert IK, 17.04.2023
+# meta mybits bits(numberIncludedInAverage,0,12);
+
+unsigned[1] numberMissingFromAveragesOrAccumulations;
+unsigned[1] centuryOfReferenceTimeOfData ;
+
+codetable[1] subCentre 'grib1/0.[centre].table' : dump;
+
+if(table2Version >= 128) {
+  _if (centre != 98 && subCentre == 98) {
+    alias centreForTable2 = subCentre;
+} else {
+    alias centreForTable2 = centre;
+}
+} else {
+  alias centreForTable2 = WMO;
+}
+
+#if ( subCentre == 98 ) {
+#  alias conceptsLocalDir=conceptsLocalDirECMF;
+#} else {
+#  alias conceptsLocalDir=conceptsLocalDirAll;
+#}
+
+concept paramIdECMF (defaultParameter,"paramId.def",conceptsMasterDir,conceptsLocalDirECMF): no_copy;
+concept paramId (paramIdECMF,"paramId.def",conceptsDir2,conceptsDir1): long_type,dump;
+# transient pid = paramId : hidden;
+
+concept cfNameECMF(defaultName,"cfName.def",conceptsMasterDir,conceptsLocalDirECMF) : no_copy,read_only;
+concept cfName(cfNameECMF,"cfName.def",conceptsDir2,conceptsDir1) : dump,no_copy,read_only;
+
+concept cfVarNameECMF(defaultName,"cfVarName.def",conceptsMasterDir,conceptsLocalDirECMF) : no_copy,read_only;
+concept cfVarName(cfVarNameECMF,"cfVarName.def",conceptsDir2,conceptsDir1) : dump,no_copy,read_only;
+
+concept unitsECMF(defaultName,"units.def",conceptsMasterDir,conceptsLocalDirECMF) : no_copy,read_only;
+concept units(unitsECMF,"units.def",conceptsDir2,conceptsDir1) : dump,no_copy,read_only;
+
+concept nameECMF(defaultName,"name.def",conceptsMasterDir,conceptsLocalDirECMF) : no_copy,read_only;
+concept name(nameECMF,"name.def",conceptsDir2,conceptsDir1) : dump,no_copy,read_only;
+
+signed[2] decimalScaleFactor :dump;
+transient setLocalDefinition= 0 : no_copy;
+
+# Try different values of binaryScaleFactor and decimalScaleFactor to reduce packing error
+transient optimizeScaleFactor = 0;
+
+meta      dataDate            g1date(centuryOfReferenceTimeOfData,yearOfCentury,month,day) : dump;
+meta      year                evaluate(dataDate / 10000) ;
+
+meta dataTime   time(hour,minute,second) : dump;
+meta julianDay  julian_day(dataDate,hour,minute,second) : edition_specific;
+
+codetable[1] stepUnits 'stepUnits.table' = 1 : transient,dump,no_copy;
+
+# to_del: concept_nofail stepType (timeRangeIndicator, "stepType.def", conceptsMasterDir, conceptsLocalDirAll);
+concept_nofail stepType (timeRangeIndicator, "stepType.def", conceptsDir2, conceptsDir1);
+
+#alias stepTypeInternal=stepType;
+#alias lengthOfTimeRange=numberIncludedInAverage;
+#alias indicatorOfUnitForTimeRange=unitOfTimeRange;
+#alias indicatorOfUnitForTimeIncrement=zero;
+#alias timeIncrement=zero;
+
+#if (timeRangeIndicator==113) {
+#	alias lengthOfTimeRange=numberIncludedInAverage;
+#	alias indicatorOfUnitForTimeRange=unitOfTimeRange;
+#	alias indicatorOfUnitForTimeIncrement=unitOfTimeRange;
+#	alias timeIncrement=P2;
+#	alias forecastTime=P1;
+#}
+
+#if (stepType is "accum") {
+#		transient accumulationRange=P2-P1;
+#		alias lengthOfTimeRange=accumulationRange;
+#		alias forecastTime=P1;
+#		alias indicatorOfUnitForTimeRange=unitOfTimeRange;
+#}
+
+#conversion 1->2
+_if (stepType is "instant" ) {
+  alias productDefinitionTemplateNumber=zero;
+} else {
+  alias productDefinitionTemplateNumber=eight;
+}
+
+meta stepRange g1step_range(P1,P2,timeRangeIndicator,unitOfTimeRange,stepUnits,stepType) : dump;
+meta startStep long_vector(stepRange,0) : dump,no_copy;
+meta endStep   long_vector(stepRange,1) : dump,no_copy;
+meta stepHumanReadable step_human_readable(stepUnits, stepRange): hidden,no_copy;
+
+alias stepInHours = endStep;
+alias ls.stepRange = stepRange;
+alias ls.dataDate  = dataDate;
+
+alias mars.step    = endStep;
+alias mars.date    = dataDate;
+alias mars.levtype = indicatorOfTypeOfLevel;
+alias mars.time    = dataTime;
+#alias mars.param   = paramId;
+meta marsParam mars_param(paramId,gribTablesVersionNo,indicatorOfParameter): read_only,dump;
+alias mars.param  = marsParam;
+
+# GRIB-860: JRA55 rule for MARS.
+# subCentre of 241 means Japanese Reanalysis Project
+if (centre == 34 && subCentre == 241)
+{
+   alias mars.param = paramId;
+
+   if (indicatorOfTypeOfLevel == 101) {
+      # See ECC-467
+      constant sfc_levtype = "sfc";
+      alias mars.levtype = sfc_levtype;
+   }
+}
+
+meta time.validityDate validity_date(dataDate,dataTime,step,stepUnits);
+meta time.validityTime validity_time(dataDate,dataTime,step,stepUnits);
+# ab Version 2.32.0 hinzugefuegt
+meta validityDateTime julian_date(validityDate, validityTime) : no_copy;
+
+transient deleteLocalDefinition=0;
+
+if(((section1Length > 40) or new() or setLocalDefinition> 0) and deleteLocalDefinition==0)
+{
+  constant localUsePresent = 1 : edition_specific;
+  alias grib2LocalSectionPresent=present;
+  
+  if( (centre == ECMWF) or
+      (centre != ECMWF and
+        subCentre == ECMWF))
+  {
+    pad reservedNeedNotBePresent(12);
+#orig    codetable[1] localDefinitionNumber 'grib1/localDefinitionNumber.98.table' = 1 : dump;
+         codetable[1] localDefinitionNumber 'grib1/localDefinitionNumber.98-78.table' = 1 : dump;
+    # handling of ecmf files with DWD local section
+    if ( localDefinitionNumber != 254 ) {
+    template_nofail  localDefinition  "grib1/local.98.[localDefinitionNumber:l].def";
+    if (changed(localDefinitionNumber)) {
+      if(!new() && localDefinitionNumber!=4 ) {
+         section_padding localExtensionPadding : read_only;
+      }
+    }
+
+	#change_dwd grib1 --> grib
+	template_nofail marsKeywords "mars/grib.[stream:s].[type:s].def";
+	#template marsKeywords "mars/grib1.[stream:s].[type:s].def";
+
+    } else {
+      template  localDefinition  "grib1/local.98-78.254.def";
+      meta localDecodeDate sprintf("%d",localDecodeDateL): no_copy, dump;
+      alias localCreationDate = localDecodeDate;
+
+    }
+
+  }
+  else
+  { 
+	if ( !new() || setLocalDefinition ) {
+		# Other centres
+		pad reservedNeedNotBePresent(12);
+		template_nofail  localDefinition  "grib1/local.[centre:l].def";
+    
+		section_padding localExtensionPadding : read_only;
+	}
+  }
+
+  if(originatingCentre == 78) {
+#DWD changes for 98 without localDecodeDateL
+    if ( subCentre == 98 && localDefinitionNumber == 1) {
+# add  dummy line
+      alias ls.centre = centre; 
+    } else {
+      meta localDecodeDate sprintf("%d",localDecodeDateL): no_copy, dump;
+      alias localCreationDate = localDecodeDate;
+    }
+  }
+}
+else
+{
+   constant localUsePresent  = 0 : edition_specific;
+   #   template defaultMarsLabeling "mars/default_labeling.def";
+}
+
+section_padding section1Padding : read_only;
+
+#if (!wrongPadding) {
+#  padtoeven evenpadding_sec1(offsetSection1,section1Length);
+#}
+
+concept shortNameECMF (defaultShortName,"shortName.def",conceptsMasterDir,conceptsLocalDirECMF) : no_copy;
+# to_del: concept ls.shortName (shortNameECMF,"shortName.def",conceptsMasterDir,conceptsLocalDirAll) : no_copy,dump;
+concept ls.shortName (shortNameECMF,"shortName.def",conceptsDir2,conceptsDir1) : no_copy,dump;
+meta ifsParam ifs_param(paramId,type);
+
+alias parameter.paramId=paramId;
+alias parameter.shortName=shortName;
+alias parameter.units=units;
+alias parameter.name=name;
+
+alias parameter=paramId;
+alias short_name=shortName;
+
+alias time.stepRange=stepRange;
+alias time.stepUnits=stepUnits;
+alias time.dataDate=dataDate;
+alias time.dataTime=dataTime;
+alias time.startStep=startStep;
+alias time.endStep=endStep;
+alias time.stepType=stepType;
+
+# ECC-457: GRIB1 to GRIB2 conversion
+concept_nofail stepTypeForConversion (unknown, "stepTypeForConversion.def", conceptsDir2, conceptsDir1);
+if (stepTypeForConversion is "accum" ) {
+    if (productDefinitionTemplateNumber == 1) {
+        alias productDefinitionTemplateNumber=eleven;
+    }
+    else {
+        alias productDefinitionTemplateNumber=eight;
+    }
+}
+
+meta md5Section1 md5(offsetSection1,section1Length);
+# md5(start,length,blacklisted1,blacklisted2,...);
+meta md5Product md5(offsetSection1,section1Length,gridDefinition,section1Flags,decimalScaleFactor);

@@ -1,0 +1,55 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+# START 1/local.78.254 ----------------------------------------------------------------------
+# LOCAL 78 254
+#
+# localDefinitionTemplate_254
+# ---------------------------
+#
+# Description            Octet    Code    Ksec1    Count
+# -----------            -----    ----    -----    -----
+#localDefinitionNumber       41  I1  37  -
+#dummy                       42  I1  38  -
+#dummy                       43  I1  39  -
+#dummy                       44  I1  40  -
+#dummy                       46  I1  41  -
+#localElementNumber          47  I1  42  -
+#localDecodeDate             48  I5  43  -
+#localVersionNumber          53  I2  44  -
+#
+
+pad padding_78_254(5);
+unsigned[1] localElementNumber : dump ;
+unsigned[1] localDecodeDateYear = yearOfCentury ;
+unsigned[1] localDecodeDateMonth = month  ;
+unsigned[1] localDecodeDateDay = day  ;
+unsigned[1] localDecodeDateHour = hour ;
+unsigned[1] localDecodeDateMinute = minute ;
+unsigned[2] localVersionNumber : dump ;
+
+constant localDecodeDateSecond = 0;
+
+if ( localDecodeDateYear < 60 ) {
+ transient century = 20;
+ transient jahr = localDecodeDateYear;
+} 
+else {
+ transient century = 19;
+ transient jahr = localDecodeDateYear ;
+} 
+
+#  accuracy second
+meta localDecodeDateL evaluate(century*1000000000000 + jahr*10000000000 + localDecodeDateMonth*100000000 + localDecodeDateDay*1000000 + localDecodeDateHour*10000 + localDecodeDateMinute*100);
+
+alias localInformationNumber = localElementNumber;
+alias localCreationDateYear  = localDecodeDateYear;
+alias localCreationDateMonth = localDecodeDateMonth ;
+alias localCreationDateDay   = localDecodeDateDay;
+alias localCreationDateHour  = localDecodeDateHour;
+alias localCreationDateMinute = localDecodeDateMinute;
+alias localCreationDateSecond = localDecodeDateSecond;

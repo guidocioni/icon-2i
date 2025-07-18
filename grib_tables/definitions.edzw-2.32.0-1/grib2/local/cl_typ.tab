@@ -1,0 +1,26 @@
+#Kombination Niederschlag-Bewoelkung-Blauthermik, Tripel 0/19/194
+#1.Spalte: Symbolnummer einer GKS-Symboltabelle:A-Z,0-9,Zentralsymbole,Windfahnen,ww,Erdbodenzustand,Wolkenklassen
+283 ww51,53,55 Sprühregen
+289 ww56,57 gefr.Sprühregen
+293 ww61 leichter Regen
+296 ww63 maessiger Regen
+298 ww65 starker Regen
+299 ww66 leichter gefr.Regen
+300 ww67 starker gefr. Regen
+303 ww71 leichter Schneefall
+306 ww73 maessiger Schneefall
+308 ww75 starker Schneefall
+309 ww77 Schneegriesel
+313 ww80 leichter Regenschauer
+314 ww81 maessiger Regenschauer
+315 ww82 starker Regenschauer
+318 ww85 leichter Schneeschauer
+319 ww86 starker Schneeschauer
+328 ww95 Gewitter mit Regel
+329 ww96 Gewitter mit Hagel
+368 Cu,hum Cumulus humilis
+370 Cu,con Cumulus congestus
+373 St Stratus
+376 Cb
+380 Ac,Cc Alto-,Cirrocumulus
+407 b Blauthermik

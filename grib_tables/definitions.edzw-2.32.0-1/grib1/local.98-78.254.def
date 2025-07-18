@@ -1,0 +1,133 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+# START 1/local.78.254 ----------------------------------------------------------------------
+# LOCAL 78 254
+#
+# localDefinitionTemplate_254
+# ---------------------------
+#
+# Description            Octet    Code    Ksec1    Count
+# -----------            -----    ----    -----    -----
+#localDefinitionNumber       41  I1  37  -
+#dummy                       42  I1  38  -
+#dummy                       43  I1  39  -
+#dummy                       44  I2  40  -
+#dummy                       46  I1  41  -
+#localElementNumber          47  I1  42  -
+#localDecodeDate             48  I5  43  -
+#localVersionNumber          53  I2  44  -
+#
+
+# Variante 1: lokaler DWD-Teil in Feld von center 98 OHNE Lokalteil von 98
+# Bsp. ab Byte40: PDS10= ... 254 0 195 100 106 1 0 10 5 10 8 21 0 0 
+pad padding_78_254(5);
+unsigned[1] localElementNumber : dump ;
+unsigned[1] localDecodeDateYear = yearOfCentury ;
+unsigned[1] localDecodeDateMonth = month  ;
+unsigned[1] localDecodeDateDay = day  ;
+unsigned[1] localDecodeDateHour = hour ;
+unsigned[1] localDecodeDateMinute = minute ;
+unsigned[2] localVersionNumber : dump ;
+
+# Variante 1: lokaler DWD-Teil in Feld von center 98 MIT deren Lokalteil Nr.1,2 oder 30
+# Bsp. ab Byte40: PDS10= ...254 0 195 100 106 1 0 10 5 10 8 21 0 0 30 1 17 4 11 48 48 48 49 0 51 0 0 0 0 1 50 181 158 0 0 1 0 0 0 0 0...
+if (section1Length > 54) {
+ unsigned[1] localDefinitionNumberEZMW : dump;
+ 
+ if (localDefinitionNumberEZMW == 30) {
+ unsigned[1] perturbationNumber  : dump;
+ unsigned[1] numberOfForecastsInEnsemble  : dump;
+ unsigned[1] oceanAtmosphereCoupling : dump;
+ #pad padding_loc30_1(3); auf 4 geaendert, um referenceDate korrekt anzuzeigen
+ pad padding_loc30_1(4);
+ unsigned[4] legBaseDate  : dump ;
+ unsigned[2] legBaseTime : dump ;
+ unsigned[1] legNumber : dump ;
+ unsigned[4] referenceDate  : dump ;
+ unsigned[4] climateDateFrom  : dump ;
+ unsigned[4] climateDateTo  : dump;
+ alias local.oceanAtmosphereCoupling=oceanAtmosphereCoupling;
+ alias local.legBaseDate=legBaseDate ;
+ alias local.legBaseTime=legBaseTime ;
+ alias local.legNumber=legNumber ;
+ alias local.referenceDate=referenceDate ;
+ alias local.climateDateFrom=climateDateFrom ;
+ alias local.climateDateTo=climateDateTo;
+ #include "grib1/local.98.30.def";
+ }
+ 
+ if (localDefinitionNumberEZMW == 2) {
+ template mars_labeling "grib1/mars_labeling.def";
+ unsigned[1] clusterNumber  : dump;
+ unsigned[1] totalNumberOfClusters  : dump;
+ # spareSetToZero
+ pad padding_loc2_1(1);
+ unsigned[1] clusteringMethod  : dump;
+ unsigned[2] startTimeStep  : dump;
+ unsigned[2] endTimeStep  : dump;
+ signed[3] northernLatitudeOfDomain  : dump;
+ signed[3] westernLongitudeOfDomain  : dump;
+ signed[3] southernLatitudeOfDomain  : dump;
+ signed[3] easternLongitudeOfDomain  : dump;
+ unsigned[1] operationalForecastCluster  : dump;
+ unsigned[1] controlForecastCluster  : dump;
+ unsigned[1] numberOfForecastsInCluster  : dump;
+ unsigned[1] ensembleForecastNumbers[numberOfForecastsInCluster] : dump;
+ }
+
+ if (localDefinitionNumberEZMW == 1) { 
+ template mars_labeling "grib1/mars_labeling.def";
+ constant epsPoint=1 : hidden;
+ constant epsContinous=11 :hidden;
+ 
+ #1->2
+ alias grib2LocalSectionPresent=present;
+ constant grib2LocalSectionNumber=1;
+ 
+ if (stepType is "instant" ) {
+   if (marsType != 2 && marsType != 9) {
+     alias productDefinitionTemplateNumber=epsPoint;
+   }
+ } else {
+   if (marsType != 2 && marsType != 9) {
+     alias productDefinitionTemplateNumber=epsContinous;
+   }
+ }
+ 
+ unsigned[1] perturbationNumber           : dump;
+ if(perturbationNumber != 0)
+ {
+   alias number = perturbationNumber;
+ }
+ 
+ unsigned[1] numberOfForecastsInEnsemble  : dump;
+ pad padding_local1_1(1);
+ }
+ 
+}
+constant localDecodeDateSecond = 0;
+
+if ( localDecodeDateYear < 60 ) {
+ transient century = 20;
+ transient jahr = localDecodeDateYear;
+} 
+else {
+ transient century = 19;
+ transient jahr = localDecodeDateYear ;
+} 
+
+#  accuracy second
+meta localDecodeDateL evaluate(century*1000000000000 + jahr*10000000000 + localDecodeDateMonth*100000000 + localDecodeDateDay*1000000 + localDecodeDateHour*10000 + localDecodeDateMinute*100);
+
+alias localInformationNumber = localElementNumber;
+alias localCreationDateYear  = localDecodeDateYear;
+alias localCreationDateMonth = localDecodeDateMonth ;
+alias localCreationDateDay   = localDecodeDateDay;
+alias localCreationDateHour  = localDecodeDateHour;
+alias localCreationDateMinute = localDecodeDateMinute;
+alias localCreationDateSecond = localDecodeDateSecond;

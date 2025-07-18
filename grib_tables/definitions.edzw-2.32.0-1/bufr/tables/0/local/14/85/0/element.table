@@ -1,0 +1,381 @@
+#code|abbreviation|type|name|unit|scale|reference|width|crex_unit|crex_scale|crex_width
+001192|indicateurDesComposites|table|Indicateur des composites|Code table|0|0|8
+001193|tableDesIdentificateursDesDonneesCombinees|table|Table des identificateurs des donnees combinees|Code table|0|0|8
+001194|carrierBalloonOrDropTemp|string|CARRIER BALLOON/DROP TEMP|CCITT IA5|0|0|72
+001195|mobilLandStationIdentifier|string|MOBIL LAND STATION IDENTIFIER|CCITT IA5|0|0|72
+001196|numeroDeDepartement|long|NUMERO DE DEPARTEMENT|Numeric|0|0|8
+001197|numeroDeCommuneEtNumeroDeStationDansLaCommune|long|NUMERO DE COMMUNE ET NUMERO DE STATION DANS LA COMMUNE|Numeric|0|0|21
+001198|typeDeSpemet|table|TYPE DE SPEMET|Code table|0|0|2
+001199|objetPrincipalDuSpemet|table|OBJET PRINCIPAL DU SPEMET|Code table|0|0|4
+001200|wmoRegionSubArea|long|Wmo region sub-area|Numeric|0|0|4
+001201|identifiantDeMassifMontagneux|long|Identifiant de massif montagneux|Numeric|0|0|7
+001202|numeroDeDepartementElargi|long|Numero de departement elargi|Numeric|0|0|10
+001208|xVelocityFromEarthCentreInDirection0Est|double|X-velocity from earth's centre in direction 0 est|m/s|5|-1073741824|31
+001209|yVelocityFromEarthCentreInDirection90Est|double|Y-velocity from earth's centre in direction 90 est|m/s|5|-1073741824|31
+001210|zVelocityFromEarthCentreInDirectionNorthPole|double|Z-velocity from earth's centre in direction north pole|m/s|5|-1073741824|31
+001220|identificationMarkOfACloudSystemFormatYyyymmddhhmm_tb_lat_lonOr``first''|string|Identification mark of a cloud system ( format YYYYMMDDhhmm_Tb_lat_lon or ``FIRST'')|CCITT IA5|0|0|248
+001221|modeleDeReferenceReferenceProducteur|string|Modele de reference - reference producteur|CCITT IA5|0|0|104
+001222|numeroIdentificationObjet|long|Numero identification objet|Numeric|0|0|16
+001223|identificateurDesCartesDeRisquePluviometrique|table|Identificateur des cartes de risque pluviometrique|Code table|0|0|3
+002192|sarAzimuthAngle|long|SAR azimuth angle|deg|0|0|9
+002193|typeDeCalculateur|table|Type de calculateur|Code table|0|0|8
+002194|indicateurDuDernierEtalonnage|table|Indicateur du dernier etalonnage|Code table|0|0|8
+002195|frequenceDuDernierEtalonnage|double|Frequence du dernier etalonnage|Hz|-6|0|16
+002196|reglageBasDuDernierEtalonnage|long|Reglage bas du dernier etalonnage|Numeric|0|0|16
+002197|reglageHautDuDernierEtalonnage|long|Reglage haut du dernier etalonnage|Numeric|0|0|16
+002198|indicateurD'arretOuDePanne|table|Indicateur d'arret ou de panne|Code table|0|0|8
+002199|constanteRadar|double|Constante radar|dB|1|-1000|16
+002200|indicateurDeFonctionnementDeLEliminateurEchosFixes|table|Indicateur de fonctionnement de l eliminateur echos fixes|Code table|0|0|2
+002201|indicatorForMethodOfCalculationOfSpectralData|table|INDICATOR FOR METHOD OF CALCULATION OF SPECTRAL DATA|Code table|0|0|4
+002202|indicatorForTypeOfPlatform|table|INDICATOR FOR TYPE OF PLATFORM|Code table|0|0|3
+002203|waveMeasurementInstrumentation|table|WAVE MEASUREMENT INSTRUMENTATION|Code table|0|0|2
+002204|indicateurDesUnitesDeVitesseDuVentEtDuTypeD'instrumentsUtilises|table|INDICATEUR DES UNITES DE VITESSE DU VENT ET DU TYPE D'INSTRUMENTS UTILISES|Code table|0|0|3
+002205|typeDeRadar|table|TYPE DE RADAR|Code table|0|0|8
+002206|indicateurDePositionnementEnSiteInhibe|table|Indicateur de positionnement en site inhibe|Code table|0|0|2
+002207|sensDeBalayageEnAzimut|table|Sens de balayage en azimut|Code table|0|0|2
+002210|typeDeSitePourLesSynor|long|TYPE DE SITE (pour les SYNOR)|Numeric|0|0|6
+002211|tempsDeBonFonctionnementDeLaStation|long|TEMPS DE BON FONCTIONNEMENT DE LA STATION|h|0|0|8
+002212|tempsDeBonFonctionnementDeLaStation|long|TEMPS DE BON FONCTIONNEMENT DE LA STATION|min|0|0|8
+002213|precisionDeMesureDeTemperaTureAmdar|long|PRECISION DE MESURE DE TEMPERA TURE AMDAR|K|0|0|2
+002214|renseignementsSurL'etatDeFonctionnementDeLaBouee|long|RENSEIGNEMENTS SUR L'ETAT DE FONCTIONNEMENT DE LA BOUEE|Numeric|0|0|14
+002215|indicateurDuTypeD'ancreFlotTante|table|INDICATEUR DU TYPE D'ANCRE FLOT TANTE|Code table|0|0|1
+002216|resolutionDuPluviometre|double|Resolution du pluviometre|m|4|0|3
+004192|periodeALaquelleSeRapporteLaValeurSuivante|long|PERIODE A LAQUELLE SE RAPPORTE LA VALEUR SUIVANTE|min|0|0|8
+004193|heureEffectiveDuLancementDeLaRadiosonde|long|HEURE EFFECTIVE DU LANCEMENT DE LA RADIOSONDE|h|0|0|5
+004194|minutesEffectivesDuLancementDeLaRadiosonde|long|MINUTES EFFECTIVES DU LANCEMENT DE LA RADIOSONDE|min|0|0|6
+004195|nombreD'heuresEcouleesEntreL'heureD'observationGgggEtL'heureALaquelleSeRefereLaDernierePosition|long|NOMBRE D'HEURES ECOULEES ENTRE L'HEURE D'OBSERVATION GGgg ET L'HEURE A LAQUELLE SE REFERE LA DERNIERE POSITION|h|0|0|4
+004196|dureeDesPhenomenes|table|Duree des phenomenes|Code table|0|0|7
+004197|periodeDeReferencePourLesCumulsEtExtremums|long|Periode de reference pour les cumuls et extremums|min|0|-1440|12
+004198|dureePendantLaquelleL'humiditeEst=80|long|Duree pendant laquelle l'humidite est >= 80%|min|0|0|11
+004199|dureePendantLaquelleL'humiditeEst=40|long|Duree pendant laquelle l'humidite est <= 40%|min|0|0|11
+004200|dureeDeGelSousAbri|long|Duree de gel sous abri|min|0|0|11
+004201|periodeD'observation|table|Periode d'observation|Code table|0|0|3
+004202|borneInferieureD'intervalleDeDureeDeRetour|long|Borne inferieure d'intervalle de duree de retour|a|0|0|8
+004204|dureeDeCumulEffectiveHorsDonneesManquantes|long|Duree de cumul effective hors donnees manquantes|min|0|-4320|16
+005192|distanceOuestEstDuCoinNordOuestDeL'imageAuRadar|long|Distance Ouest-Est du coin Nord-Ouest de l'image au radar|m|0|-1024000|24
+005193|distanceWESurLePlanDeProjectionDuCoinNwDeL'image|long|Distance w-e sur le plan de projection du coin nw de l'image|m|0|-1024000|24
+005194|indicateurDuCentreDeProjection|table|Indicateur du centre de projection|Code table|0|0|8
+005195|latitudeDeReference|double|Latitude de reference|deg|5|-9000000|25
+005196|incrementDeL'azimutEntreChaqueTirDeL'imagePolaire|double|Increment de l'azimut entre chaque tir de l'image polaire|deg|2|0|10
+005197|incrementDeL'azimutEntreChaqueTirDeL'imagePolaireAvantInterpolation|double|Increment de l'azimut entre chaque tir de l'image polaire avant interpolation|deg|2|0|10
+005217|xLocationFromEarthCentreInDirection0Est|double|X-location from earth's centre in direction 0 Est|m|2|-1073741824|31
+005232|directionSpectral|long|Direction (spectral)|deg|0|0|12
+006192|distanceNordSudDuCoinNordOuestDeL'imageAuRadar|long|Distance Nord-Sud du coin Nord-Ouest de l'image au radar|m|0|-1024000|24
+006193|distanceDApplicationDeLaCorrectionEn1OrR2|double|Distance d application de la correction en 1/r2|m|-3|0|16
+006194|porteeDeDebutDeTraitementD'unSite|double|Portee de debut de traitement d'un site|m|-3|0|16
+006195|porteeDeFinDeTraitementD'unSite|double|Portee de fin de traitement d'un site|m|-3|0|16
+006196|distanceObliqueMaximalD'utilisationDesDonnees|double|Distance oblique maximal d'utilisation des donnees|m|-3|0|16
+006197|distanceNsSurLePlanDeProjectionDuCoinNwDeL'image|long|Distance NS sur le plan de projection du coin NW de l'image|m|0|-1024000|24
+006198|longitudeDuMeridienParalleleAL'axeDesY|double|Longitude du meridien parallele a l'axe des Y|deg|5|-18000000|26
+006199|porteeHydrologiqueUtile|double|Portee hydrologique utile|m|-3|0|10
+006217|yLocationFromEarthCentreInDirection90Est|double|Y-location from earth's centre in direction 90 est|m|2|-1073741824|31
+006232|wavenumberSpectral|double|Wavenumber (spectral)|rad/m|5|0|13
+007192|hauteurAuDessusDuSol|double|HAUTEUR AU DESSUS DU SOL|m|2|0|15
+007193|brightnessTemperature|double|Brightness temperature|K|1|0|12
+007217|zLocationFromEarthCentreInDirectionNorthPole|double|Z-location from earth's centre in direction north pole|m|2|-1073741824|31
+008192|indicateurDeChangementD'unePrevisionDeTypeTendanceOuD'unePrevisionD'aerodrome|table|Indicateur de changement d'une prevision de type tendance ou d'une prevision d'aerodrome|Code table|0|0|4
+008193|phaseOfLifeCycleOfCloudSystem|table|Phase of the life cycle of the cloud system|Code table|0|0|5
+008194|caracteristiqueDeL'alerte|flag|Caracteristique de l'alerte|Flag table|0|0|23
+008195|caracteristiqueDeLaDonneeQuiSuit|table|Caracteristique de la donnee qui suit|Code table|0|0|2
+008200|natureConvectiveOrNotOfCloudSystem|table|Nature (convective or not) of the cloud system|Code table|0|0|2
+008201|qualitativeValue|table|Qualitative value|Code table|0|0|3
+008202|typeDePrevision|table|type de prevision|Code table|0|0|5
+008203|caracteristiqueTemporelleMf|table|Caracteristique temporelle MF|Code table|0|0|5
+008204|caracteristiqueMeteorologiqueMf|table|Caracteristique meteorologique MF|Code table|0|0|5
+008205|natureObjetNuage|table|Nature objet nuage|Code table|0|0|3
+008210|quantileRetenuAuSeinD'unVoisinage|long|Quantile retenu au sein d'un voisinage|%|0|0|7
+010192|pressionMinimumReduiteAuNiveauDeLaMer|double|Pression minimum reduite au niveau de la mer|Pa|-1|0|14
+010193|pressionMaximumReduiteAuNiveauDeLaMer|double|Pression maximum reduite au niveau de la mer|Pa|-1|0|14
+011195|forceMaxiDuVentPendantW1w2|long|FORCE MAXI DU VENT PENDANT W1W2|-|0|0|4
+011196|directionD'ouSouffleLeVentEnAltitude|long|DIRECTION D'OU SOUFFLE LE VENT EN ALTITUDE|degree true|0|0|9
+011197|vitesseDuVentEnAltitude|double|VITESSE DU VENT EN ALTITUDE|m/s|1|0|12
+011198|directionDuVentMaximalInstantane|long|Direction du vent maximal instantane|deg|0|0|9
+011199|vitesseDuVentMaximalInstantane|double|Vitesse du vent maximal instantane|m/s|1|0|12
+011200|directionAssocieeALaVitesseQuiSuit|long|Direction associee a la vitesse qui suit|deg|0|0|9
+011201|vitesseMaximaleDuVentInstantaneSur10mn|double|Vitesse maximale du vent instantane sur 10mn|m/s|1|0|12
+011202|vitesseMaximaleDuVentInstantaneSur24Heures|double|Vitesse maximale du vent instantane sur 24 heures|m/s|1|0|12
+011203|vitesseDuVentA2m|double|Vitesse du vent a 2m|m/s|1|0|12
+012192|temperatureOrDryBulbTemperature|double|Temperature/dry-bulb temperature|K|2|0|16
+012193|wetBulbTemperature|double|Wet-bulb temperature|K|2|0|16
+012194|dewPointTemperature|double|Dew-point temperature|K|2|0|16
+012195|dryBulbTemperatureAt2m|double|Dry-bulb temperature at 2m|K|2|0|16
+012196|wetBulbTemperatureAt2m|double|Wet-bulb temperature at 2m|K|2|0|16
+012197|dewPointTemperatureAt2m|double|Dew-point temperature at 2m|K|2|0|16
+012198|virtualTemperature|double|Virtual temperature|K|2|0|16
+012202|maximumTemperatureAtHeightAndOverPeriodSpecified|double|Maximum temperature,at height and over period specified|K|2|0|16
+012203|minimumTemperatureAtHeightAndOverPeriodSpecified|double|Minimum temperature,at height and over period specified|K|2|0|15
+012204|groundMinimumTemperaturePast12Hours|double|Ground minimum temperature, past 12 hours|K|2|0|15
+012205|maximumTemperatureAt2mPast12Hours|double|Maximum temperature at 2m, past 12 hours|K|2|0|16
+012206|minimumTemperatureAt2mPast12Hours|double|Minimum temperature at 2m, past 12 hours|K|2|0|15
+012207|maximumTemperatureAt2mPast24Hours|double|Maximum temperature at 2m, past 24 hours|K|2|0|16
+012208|minimumTemperatureAt2mPast24Hours|double|Minimum temperature at 2m, past 24 hours|K|2|0|15
+012209|temperatureNonSpecifieeVoie1|double|Temperature non specifiee (voie 1)|K|2|0|16
+012210|temperatureNonSpecifieeVoie2|double|Temperature non specifiee (voie 2)|K|2|0|16
+012221|minimumSoilTemperature|double|Minimum soil temperature|K|2|0|16
+012222|temperatureDeLaSurfaceDeLaNeige|double|TEMPERATURE DE LA SURFACE DE LA NEIGE|K|2|0|15
+012223|temperatureDeL'airMaximale|double|Temperature de l'air maximale|K|2|0|16
+012224|temperatureDeL'airMinimale|double|Temperature de l'air minimale|K|2|0|16
+012225|temperatureDeL'airA10cm|double|Temperature de l'air a -10cm|K|2|0|16
+012226|temperatureDeL'airA20cm|double|Temperature de l'air a -20cm|K|2|0|16
+012227|temperatureDeL'airA50cm|double|Temperature de l'air a -50cm|K|2|0|16
+012228|temperatureDeL'airA100cm|double|Temperature de l'air a -100cm|K|2|0|16
+012229|temperatureMinimaleA50cm|double|Temperature minimale a 50cm|K|2|0|16
+012230|temperatureMinimaleA10cm|double|Temperature minimale a 10cm|K|2|0|16
+012231|largeurDeL'intervalleTmin|double|Largeur de l'intervalle Tmin|Numeric|1|0|9
+012232|largeurDeL'intervalleTmax|double|Largeur de l'intervalle Tmax|Numeric|1|0|9
+012250|coolingRateOfCloudSystem|double|Cooling rate of the cloud system|K/s|4|-1024|11
+012252|skinTemperature|double|Skin temperature|K|2|0|16
+012253|equivalentBlackBodyTemperature|double|Equivalent black body temperature|K|2|0|16
+013192|precipitationsCodeTr|table|Precipitations code TR|Code table|0|0|4
+013193|cumulDePrecipitationSur6Mn|double|Cumul de precipitation sur 6 mn|kg m-2|1|-1|14
+013194|quantiteTotaleDePrecipitationAuCoursD'uneCertainePeriode|double|QUANTITE TOTALE DE PRECIPITATION AU COURS D'UNE CERTAINE PERIODE|kg m-2|1|-1|14
+013195|hauteurTotaleDeLaCoucheDeNeigeAuSolAuPointDeMesureD'altitude|double|HAUTEUR TOTALE DE LA COUCHE DE NEIGE AU SOL AU POINT DE MESURE D'ALTITUDE|m|2|-2|16
+013196|epaisseurDeLaNeigeFraicheTombeeEnAltitude|double|EPAISSEUR DE LA NEIGE FRAICHE TOMBEE EN ALTITUDE|m|2|-2|12
+013197|teneurEnEauLiquideVolumiqueDeLaNeige|double|TENEUR EN EAU LIQUIDE VOLUMIQUE DE LA NEIGE|%|1|0|7
+013198|masseVolumiqueDeLaNeige|long|MASSE VOLUMIQUE DE LA NEIGE|kg m-3|0|0|9
+013199|depotDeVerglas|double|Depot de verglas|kg m-2|1|0|12
+013200|depotDeGivre|double|Depot de givre|kg m-2|1|0|12
+013201|humiditeRelativeMinimale|long|Humidite relative minimale|%|0|0|7
+013202|humiditeRelativeMaximale|long|Humidite relative maximale|%|0|0|7
+013204|hauteurMaximaleDeNeigeAuSolMesureeOuEstimee|double|Hauteur maximale de neige au sol mesuree ou estimee|m|2|-2|12
+013209|pourcentageDeNeigeDansLesPrecipitations|long|Pourcentage de neige dans les precipitations|%|0|0|7
+013210|indiceDeClasseDeRisquePluviometrique|long|Indice de classe de risque pluviometrique|Numeric|0|0|4
+014192|insolationHoraire|long|INSOLATION HORAIRE|min|0|0|6
+014193|insolationSurLaPeriodeDefinie|long|Insolation sur la periode definie|min|0|0|11
+014194|rayonnementGlobalTresPrecisIntegreSurUnePeriodeDeterminee|double|Rayonnement global (tres precis) integre sur une periode determinee|J m-2|-2|0|16
+014195|rayonnementDiffusTresPrecisIntegreSurUnePeriodeDeterminee|double|Rayonnement diffus (tres precis) integre sur une periode determinee|J m-2|-2|0|16
+014196|rayonnementDirectTresPrecisIntegreSurUnePeriodeDeterminee|double|Rayonnement direct (tres precis) integre sur une periode determinee|J m-2|-2|0|16
+014197|rayonnementInfraRougeTresPrecisIntegreSurUnePeriodeDeterminee|double|Rayonnement infra rouge (tres precis) integre sur une periode determinee|J m-2|-2|0|16
+015202|logOfElectronDensity|double|Log of electron density|log (m-2)|3|13000|12
+016193|numberOfNegativeCloudToGroundLightningFlashes|long|Number of negative cloud-to-ground lightning flashes|Numeric|0|0|16
+016194|numberOfPositiveCloudToGroundLightningFlashes|long|Number of positive cloud-to-ground lightning flashes|Numeric|0|0|16
+016195|numberOfIntracloudLightningFlashes|long|Number of intracloud lightning flashes|Numeric|0|0|16
+019192|lengthOfSmallAxisOfFittingEllipseOfCloudSystem|double|Length of the small axis of the fitting ellipse of the cloud system|m|-3|0|25
+019193|angleOfFittingEllipseOfCloudSystem|long|Angle of the fitting ellipse of the cloud system|degree true|0|0|9
+019194|areaOfCloudSystemAtThisBrightnessTemperatureThreshold|double|Area of the cloud system at this brightness temperature threshold|m2|-6|0|28
+019200|areaExpansionRateOfCloudSystem|double|Area expansion rate of the cloud system|/s|5|-1048576|21
+020192|classeDeNebulositeSympo|table|Classe de nebulosite SYMPO|Code table|0|0|3
+020193|visibiliteVersLaMerAPartirD'uneStationCotiere|double|VISIBILITE VERS LA MER A PARTIR D'UNE STATION COTIERE|m|-1|0|13
+020194|etatDeLaNeige|table|ETAT DE LA NEIGE|Code table|0|0|4
+020195|profondeurDePenetrationDeLaSondeDeBattage|double|PROFONDEUR DE PENETRATION DE LA SONDE DE BATTAGE|m|2|0|7
+020196|nuagesDansLaVallee|table|NUAGES DANS LA VALLEE|Code table|0|0|4
+020197|chasseNeigeEnAltitude|table|CHASSE-NEIGE EN ALTITUDE|Code table|0|0|4
+020198|descriptionAvalanchesObservees|table|DESCRIPTION AVALANCHES OBSERVEES|Code table|0|0|4
+020199|genreD'avalanches|table|GENRE D'AVALANCHES|Code table|0|0|4
+020200|altitudeDepartDeL'avalanche|table|ALTITUDE DEPART DE L'AVALANCHE|Code table|0|0|4
+020201|expositionDeL'avalanche|table|EXPOSITION DE L'AVALANCHE|Code table|0|0|4
+020202|estimationDuRisqueD'avalanche|table|ESTIMATION DU RISQUE D'AVALANCHE|Code table|0|0|4
+020203|typeDesGrainsDeSurfacePredominantDansLaCouche|table|TYPE DES GRAINS DE SURFACE PREDOMINANT DANS LA COUCHE|Code table|0|0|4
+020204|typeDesGrainsDeSurfaceLesPlusNombreuxApresLesGrainsPredominants|table|TYPE DES GRAINS DE SURFACE LES PLUS NOMBREUX APRES LES GRAINS PREDOMINANTS|Code table|0|0|4
+020205|diametreMoyenDesGrains|double|DIAMETRE MOYEN DES GRAINS|m|4|0|7
+020206|indicateurD'homogeneiteDeLaCouche|table|INDICATEUR D'HOMOGENEITE DE LA COUCHE|Code table|0|0|2
+020207|epaisseurDeLaCouche|table|Epaisseur de la couche|Code table|0|0|4
+020209|classesDeNebulositePourApproche|table|Classes de nebulosite pour Approche|Code table|0|0|3
+020210|occurenceDePhenomene|flag|Occurence de phenomene|Flag table|0|0|16
+020211|nebulositeMaximale4Or8PourUneHauteur300m|table|Nebulosite maximale >4/8 pour une hauteur < 300m|Code table|0|0|4
+020212|hauteur300mDeLaBaseDesNuagesPourUneNebul4|double|Hauteur < 300m de la base des nuages pour une nebul>4|m|-1|-40|7
+020215|indicateurDeGrain|table|Indicateur de grain|Code table|0|0|2
+020220|w1TempsPresentSympo|table|W1 (Temps present SYMPO)|Code table|0|0|6
+020221|w2W1SympoSimplifie|table|W2 (W1 SYMPO simplifie)|Code table|0|0|5
+020222|tempsSensible|table|Temps sensible|Code table|0|0|6
+020223|etendueDeLaCoucheNuageuseEnOctas|double|Etendue de la couche nuageuse en octas|Numeric|1|0|7
+021192|radarBackScatter|double|Radar back scatter|dB|2|-5000|13
+021193|noiseFigure|long|Noise figure|%|0|0|7
+021194|backgroundNoiseLevel|long|Background noise level|Numeric|0|0|8
+021195|missingPacketCounter|long|Missing packet counter|Numeric|0|-127|8
+021196|uwaProductConfidence|flag|Uwa product confidence|Flag table|0|0|12
+021197|uwiProductConfidence|flag|Uwi product confidence|Flag table|0|0|12
+021198|uraProductConfidence|flag|Ura product confidence|Flag table|0|0|8
+021199|uatQualityAnalysisTests|flag|Uat quality analysis tests|Flag table|0|0|7
+021201|peakiness|long|Peakiness|Numeric|0|0|16
+021202|altimeterCalibrationStatus|flag|Altimeter calibration status|Flag table|0|0|4
+021203|altimeterInstrumentMode|flag|Altimeter instrument mode|Flag table|0|0|9
+021204|multiOrSingleViewDifference|double|Multi/single view difference|K|2|-512|10
+021205|spectralIntensity|long|Spectral intensity|Numeric|0|0|8
+021206|representationOfIntensity|table|Representation of intensity|Code table|0|0|3
+021207|altitudeCorrectionIonosphere|double|Altitude correction (ionosphere)|m|3|0|14
+021208|altitudeCorrectionDryTroposphere|double|Altitude correction (dry troposphere)|m|3|0|9
+021209|altitudeCorrectionWetTroposphere|double|Altitude correction (wet troposphere)|m|3|2000|10
+021210|altitudeCorrectionCalibrationConstant|double|Altitude correction (calibration constant)|m|3|0|11
+021211|openLoopCorrectionHtl|double|Open loop correction (htl)|m|3|0|10
+021212|openLoopCorrectionAgc|double|Open loop correction (agc)|dB|3|-3000|14
+021214|uatQualitySummary|table|Uat quality summary|Code table|0|0|3
+021215|uatAcrossTrackBandNumber|long|Uat across-track band number|Numeric|0|0|4
+021216|reflectivitePourLaValeurDuPixel|double|Reflectivite pour la valeur du pixel|dB|1|0|16
+021217|reflectiviteTheorique|double|Reflectivite theorique|dB|1|0|16
+021218|reflectiviteMesuree|double|Reflectivite mesuree|dB|1|0|16
+021219|reflectiviteMinimalePourLaValeurDuPixel|long|Reflectivite minimale pour la valeur du pixel|dB|0|-127|8
+021220|reflectiviteHorizontale|double|Reflectivite horizontale|dB|1|-400|11
+021222|dopplerSpectrum0ThMomentAmplitude|long|DOPPLER SPECTRUM 0 TH MOMENT (AMPLITUDE)|dB|0|0|7
+021225|prescatProductConfidence|flag|PRESCAT PRODUCT CONFIDENCE|Flag table|0|0|10
+021226|pourcentageDeMasque|long|Pourcentage de masque|%|0|0|7
+022192|stateOfSea|table|State of the sea|Code table|0|0|4
+022200|significantWaveHeightNote1|double|SIGNIFICANT WAVE HEIGHT (NOTE 1)|m|2|0|13
+022201|spectralPeakPeriod|double|SPECTRAL PEAK PERIOD|s|1|0|9
+022202|spectralPeakWaveLength|long|SPECTRAL PEAK WAVE LENGTH|m|0|0|13
+022203|maximumWaveHeight|double|MAXIMUM WAVE HEIGHT|m|2|0|13
+022204|averageWavePeriod|double|AVERAGE WAVE PERIOD|s|1|0|9
+022205|averageWaveLength|long|AVERAGE WAVE LENGTH|m|0|0|12
+022206|directionOfDominantWaveNote2|long|DIRECTION OF DOMINANT WAVE (NOTE 2)|degree true|0|0|9
+022207|directionnalSpreadOfDominantWaveNote2|long|DIRECTIONNAL SPREAD OF DOMINANT WAVE (NOTE 2)|degree true|0|0|8
+022210|durationOfWaveRecord|long|DURATION OF WAVE RECORD|s|0|0|12
+022211|lengthOfWaveRecord|long|LENGTH OF WAVE RECORD|m|0|0|16
+022212|wavebandCentralFrequency|double|WAVEBAND CENTRAL FREQUENCY|Hz|3|0|10
+022213|wavebandCentralWaveNumber|double|WAVEBAND CENTRAL WAVE NUMBER|m-1|5|0|13
+022214|maximumNonDirectionalSpectralDensityFrequency|double|MAXIMUM NON-DIRECTIONAL SPECTRAL DENSITY FREQUENCY|m2/Hz|2|0|20
+022215|maximumNonDirectionalSpectralDensityWaveNumber|double|MAXIMUM NON-DIRECTIONAL SPECTRAL DENSITY WAVE NUMBER|m3|2|0|20
+022216|numberOfTheBandInWhichTheMaximumNonDirectionalSpectralDensityLies|long|NUMBER OF THE BAND IN WHICH THE MAXIMUM NON-DIRECTIONAL SPECTRAL DENSITY LIES|Numeric|0|0|7
+022217|spectralDensityRatio|long|SPECTRAL DENSITY RATIO|Numeric|0|0|7
+022218|meanDirectionFromWhichWavesAreComing|long|MEAN DIRECTION FROM WHICH WAVES ARE COMING|degree true|0|0|9
+022219|principalDirectionFromWhichWavesAreComingNote3|long|PRINCIPAL DIRECTION FROM WHICH WAVES ARE COMING (NOTE 3)|degree true|0|0|9
+022220|firstNormalisedPolarCoOrdinateDerivedFromFourierCoefficients|double|FIRST NORMALISED POLAR CO-ORDINATE DERIVED FROM FOURIER COEFFICIENTS|Numeric|2|0|7
+022221|secondNormalisedPolarCoOrdinateDerivedFromFourierCoefficients|double|SECOND NORMALISED POLAR CO-ORDINATE DERIVED FROM FOURIER COEFFICIENTS|Numeric|2|0|7
+022222|nonDirectionalSpectralEstimateOfFrequency|double|NON-DIRECTIONAL SPECTRAL ESTIMATE OF FREQUENCY|m2/Hz|2|0|20
+022223|nonDirectionalSpectralEstimateOfWaveNumber|double|NON-DIRECTIONAL SPECTRAL ESTIMATE OF WAVE NUMBER|m3|2|2|20
+022224|directionalSpectralEstimateOfFrequency|double|DIRECTIONAL SPECTRAL ESTIMATE OF FREQUENCY|m2 rad-1 s|2|0|20
+022225|directionalSpectralEstimateOfWaveNumber|double|DIRECTIONAL SPECTRAL ESTIMATE OF WAVE NUMBER|m4|2|0|20
+022226|totalNumberOfBands|long|TOTAL NUMBER OF BANDS|Numeric|0|0|7
+022227|directionalSpreadOfIndividualWaves|long|DIRECTIONAL SPREAD OF INDIVIDUAL WAVES|degree true|0|0|8
+022228|indicateurDeFond|table|INDICATEUR DE FOND|Code table|0|0|2
+022230|seuilDeDangerositeParRapportAuNiveauxMoyen|double|Seuil de dangerosite par rapport au niveaux moyen|m|2|-1000|12
+022231|hauteurDesMareesParRapportAuNiveauMoyen|double|Hauteur des marees par rapport au niveau moyen|m|2|-1000|12
+022232|sommeDeLaMareeAstronomiqueEtDeLaSurcote|double|Somme de la maree astronomique et de la surcote|m|2|-1000|12
+022233|surcoteDecoteParRapportAuNiveauMoyen|double|Surcote-decote par rapport au niveau moyen|m|2|-1000|12
+022243|standardDeviationSignificantWaveHeight|double|Standard deviation significant wave height|m|2|0|10
+025192|methodeDeCompositionDansLesZonesDeRecouvrement|table|Methode de composition dans les zones de recouvrement|Code table|0|0|8
+025193|numeroDeVersionLogicielleDuCalculateur|double|Numero de version logicielle du calculateur|Numeric|2|0|16
+025194|numeroDeVersionDeComposite|double|Numero de version de composite|Numeric|2|0|16
+025195|numeroDeVersionDeCarteUtiliseePourComposition|long|Numero de version de carte utilisee pour composition|Numeric|0|0|8
+025196|methodeDeCumul|table|Methode de cumul|Code table|0|0|8
+025197|nombreD'imagesPrisesEnCompte|long|Nombre d'images prises en compte|Numeric|0|0|24
+025198|nombreDePortesParTir|long|Nombre de portes par tir|Numeric|0|0|16
+025199|methodeD'integrationDistance|table|Methode d'integration distance|Code table|0|0|4
+025200|methodeD'integrationAzimut|table|Methode d'integration azimut|Code table|0|0|4
+025207|correctionD'intensiteDePrecipitation|double|Correction d'intensite de precipitation|kg m-2|3|0|18
+025208|samplingIntervalTime|double|SAMPLING INTERVAL (TIME)|s|4|0|15
+025209|samplingIntervalSpace|double|SAMPLING INTERVAL (SPACE)|m|2|0|12
+025210|facteurDeCorrectionGlobalPluiePluviometreOrPluieRadar|double|Facteur de correction global (pluie pluviometre)/(pluie radar)|Numeric|2|0|10
+025211|seuilDeReflectivitePourLeCalculDesDeplacementsD'echosRadar|long|Seuil de reflectivite pour le calcul des deplacements d'echos radar|dB|0|0|7
+025212|seuilD'occurrencePourLaDefinitionDesEchosFixes|long|Seuil d'occurrence pour la definition des echos fixes (%)|Numeric|0|0|7
+025213|seuilDePresenceMinimalDesEchosFixesPourValiderL'image|long|Seuil de presence minimal des echos fixes pour valider l'image (%)|Numeric|0|0|7
+025214|seuilDeTemperatureDesImagesSatellitalesIrPourLeFiltrage|double|Seuil de temperature des images satellitales IR pour le filtrage|K|1|0|12
+025215|margeDeTemperaturePourLeFiltrageIr|double|Marge de temperature pour le filtrage IR|K|1|0|12
+025216|seuilDeRadianceDesImagesSatellitalesVisiblesPourLeFiltrage|long|Seuil de radiance des images satellitales visibles pour le filtrage|Numeric|0|0|8
+025217|modeDeFonctionnementDuFiltrageDesEchosNonMeteorologiques|table|Mode de fonctionnement du filtrage des echos non meteorologiques|Code table|0|0|3
+025218|correctionParUnProfilVerticalDeReflectivite|table|Correction par un profil vertical de reflectivite|Code table|0|0|4
+025219|methodeD'elaborationDuMasqueD'echosFixes|table|Methode d'elaboration du masque d'echos fixes|Code table|0|0|3
+025228|dataUsedForDiagnostic|table|Data used for diagnostic|Code table|0|0|5
+025229|methodUsedToDiagnoseNatureOfACloudSystem|string|Method used to diagnose the nature of a cloud system|CCITT IA5|0|0|24
+026192|dureeD'humectation|long|Duree d'humectation|min|0|0|11
+029192|systemeGeodesique|table|Systeme geodesique|Code table|0|0|6
+030192|modeDeBalayage|flag|Mode de balayage|Flag table|0|0|8
+031192|facteurSuperElargiDeRepetitionDiffereDuDescripteur|long|Facteur super elargi de repetition differe du descripteur|Numeric|0|0|32
+033192|flagDeQualiteSurParametre|table|FLAG DE QUALITE SUR PARAMETRE|Code table|0|0|3
+033193|attributDeLaValeurQuiSuit|table|Attribut de la valeur qui suit|Code table|0|0|2
+033212|qualiteDeLaMesureDePression|table|QUALITE DE LA MESURE DE PRESSION|Code table|0|0|2
+033213|qualiteDuParametreTechnologiQueDeuxiemeVariableDuPremierblocDeDonneesCapteursDesPlatesFormesArgos|table|QUALITE DU PARAMETRE TECHNOLOGI QUE(DEUXIEME VARIABLE DU PREMIERBLOC DE DONNEES CAPTEURS DES PLATES-FORMES ARGOS)|Code table|0|0|2
+033214|qualiteDeLaMesureDeLaTemperatureDeL'eauEnSurface|table|QUALITE DE LA MESURE DE LA TEMPERATURE DE L'EAU EN SURFACE|Code table|0|0|2
+033215|qualiteDeLaMesureDeLaTemperatureDeL'air|table|QUALITE DE LA MESURE DE LA TEMPERATURE DE L'AIR|Code table|0|0|2
+033216|qualiteDesTransmissionsEntreLaBoueeEtLeSatellite|table|QUALITE DES TRANSMISSIONS ENTRE LA BOUEE ET LE SATELLITE|Code table|0|0|2
+033217|qualiteDeLaPosition|table|QUALITE DE LA POSITION|Code table|0|0|2
+033218|indicateurControleDeQualiteDesDonneesRelativesALaPosiTion|table|INDICATEUR CONTROLE DE QUALITE DES DONNEES RELATIVES A LA POSI TION|Code table|0|0|3
+033219|indicateurControleDeQualiteDesDonneesRelativesAL'heure|table|INDICATEUR CONTROLE DE QUALITE DES DONNEES RELATIVES A L'HEURE|Code table|0|0|3
+033220|indicateurControleDeQualiteDesDonneesMeteorologiques|table|INDICATEUR CONTROLE DE QUALITE DES DONNEES METEOROLOGIQUES|Code table|0|0|3
+033221|indicateurDePositionDuGroupe|table|INDICATEUR DE POSITION DU GROUPE|Code table|0|0|4
+033222|indicateurControleDeQualiteDesDonneesMarines|table|INDICATEUR CONTROLE DE QUALITE DES DONNEES MARINES|Code table|0|0|3
+033223|indicateurDeControleDeQualiTeDesDonneesRelativesAuxProfilsDeTemperatureEtDeSalinite|table|INDICATEUR DE CONTROLE DE QUALI TE DES DONNEES RELATIVES AUX PROFILS DE TEMPERATURE ET DE SALINITE|Code table|0|0|3
+033224|indicateurControleDeQualiteDesDonneesRelativesAuxProfilsDesCourants|table|INDICATEUR CONTROLE DE QUALITE DES DONNEES RELATIVES AUX PROFILS DES COURANTS|Code table|0|0|3
+033230|spatialQualityIndicatorOfCloudSystem|table|Spatial quality indicator of the cloud system|Code table|0|0|3
+033231|temporalQualityIndicatorOfTrackingOfCloudSystem|table|Temporal quality indicator of the tracking of the cloud system|Code table|0|0|4
+033232|qualityIndicatorOfHeightOfTopOfCloudSystem|table|Quality indicator of the height of top of the cloud system|Code table|0|0|3
+033233|degreDeConfianceAssocieAuParametreDefiniParL'intervalleQuiSuit|long|Degre de confiance associe au parametre defini par l'intervalle qui suit|%|0|0|7
+033234|probabiliteD'orage|long|Probabilite d'orage|%|0|0|7
+033235|probabiliteDePluieFaible|long|Probabilite de pluie faible|%|0|0|7
+033236|probabiliteDePluieModeree|long|Probabilite de pluie moderee|%|0|0|7
+033237|probabiliteDePluieForte|long|Probabilite de pluie forte|%|0|0|7
+035192|numeroDeL'amendement|long|Numero de l'amendement|Numeric|0|0|7
+048192|bitDeCalage|long|Bit de calage|Numeric|0|0|1
+049192|cqIntegriteDuMessage|table|Cq integrite du message|Code table|0|0|4
+049193|codeDeQualiteArretPanne|table|Code de qualite arret-panne|Code table|0|0|4
+049194|codeDeQualiteEtalonnage|table|Code de qualite etalonnage|Code table|0|0|4
+049195|codeDeQualiteEliminateurD'echosFixes|table|Code de qualite eliminateur d'echos fixes|Code table|0|0|4
+049196|cqControleTemporel|table|Cq controle temporel|Code table|0|0|4
+049197|cqControleSpatial|table|Cq controle spatial|Code table|0|0|4
+049198|cqControleDeCoherenceEchosFixes|table|Cq controle de coherence echos fixes|Code table|0|0|4
+049199|cqComparaisonAvecLesDonneesSatellitaires|table|Cq comparaison avec les donnees satellitaires|Code table|0|0|4
+049200|tauxDePixelsIdentifiesPropagationAnormale|double|Taux de pixels identifies propagation anormale|Numeric|1|-10|14
+049201|codeDetectionDePropagationAnormale|table|Code detection de propagation anormale|Code table|0|0|4
+049204|statutDeLaDonnee|long|Statut de la donnee|%|0|0|8
+049206|valeurDeLaComposanteOuestOrEstDuVecteurAdvection|double|Valeur de la composante ouest/est du vecteur advection|m/s|1|-600|11
+049207|valeurDeLaComposanteNordOrSudDuVecteurAdvection|double|Valeur de la composante nord/sud du vecteur advection|m/s|1|-600|11
+049208|donneesAvecOrSansCorrectionDAdvection|flag|Donnees avec/sans correction d advection|Flag table|0|0|2
+049209|codePourL'uniteDeMesureDeLaLameD'eau|table|Code pour l'unite de mesure de la lame d'eau|Code table|0|0|8
+049210|numeroDePvr|table|Numero de PVR|Code table|0|0|2
+049211|cptqImagesEmisesParLeCalculateurRadar|table|Cptq images emises par le calculateur radar|Code table|0|0|16
+049212|cptqImagesRecuesParLeConcentrateur|table|Cptq images recues par le concentrateur|Code table|0|0|16
+049213|cptqImagesEmisesParLeConcentrateurRadar|table|Cptq images emises par le concentrateur radar|Code table|0|0|16
+049214|cptqImagesRecuesParLeSystemeDeDiffusion|table|Cptq images recues par le systeme de diffusion|Code table|0|0|16
+049215|cptqImagesEmisesParLeSystemeDeDiffusion|table|Cptq images emises par le systeme de diffusion|Code table|0|0|16
+049216|cptqImagesRecuesParLaMachineD'archivage|table|Cptq images recues par la machine d'archivage|Code table|0|0|16
+049220|altitudeDeL'isotherme0DegreDuPvr|double|Altitude de l'isotherme 0 degre du PVR|m|-2|0|7
+049221|tauxDeDecroissanceDuPvrAuDessusDeL'isotherme0Degre|double|Taux de decroissance du PVR au dessus de l'isotherme 0 degre|dB/km|1|-100|7
+049222|largeurDeLaBandeBrillanteDuPvr|double|Largeur de la bande brillante du PVR|m|-2|0|5
+049223|facteurDuRenforcementDuPvr|double|Facteur du renforcement du PVR|Numeric|1|0|7
+049224|indicateurRadarDoppler|flag|Indicateur radar DOPPLER|Flag table|0|0|2
+049225|indicateurRadarDoublePolarisation|flag|Indicateur radar double polarisation|Flag table|0|0|2
+049227|statutDeLaDonneeDansLesFichiersPourLaPr¿visionNumerique|table|Statut de la donnee dans les fichiers pour la pr¿vision numerique|Code table|0|0|8
+049228|codeVitesseRadiale|long|Code vitesse radiale|Numeric|0|0|8
+049229|valeurMinimaleDeLaVitesseRadialeEnMOrS|double|Valeur minimale de la vitesse radiale en m/s|m/s|1|-600|11
+049230|valeurMaximaleDeLaVitesseRadialeEnMOrS|double|Valeur maximale de la vitesse radiale en m/s|m/s|1|-600|11
+049231|ecartEntreDeuxValeursConsecutivesDesVitessesRadiales|double|Ecart entre deux valeurs consecutives des vitesses radiales|m/s|1|0|8
+049235|numeroDeColonneDuPixelD'applicationDuPremierVecteurAdvection|long|Numero de colonne du pixel d'application du premier vecteur advection|Numeric|0|0|8
+049236|numeroDeLigneDuPixelDApplicationDuPremierVecteurAdvection|long|Numero de ligne du pixel d application du premier vecteur advection|Numeric|0|0|8
+049237|resolutionEnXNombreDeColonnesDuChampDAdvection|long|Resolution en X (nombre de colonnes)du champ d advection|Numeric|0|0|8
+049238|resolutionEnYNombreDeLignesDuChampDAdvection|long|Resolution en Y (nombre de lignes) du champ d advection|Numeric|0|0|8
+049239|correctionGlobaleMensuellePluviometreOrRadarEnDbz|double|Correction globale mensuelle (pluviometre/radar) en dBZ|dB|1|-160|9
+049240|donneesAvecOrSansCorrectionDeL'attenuationParLesPrecipitations|flag|Donnees avec/sans correction de l'attenuation par les precipitations|Flag table|0|0|2
+049241|valeurMinimaleDeLaVitesseRadialeEnMOrS|double|Valeur minimale de la vitesse radiale en m/s|m/s|1|-700|11
+049242|valeurMaximaleDeLaVitesseRadialeEnMOrS|double|Valeur maximale de la vitesse radiale en m/s|m/s|1|-700|11
+049243|valeurDeLaComposanteSudOrNordDuVecteurAdvectionEnMOrS|double|Valeur de la composante sud/nord du vecteur advection en m/s|m/s|1|-600|11
+055192|filtrageElephant|table|Filtrage Elephant|Code table|0|0|2
+055193|coefficientPc_rassurDuFiltreElephant|double|Coefficient pc_rassur du filtre Elephant|Numeric|2|0|9
+055194|coefficientPc_ecartDuFiltreElephant|double|Coefficient pc_ecart du filtre Elephant|Numeric|2|0|9
+055195|seuilD'occurrenceDeCaracterisationDesEchosFixes|long|Seuil (% d'occurrence) de caracterisation des echos fixes|Numeric|0|0|8
+055196|nombreDePixelsDetectesAberrants|long|Nombre de pixels detectes aberrants|Numeric|0|0|20
+055197|nombreDePixelsTraitesParLeFiltreValeurSeuilDeTraitement|long|Nombre de pixels traites par le filtre (valeur > seuil de traitement)|Numeric|0|0|20
+055198|seuilDeTraitementDuFiltre|double|Seuil de traitement du filtre|-|1|0|16
+055199|pourcentageEnNombreDesValeursSupprimeesParLeFiltre|double|Pourcentage (en nombre) des valeurs supprimees par le filtre|Numeric|1|0|9
+055200|signalisationDesValeursAberrantesDetecteesParLeFiltre|table|Signalisation des valeurs aberrantes detectees par le filtre|Code table|0|0|3
+055201|valeurDeSignalisationDesPixelsAberrants|long|Valeur de signalisation des pixels aberrants|Numeric|0|0|16
+055202|bitDeSignalisationDesPixelsAberrants|long|Bit de signalisation des pixels aberrants|Numeric|0|0|5
+055203|etatDeL'eliminateurD'echosFixesLorsDeLaConstitutionDuMasqueD'echosFixes|table|Etat de l'eliminateur d'echos fixes lors de la constitution du masque d'echos fixes|Code table|0|0|4
+055204|siteUtiliseLorsDeLaConstitutionDuMasqueD'echosFixes|double|Site utilise lors de la constitution du masque d'echos fixes|deg|2|0|15
+055205|porteeUtiliseeLorsDeLaConstitutionDuMasqueD'echosFixes|double|Portee utilisee lors de la constitution du masque d'echos fixes|m|-3|0|16
+055206|nombreDePortesParTir|long|Nombre de portes par tir|Numeric|0|0|16
+055207|nombreDeTirsIntegres|long|Nombre de tirs integres|m|0|0|16
+055208|nombreDeTirsDansL'image|long|Nombre de tirs dans l'image|Numeric|0|0|16
+055209|angleDeSiteReelMoyenSurLaPeriodeDeCumul|double|Angle de site reel moyen sur la periode de cumul|deg|2|-9000|15
+055210|anneeDeFinDeConstitutionDuMasqueD'echosFixes|long|Annee de fin de constitution du masque d'echos fixes|a|0|0|12
+055211|moisDeFinDeConstitutionDuMasqueD'echosFixes|long|Mois de fin de constitution du masque d'echos fixes|mon|0|0|4
+055212|jourDeFinDeConstitutionDuMasqueD'echosFixes|long|Jour de fin de constitution du masque d'echos fixes|d|0|0|6
+055213|heureDeFinDeConstitutionDuMasqueD'echosFixes|long|Heure de fin de constitution du masque d'echos fixes|h|0|0|5
+055214|minuteDeFinDeConstitutionDuMasqueD'echosFixes|long|Minute de fin de constitution du masque d'echos fixes|min|0|0|6
+055215|secondeDeFinDeConstitutionDuMasqueD'echosFixes|long|Seconde de fin de constitution du masque d'echos fixes|s|0|0|6
+055216|dureeDeConstitutionDuMasqueD'echosFixesJours|long|Duree de constitution du masque d'echos fixes (Jours)|d|0|-1024|11
+055217|dureeDeConstitutionDuMasqueD'echosFixesHeures|long|Duree de constitution du masque d'echos fixes (Heures)|h|0|-1024|11
+055218|dureeDeConstitutionDuMasqueD'echosFixesMinutes|long|Duree de constitution du masque d'echos fixes (Minutes)|min|0|-2048|12
+055219|nomDuFichierContenantLeMasqueD'echosFixes|string|Nom du fichier contenant le masque d'echos fixes|CCITT IA5|0|0|80
+055220|dureeUtiliseePourLeCalculDuprofilVerticalDeReflectivite|long|Duree utilisee pour le calcul duprofil vertical de reflectivite|min|0|-2048|12
+055221|pourcentageD'imagesValidesNecessaireAuCalculDuProfilVerticalDeReflectivite|long|Pourcentage d'images valides necessaire au calcul du profil vertical de reflectivite|Numeric|0|0|8
+055222|seuilDeReflectiviteUtilisePourLeCalculDuChampDeDeplacement|long|Seuil de reflectivite utilise pour le calcul du champ de deplacement|dB|0|-64|7
+055223|pourcentageMinimumEchosFixesPresentsOrEchosFixesAttendusPourValiderL'image|long|Pourcentage minimum (echos fixes presents/echos fixes attendus) pour valider l'image|Numeric|0|0|8
+055224|facteurDeCorrectionReflectiviteSolOrReflectiviteAL'altitudeDeMesure|double|Facteur de correction (reflectivite sol/reflectivite a l'altitude de mesure)|Numeric|2|0|16
+055225|correctionDeReflectivite|double|Correction de reflectivite|dB|1|-64|12
+055226|signalisationDesValeursModifiees|table|Signalisation des valeurs modifiees|Code table|0|0|3
+055227|valeurDeSignalisationDesPixelsModifiees|long|Valeur de signalisation des pixels modifiees|Numeric|0|0|16
+055228|bitDeSignalisationDesPixelsModifiees|long|Bit de signalisation des pixels modifiees|Numeric|0|0|5
+055229|facteurDeLaLoiExprimantAAttenuationEnFonctionDeZReflectivite|double|Facteur de la loi exprimant A (attenuation) en fonction de Z (reflectivite)|Numeric|7|0|10
+055230|exposantDeLaLoiExprimantAAttenuationEnFonctionDeZReflectivite|double|Exposant de la loi exprimant A (attenuation) en fonction de Z (reflectivite)|Numeric|2|0|8
+055231|nombreD'imagesCumuleesLorsDeLaConstitutionDuMasqueD'echosFixes|long|Nombre d'images cumulees lors de la constitution du masque d'echos fixes|Numeric|0|0|16
+055232|modeDeConstitutionDuMasqueD'echosFixes|table|Mode de constitution du masque d'echos fixes|Code table|0|0|3
+055233|longueurDeLaPorteDistanceApresIntegration|long|Longueur de la porte distance apres integration|m|0|0|16
