@@ -449,6 +449,18 @@ def add_annotations(ax, time, title, run):
     return an_fc, an_var, an_run
 
 
+def annotation_stats(ax, var, loc="lower right", fontsize=7):
+    """
+    Annotate the plot with min, max, and average values of the variable.
+    Uses the existing annotation() function.
+    """
+    min_val = np.nanmin(var)
+    max_val = np.nanmax(var)
+    mean_val = np.nanmean(var)
+    stats_text = f"Min: {min_val:.0f}, Max: {max_val:.0f}, Mean: {mean_val:.0f}"
+    return annotation(ax, stats_text, loc=loc, fontsize=fontsize)
+
+
 def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=256):
     """Truncate a colormap by specifying the start and endpoint."""
     new_cmap = colors.LinearSegmentedColormap.from_list(

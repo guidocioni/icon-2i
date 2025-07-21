@@ -168,6 +168,10 @@ def plot_files(dss, **args):
             "10m winds gusts (km/h) and direction",
             run
         )
+        an_stats = utils.annotation_stats(
+            args["ax"],
+            data[vmax_cf_name],
+        )
 
         if first:
             utils.add_colorbar(
@@ -209,6 +213,7 @@ def plot_files(dss, **args):
                 an_fc,
                 an_var,
                 an_run,
+                an_stats,
                 cv,
                 maxlabels,
                 minlabels,

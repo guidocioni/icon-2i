@@ -111,6 +111,10 @@ def plot_files(dss, **args):
             "Accumulated precipitation (mm)",
             run,
         )
+        an_stats = utils.annotation_stats(
+            args["ax"],
+            data[tp_cf_name],
+        )
 
         if first:
             utils.add_colorbar(
@@ -126,7 +130,7 @@ def plot_files(dss, **args):
         else:
             plt.savefig(filename, **options_savefig)
 
-        utils.remove_collections([cs, an_fc, an_var, an_run, vals])
+        utils.remove_collections([cs, an_fc, an_var, an_run, an_stats, vals])
 
         first = False
 

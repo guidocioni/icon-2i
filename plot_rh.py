@@ -74,6 +74,10 @@ def plot_files(dss, **args):
             f"Relative Humidity at {level} hPa",
             run,
         )
+        an_stats = utils.annotation_stats(
+            args["ax"],
+            data[rh_cf_name],
+        )
 
         if first:
             utils.add_colorbar(
@@ -95,6 +99,7 @@ def plot_files(dss, **args):
                 an_fc,
                 an_var,
                 an_run,
+                an_stats
             ]
         )
 

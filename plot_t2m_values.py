@@ -101,6 +101,10 @@ def plot_files(dss, **args):
             "2m Temperature (C)",
             run
         )
+        an_stats = utils.annotation_stats(
+            args["ax"],
+            data[t2m_cf_name],
+        )
 
         if first:
             utils.add_colorbar(
@@ -119,7 +123,8 @@ def plot_files(dss, **args):
                 vals,
                 an_fc,
                 an_var,
-                an_run
+                an_run,
+                an_stats
             ]
         )
 

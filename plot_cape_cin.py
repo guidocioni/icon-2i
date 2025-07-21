@@ -106,6 +106,10 @@ def plot_files(dss, **args):
             "CAPE (J/Kg), 10m Winds, hatches CIN$<-50$ J/kg",
             run
         )
+        an_stats = utils.annotation_stats(
+            args["ax"],
+            data[cape_cf_name],
+        )
 
         if first:
             utils.add_colorbar(
@@ -129,6 +133,7 @@ def plot_files(dss, **args):
                 an_fc,
                 an_var,
                 an_run,
+                an_stats,
                 cv,
             ]
         )
