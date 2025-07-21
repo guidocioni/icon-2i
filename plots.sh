@@ -1,5 +1,17 @@
+#!/bin/bash
+
+echo "-----------------------------------------------------------------------------------------"
+echo "Starting icon-2i plots - `date`"
+echo "-----------------------------------------------------------------------------------------"
+
+. /home/cioni/.bashrc
+conda activate models
+
+echo "Using python binary located in `which python`"
+
 cd "$(dirname "$0")";
 current_dir=$(pwd)
+
 export ECCODES_DEFINITION_PATH="$current_dir/grib_tables/definitions.edzw-2.32.0-1/"
 
 # Source the config file
