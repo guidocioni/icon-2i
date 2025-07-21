@@ -22,9 +22,7 @@ if not debug:
 
 
 def main():
-    logging.info(
-        f"Plotting {variable_name} for projection {projection}."
-    )
+    logging.info(f"Plotting {variable_name} for projection {projection}.")
     dset = utils.get_files_sfc(
         vars=["U_10M", "V_10M", "SDI_2"], projection=projection, run=run
     )
@@ -32,16 +30,14 @@ def main():
         dset,
         [
             "Supercell detection index 2 (only rot. updrafts)",
-            "supercell detection index 2 (only rot. up drafts)"
-        ]
+            "supercell detection index 2 (only rot. up drafts)",
+        ],
     )
-    dset[sdi_cf_name] *= 1000.
+    dset[sdi_cf_name] *= 1000.0
     # Define contour levels
-    levels_sdi = [-4, -3.5, -3, -1.5, -0.5, -0.25, 0, 0.25, 0.5, 1.5, 3, 3.5, 4]
+    levels_sdi = [-0.6, -0.5, -0.4, -0.1, -0.05, 0, 0.1, 0.2 , 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1]
     # Define colormaps and normalization
-    cmap, norm = utils.get_colormap_norm(
-        "temp_anom", levels_sdi, extend="both"
-    )
+    cmap, norm = utils.get_colormap_norm("sdi", levels_sdi, extend="both")
     # Initialize background figure
     m, x, y, ax = utils.setup_figure_and_projection(dset, projection, background=True)
 
@@ -71,10 +67,11 @@ def plot_files(dss, **args):
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
         sdi_cf_name = utils.find_variable_by_long_name(
-            data, [
-            "Supercell detection index 2 (only rot. updrafts)",
-            "supercell detection index 2 (only rot. up drafts)"
-        ]
+            data,
+            [
+                "Supercell detection index 2 (only rot. updrafts)",
+                "supercell detection index 2 (only rot. up drafts)",
+            ],
         )
         u10m_cf_name = utils.find_variable_by_long_name(
             data, ["10 metre U wind component", "U-Component of Wind"]
@@ -141,8 +138,8 @@ def plot_files(dss, **args):
         an_fc, an_var, an_run = utils.add_annotations(
             args["ax"],
             data["valid_time"].to_pandas(),
-            "10m winds gusts (km/h) and direction",
-            run
+            "Supercell detection index (rotating updrafts), 10m winds",
+            run,
         )
 
         if first:

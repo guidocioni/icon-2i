@@ -97,7 +97,9 @@ def plot_files(dss, **args):
         cs = args["ax"].contourf(
             args["x"],
             args["y"],
-            data[uh_max_cf_name],
+            data[uh_max_cf_name].where(
+                (data[uh_max_cf_name] <= -10) | (data[uh_max_cf_name] >= 20)
+            ),
             extend="both",
             cmap=args["cmap"],
             norm=args["norm"],

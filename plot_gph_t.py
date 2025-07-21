@@ -112,6 +112,16 @@ def plot_files(dss, **args):
             norm=args["norm"],
             levels=args["levels_temp"],
         )
+        csc = args["ax"].contour(
+            args["x"],
+            args["y"],
+            data[t_cf_name],
+            extend="both",
+            levels=[-20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30],
+            colors="gray",
+            linewidths=0.2,
+        )
+        labels = args["ax"].clabel(csc, csc.levels, inline=True, fmt="%2.0f", fontsize=6)
         c = args["ax"].contour(
             args["x"],
             args["y"],

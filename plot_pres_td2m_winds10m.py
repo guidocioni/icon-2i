@@ -32,7 +32,7 @@ def main():
     dset[td2m_cf_name] = dset[td2m_cf_name].metpy.convert_units("degC").metpy.dequantify()
     dset[pmsl_cf_name] = dset[pmsl_cf_name].metpy.convert_units("hPa").metpy.dequantify()
 
-    levels_temp = np.arange(-25, 30, 1)
+    levels_temp = np.arange(-25, 45, 1)
     levels_mslp = np.arange(
         dset[pmsl_cf_name].min().astype("int"), dset[pmsl_cf_name].max().astype("int"), 3.0
     )
