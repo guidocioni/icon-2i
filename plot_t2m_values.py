@@ -77,13 +77,15 @@ def plot_files(dss, **args):
             norm=args["norm"],
             levels=args["levels_t2m"],
         )
-        density = 13
+        density = 3
         if projection == 'nord':
             density = 8
         elif projection == 'sud':
             density = 7
         elif projection == 'centro':
             density = 5
+        elif projection == 'it':
+            density = 13
 
         vals = utils.add_vals_on_map(
             ax=args["ax"],

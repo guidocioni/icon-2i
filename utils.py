@@ -601,48 +601,44 @@ def add_vals_on_map(
 
     m = mplcm.ScalarMappable(norm=norm, cmap=cmap)
 
-    # Use isel to subsample
-    subsampled = (
-        var.isel(
-            latitude=slice(1, var.sizes["latitude"] - 1, density),
-            longitude=slice(1, var.sizes["longitude"] - 1, density),
-        )
-        .dropna("latitude", how="all")
-        .dropna("longitude", how="all")
-    )
+    # 1. Get integer indices for subsampling just once
+    lat_indices = np.arange(1, var.shape[0] - 1, density)
+    lon_indices = np.arange(1, var.shape[1] - 1, density)
+    
+    # Create 2D grids of these integer indices
+    lon_grid, lat_grid = np.meshgrid(lon_indices, lat_indices)
+
+    # 2. Use these index grids to slice all arrays at once
+    sub_x = x[lat_grid, lon_grid]
+    sub_y = y[lat_grid, lon_grid]
+    sub_var = var.data[lat_grid, lon_grid]
+
+    # 3. Flatten the smaller, subsampled arrays for efficient iteration
+    flat_x = sub_x.flatten()
+    flat_y = sub_y.flatten()
+    flat_var = sub_var.flatten()
 
     at = []
-    for i_lat, lat in enumerate(subsampled["latitude"]):
-        for i_lon, lon in enumerate(subsampled["longitude"]):
-            val = subsampled.sel(latitude=lat, longitude=lon).item()
+    for coord_x, coord_y, val in zip(flat_x, flat_y, flat_var):
+        # Skip if the value is NaN
+        if np.isnan(val):
+            continue
 
-            # Get the corresponding indices in the full arrays
-            full_i_lat = int(var.get_index("latitude").get_loc(lat.item()))
-            full_i_lon = int(var.get_index("longitude").get_loc(lon.item()))
-
-            # Use these indices to get x and y
-            coord_x = x[full_i_lat, full_i_lon]
-            coord_y = y[full_i_lat, full_i_lon]
-
-            # Skip if the value is NaN
-            if np.isnan(val):
-                continue
-
-            at.append(
-                ax.annotate(
-                    f"{int(val)}",
-                    (coord_x + shift_x, coord_y + shift_y),
-                    color=m.to_rgba(float(val)) if lcolors else "white",
-                    weight="bold",
-                    fontsize=fontsize,
-                    path_effects=[
-                        path_effects.withStroke(
-                            linewidth=font_border_width, foreground=font_border_color
-                        )
-                    ],
-                    zorder=10,
-                )
+        at.append(
+            ax.annotate(
+                f"{int(val)}",
+                (coord_x + shift_x, coord_y + shift_y),
+                color=m.to_rgba(float(val)) if lcolors else "white",
+                weight="bold",
+                fontsize=fontsize,
+                path_effects=[
+                    path_effects.withStroke(
+                        linewidth=font_border_width, foreground=font_border_color
+                    )
+                ],
+                zorder=10,
             )
+        )
 
     return at
 
