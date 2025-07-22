@@ -85,7 +85,7 @@ def plot_files(dss, **args):
             levels=args["levels_precip"],
         )
 
-        density = 17
+        density = 4
         fontsize = 6.5
         if projection == "nord":
             density = 10
@@ -93,6 +93,8 @@ def plot_files(dss, **args):
             density = 9
         elif projection == "centro":
             density = 7
+        elif projection == "it":
+            density = 17
         vals = utils.add_vals_on_map(
             ax=args["ax"],
             var=data[tp_cf_name].where(data[tp_cf_name] > 50),
