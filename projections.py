@@ -14,10 +14,10 @@ proj_defs = {
     },
     "nord": {
         "projection": "merc",
-        "llcrnrlon": 6.,
+        "llcrnrlon": 5.,
         "llcrnrlat": 43.5,
         "urcrnrlon": 14.5,
-        "urcrnrlat": 47.2,
+        "urcrnrlat": 47.7,
         "resolution": "h",
         "epsg": 3857,
     },
@@ -41,7 +41,7 @@ proj_defs = {
     },
     "it": {
         "projection": "merc",
-        "llcrnrlon": 6,
+        "llcrnrlon": 5,
         "llcrnrlat": 36,
         "urcrnrlon": 19,
         "urcrnrlat": 47.7,

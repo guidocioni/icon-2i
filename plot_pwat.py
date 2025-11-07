@@ -81,6 +81,11 @@ def plot_files(dss, **args):
             run
         )
 
+        an_stats = utils.annotation_stats(
+            args["ax"],
+            data[tp_cf_name],
+        )
+
         if first:
             utils.add_colorbar(
                 ax=args["ax"],
@@ -96,7 +101,7 @@ def plot_files(dss, **args):
             plt.savefig(filename, **options_savefig)
 
         utils.remove_collections(
-            [cs, an_fc, an_var, an_run]
+            [cs, an_fc, an_var, an_run, an_stats]
         )
 
         first = False
