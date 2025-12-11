@@ -35,7 +35,7 @@ def main():
     levels_snowlmt = np.arange(0.0, 3000.0, 100.0)
 
     cmap, norm = utils.get_colormap_norm("snow_acc_wxcharts", levels_snowlmt, extend='max')
-    m, x, y, ax = utils.setup_figure_and_projection(dset, projection, background=True)
+    m, x, y, ax = utils.setup_figure_and_projection(dset, projection, background=True, cities=True)
 
     # All the arguments that need to be passed to the plotting function
     args = dict(

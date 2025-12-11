@@ -4,7 +4,7 @@ echo "--------------------------------------------------------------------------
 echo "Starting icon-2i plots - `date`"
 echo "-----------------------------------------------------------------------------------------"
 
-. /home/cioni/.bashrc
+. /home/meteonetwork/.cron_jobs_default_load
 conda activate models
 
 echo "Using python binary located in `which python`"

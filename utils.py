@@ -764,11 +764,12 @@ def vector_plot(
     x,
     y,
     density=15,
-    width=0.0015,
+    width=0.0017,
     headwidth=3.5,
     min_wind_threshold=2,
     max_wind_threshold=80,
     scale=5,
+    alpha=0.8
 ):
     # We need to reduce the number of points before plotting the vectors,
     # these values work pretty well
@@ -793,7 +794,7 @@ def vector_plot(
         u_norm,
         v_norm,
         scale=scale,
-        alpha=0.6,
+        alpha=alpha,
         color="gray",
         width=width,
         headwidth=headwidth,

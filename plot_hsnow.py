@@ -78,6 +78,28 @@ def plot_files(dss, **args):
             levels=args["levels_snow"],
         )
 
+        density = 4
+        fontsize = 6.5
+        if projection == "nord":
+            density = 10
+        elif projection == "sud":
+            density = 9
+        elif projection == "centro":
+            density = 7
+        elif projection == "it":
+            density = 17
+        vals = utils.add_vals_on_map(
+            ax=args["ax"],
+            var=data[cf_var_name].where(data[cf_var_name] > 40),
+            x=args["x"],
+            y=args["y"],
+            cmap=args["cmap"],
+            norm=args["norm"],
+            density=density,
+            fontsize=fontsize,
+            font_border_color="white",
+        )
+
         an_fc, an_var, an_run = utils.add_annotations(
             args["ax"],
             data["valid_time"].to_pandas(),
@@ -106,6 +128,7 @@ def plot_files(dss, **args):
                 an_fc,
                 an_var,
                 an_run,
+                vals
             ]
         )
 

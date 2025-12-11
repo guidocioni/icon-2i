@@ -34,6 +34,7 @@ def main():
         [
             "Maximum 10 metre wind gust since previous post-processing",
             "maximum Wind 10m",
+            "Time-maximum 10 metre wind gust"
         ],
     )
     pmsl_cf_name = utils.find_variable_by_grib_param_id(dset, 500002)
@@ -88,6 +89,7 @@ def plot_files(dss, **args):
             [
                 "Maximum 10 metre wind gust since previous post-processing",
                 "maximum Wind 10m",
+                "Time-maximum 10 metre wind gust"
             ],
         )
         pmsl_cf_name = utils.find_variable_by_grib_param_id(data, 500002)
