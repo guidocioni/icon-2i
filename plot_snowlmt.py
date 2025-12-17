@@ -13,19 +13,17 @@ from definitions import (
     processes,
 )
 
-variable_name ="snowlmt"
+variable_name = "snowlmt"
 
 if not debug:
     import matplotlib
+
     matplotlib.use("Agg")
 
+
 def main():
-    logging.info(
-        f"Plotting {variable_name} for projection {projection}."
-    )
-    dset = utils.get_files_sfc(
-        vars=["SNOWLMT"], projection=projection, run=run
-    )
+    logging.info(f"Plotting {variable_name} for projection {projection}.")
+    dset = utils.get_files_sfc(vars=["SNOWLMT"], projection=projection, run=run)
     snowlmt_cf_name = utils.find_variable_by_grib_param_id(dset, 500128)
 
     dset[snowlmt_cf_name] = (
@@ -34,8 +32,12 @@ def main():
 
     levels_snowlmt = np.arange(0.0, 3000.0, 100.0)
 
-    cmap, norm = utils.get_colormap_norm("snow_acc_wxcharts", levels_snowlmt, extend='max')
-    m, x, y, ax = utils.setup_figure_and_projection(dset, projection, background=True, cities=True)
+    cmap, norm = utils.get_colormap_norm(
+        "snow_acc_wxcharts", levels_snowlmt, extend="max"
+    )
+    m, x, y, ax = utils.setup_figure_and_projection(
+        dset, projection, background=True, cities=True
+    )
 
     # All the arguments that need to be passed to the plotting function
     args = dict(
@@ -97,13 +99,38 @@ def plot_files(dss, **args):
             args["ax"],
             data["valid_time"].to_pandas(),
             "Snow Limit Altitude (above surface, m)",
-            run
+            run,
         )
 
         if first:
             utils.add_colorbar(
                 ax=args["ax"],
                 c=cs,
+                cbar_kwargs=dict(
+                    ticks=[
+                        0,
+                        100,
+                        200,
+                        300,
+                        400,
+                        500,
+                        600,
+                        700,
+                        800,
+                        900,
+                        1000,
+                        1200,
+                        1400,
+                        1600,
+                        1800,
+                        2000,
+                        2200,
+                        2400,
+                        2600,
+                        2800,
+                        2900,
+                    ]
+                ),
             )
 
         if debug:

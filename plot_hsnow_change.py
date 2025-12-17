@@ -19,10 +19,9 @@ if not debug:
 
     matplotlib.use("Agg")
 
+
 def main():
-    logging.info(
-        f"Plotting {variable_name} for projection {projection}."
-    )
+    logging.info(f"Plotting {variable_name} for projection {projection}.")
     dset = utils.get_files_sfc(vars=["H_SNOW"], projection=projection, run=run)
     cf_var_name = utils.find_variable_by_grib_param_id(dset, 500045)
     dset[cf_var_name] = dset[cf_var_name].metpy.convert_units("cm").metpy.dequantify()
@@ -57,7 +56,9 @@ def main():
     )
 
     cmap, norm = utils.get_colormap_norm("snow_change", levels_snow, extend="both")
-    m, x, y, ax = utils.setup_figure_and_projection(dset, projection, background=True, cities=True)
+    m, x, y, ax = utils.setup_figure_and_projection(
+        dset, projection, background=True, cities=True
+    )
 
     # All the arguments that need to be passed to the plotting function
     args = dict(
@@ -107,13 +108,20 @@ def plot_files(dss, **args):
             args["ax"],
             data["valid_time"].to_pandas(),
             "Snow depth change [cm] since run beginning",
-            run
+            run,
+        )
+        an_stats = utils.annotation_stats(
+            args["ax"],
+            data["hsnow_change"]
         )
 
         if first:
             utils.add_colorbar(
                 ax=args["ax"],
                 c=cs,
+                cbar_kwargs=dict(
+                    ticks=args['levels_snow']
+                ),
             )
 
         if debug:
@@ -127,6 +135,7 @@ def plot_files(dss, **args):
                 an_fc,
                 an_var,
                 an_run,
+                an_stats
             ]
         )
 

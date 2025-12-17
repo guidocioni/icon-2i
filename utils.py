@@ -742,7 +742,7 @@ def add_colorbar(ax, c, size="2%", pad=0.1, position="bottom", cbar_kwargs={}):
     if position == "bottom":
         orientation = "horizontal"
     colorbar = plt.gcf().colorbar(
-        c, cax=ax_colorbar, orientation=orientation, drawedges=True, **cbar_kwargs
+        c, cax=ax_colorbar, orientation=orientation, drawedges=True, format='%g', **cbar_kwargs
     )
     colorbar.minorticks_off()
     colorbar.dividers.set_color("white")

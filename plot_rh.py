@@ -84,7 +84,7 @@ def plot_files(dss, **args):
                 ax=args["ax"],
                 c=cs,
                 cbar_kwargs=dict(
-                    label="Temperature (C)",
+                    ticks=args["levels_rh"]
                 ),
             )
 

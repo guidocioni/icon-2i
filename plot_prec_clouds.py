@@ -279,6 +279,7 @@ def plot_files(dss, **args):
                 orientation="horizontal",
                 label="Snow [cm/hr]",
                 ticks=[0.2, 0.6, 1, 2, 3, 5, 10],
+                format='%g'
             )
             cbar_rain = plt.gcf().colorbar(
                 cs_rain,
@@ -286,6 +287,7 @@ def plot_files(dss, **args):
                 orientation="horizontal",
                 label="Rain [mm/hr]",
                 ticks=[0.2, 0.6, 1, 2, 3, 5, 10, 20, 40, 80, 120],
+                format='%g'
             )
             cbar_snow.minorticks_off()
             cbar_snow.ax.tick_params(labelsize=7)

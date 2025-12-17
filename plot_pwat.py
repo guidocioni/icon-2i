@@ -91,7 +91,7 @@ def plot_files(dss, **args):
                 ax=args["ax"],
                 c=cs,
                 cbar_kwargs=dict(
-                    ticks=[2, 10, 20, 30, 40, 50, 60, 70, 80]
+                    ticks=[2, 10, 20, 30, 40, 50, 70, 80]
                 ),
             )
 

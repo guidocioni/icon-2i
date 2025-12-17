@@ -97,10 +97,10 @@ def plot_files(dss, **args):
             args["x"],
             args["y"],
             data[td2m_cf_name],
-            levels=args["levels_temp"][::5],
-            linewidths=0.3,
-            colors="gray",
-            alpha=0.7,
+            levels=np.arange(-25, 45, 5),
+            linewidths=0.5,
+            colors=["black" if level == 0 else "gray" for level in np.arange(-25, 45, 5)],
+            alpha=0.9,
         )
         c = args["ax"].contour(
             args["x"],
@@ -160,6 +160,7 @@ def plot_files(dss, **args):
                 c=cs,
                 cbar_kwargs=dict(
                     label="Dewpoint Temperature (C)",
+                    ticks=np.arange(-25, 45, 5)
                 ),
             )
 

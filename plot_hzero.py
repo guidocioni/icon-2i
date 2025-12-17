@@ -25,7 +25,7 @@ def main():
     logging.info(f"Plotting {variable_name} for projection {projection}.")
     dset = utils.get_files_sfc(vars=["HZEROCL"], projection=projection, run=run)
     hzero_cf_name = utils.find_variable_by_long_name(
-        dset, "Height of 0 degree Celsius isotherm above msl"
+        dset, ["Height of 0 degree Celsius isotherm above msl", "Geometrical height above ground"]
     )
 
     dset[hzero_cf_name] = (
@@ -70,7 +70,7 @@ def plot_files(dss, **args):
     for step in dss["step"]:
         data = dss.sel(step=step).copy()
         hzero_cf_name = utils.find_variable_by_long_name(
-            data, "Height of 0 degree Celsius isotherm above msl"
+            data, ["Height of 0 degree Celsius isotherm above msl", "Geometrical height above ground"]
         )
         cum_hour = int(
             ((data["valid_time"] - data["time"]).dt.total_seconds() / 3600).item()

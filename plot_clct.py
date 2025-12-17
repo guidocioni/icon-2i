@@ -79,6 +79,7 @@ def plot_files(dss, **args):
             utils.add_colorbar(
                 ax=args["ax"],
                 c=cs,
+                cbar_kwargs=dict(ticks=args["levels_clc"])
             )
 
         if debug:
