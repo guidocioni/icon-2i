@@ -40,7 +40,7 @@ def setup_figure_and_projection(dset, projection, **kwargs):
     ax = plt.gca()
     m, x, y = get_projection(dset, projection, **kwargs)
     # TODO, just add logos as images in the main axis
-    # add_logos_on_ax(ax, [f"{LOGOS_DIR}/Logonuovo.png"])
+    add_logos_on_ax(ax, [f"{LOGOS_DIR}/Logonuovo.png", f"{LOGOS_DIR}/ItaliaMeteo.png", f"{LOGOS_DIR}/arpae.png"])
 
     return m, x, y, ax
 
@@ -464,30 +464,63 @@ def annotation_stats(ax, var, loc="lower right", fontsize=7):
     return annotation(ax, stats_text, loc=loc, fontsize=fontsize)
 
 
-def add_logos_on_ax(ax, logos, x_padding=20):
-    """Given an axis (this is usually a footer)
-    place many logos (arbitrary number) on the axis
-
-    Args:
-        ax (matplotlib Axis):
-        logos (list of str): List of logos paths
-        x_padding (int, optional): Spacing between logos. Defaults to 10.
+def add_logos_on_ax(ax, logos, bgcolor='white'):
     """
-    
-    left = 0
-    for _, logo in enumerate(logos):
-        imdata = read_png(logo)
-        w = imdata.shape[1]
-        h = imdata.shape[0]
-        ax.imshow(imdata,
-                  extent=[left, left + w, 0, h])
-        left = left + w + x_padding
+    Place logos inside the main axis as a bottom-right inset (width 20%, height 5% of axis).
+    This avoids creating a new bottom axis that can conflict/overlap with colorbars.
 
-    # set the limits, otherwise the focus in on the last image
-    ax.set_xlim(0, left)
-    ax.set_ylim(0, h)
-    # anchor the fixed aspect-ratio axes on the left.
-    ax.set_anchor('W')
+    Parameters:
+      ax         : main matplotlib axis
+      logos      : list of logo file paths
+      bgcolor    : optional background color for the inset
+    Returns:
+      inset axis containing the logos
+    """
+    if not logos:
+        return None
+
+    # create inset anchored at the bottom right of the main axis
+    inset = inset_axes(
+        ax,
+        width=2.1,
+        height=0.17,
+        loc="lower center",
+        bbox_to_anchor=(0.0, 0.0, 1.0, 1.0),
+        bbox_transform=ax.transAxes,
+        borderpad=0,
+    )
+    inset.patch.set_visible(True)
+    if bgcolor is not None:
+        inset.patch.set_visible(True)
+        inset.patch.set_alpha(.7)
+    for spine in inset.spines.values():
+        spine.set_visible(False)
+    inset.set_xticks([])
+    inset.set_yticks([])
+
+    # load images and compute aspect ratios
+    imgs = [read_png(p) for p in logos]
+    aspects = [img.shape[1] / float(img.shape[0]) for img in imgs]  # width/height
+
+    # compute normalized widths so that logos + paddings fill the inset width (0..1)
+    pad_total = 0.05 * (len(imgs) - 1)  # 5% padding between logos
+    norm_factor = sum(aspects) + pad_total
+    if norm_factor <= 0:
+        return inset
+
+    norm_widths = [a / norm_factor for a in aspects]
+
+    # draw each image with extent in normalized coordinates [0..1] x [0..1]
+    left = 0.0
+    for img, wnorm in zip(imgs, norm_widths):
+        inset.imshow(img, extent=[left, left + wnorm, 0.0, 1.0], aspect="auto", zorder=20)
+        left += wnorm + 0.05  # 5% padding
+
+    inset.set_xlim(0, 1.1)
+    inset.set_ylim(0, 1)
+    inset.set_anchor("SE")
+
+    return inset
 
 
 def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=256):
