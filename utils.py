@@ -14,6 +14,7 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from tqdm.contrib.concurrent import process_map
+from matplotlib.image import imread as read_png
 
 
 from definitions import (
@@ -21,6 +22,7 @@ from definitions import (
     SHAPEFILES_DIR,
     REMOTE_FOLDER,
     CACHE_DIR,
+    LOGOS_DIR,
     logging,
     figsize_x,
     figsize_y,
@@ -33,11 +35,12 @@ def setup_figure_and_projection(dset, projection, **kwargs):
     Sets up the matplotlib figure, axis, and projection for plotting scripts.
     Returns (m, x, y, ax).
     """
-    import matplotlib.pyplot as plt
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
     ax = plt.gca()
     m, x, y = get_projection(dset, projection, **kwargs)
+    # TODO, just add logos as images in the main axis
+    # add_logos_on_ax(ax, [f"{LOGOS_DIR}/Logonuovo.png"])
 
     return m, x, y, ax
 
@@ -459,6 +462,32 @@ def annotation_stats(ax, var, loc="lower right", fontsize=7):
     mean_val = np.nanmean(var)
     stats_text = f"Min: {min_val:.0f}, Max: {max_val:.0f}, Mean: {mean_val:.0f}"
     return annotation(ax, stats_text, loc=loc, fontsize=fontsize)
+
+
+def add_logos_on_ax(ax, logos, x_padding=20):
+    """Given an axis (this is usually a footer)
+    place many logos (arbitrary number) on the axis
+
+    Args:
+        ax (matplotlib Axis):
+        logos (list of str): List of logos paths
+        x_padding (int, optional): Spacing between logos. Defaults to 10.
+    """
+    
+    left = 0
+    for _, logo in enumerate(logos):
+        imdata = read_png(logo)
+        w = imdata.shape[1]
+        h = imdata.shape[0]
+        ax.imshow(imdata,
+                  extent=[left, left + w, 0, h])
+        left = left + w + x_padding
+
+    # set the limits, otherwise the focus in on the last image
+    ax.set_xlim(0, left)
+    ax.set_ylim(0, h)
+    # anchor the fixed aspect-ratio axes on the left.
+    ax.set_anchor('W')
 
 
 def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=256):
