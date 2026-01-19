@@ -44,7 +44,7 @@ def main():
         "prec_mlgx", levels=levels_shear, extend="both"
     )
 
-    m, x, y, ax = utils.setup_figure_and_projection(dset, projection, background=True)
+    m, x, y, ax = utils.setup_figure_and_projection(dset, projection, background="World_Shaded_Relief")
 
     # All the arguments that need to be passed to the plotting function
     args = dict(x=x, y=y, ax=ax, levels_shear=levels_shear, cmap=cmap, norm=norm)

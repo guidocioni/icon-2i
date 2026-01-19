@@ -135,7 +135,7 @@ def main():
         "clouds_orange", levels_clouds, extend="max"
     )
 
-    m, x, y, ax = utils.setup_figure_and_projection(dset, projection, background=True, cities=True)
+    m, x, y, ax = utils.setup_figure_and_projection(dset, projection, background="World_Shaded_Relief", cities=True)
 
     # All the arguments that need to be passed to the plotting function
     args = dict(

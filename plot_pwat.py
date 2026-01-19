@@ -33,7 +33,7 @@ def main():
     )
     cmap, norm = utils.get_colormap_norm("pwat", levels=levels_pwat, extend='both')
 
-    m, x, y, ax = utils.setup_figure_and_projection(dset, projection, background=True)
+    m, x, y, ax = utils.setup_figure_and_projection(dset, projection, background="World_Shaded_Relief")
 
     # All the arguments that need to be passed to the plotting function
     args = dict(x=x, y=y, ax=ax, levels_pwat=levels_pwat, cmap=cmap, norm=norm)
