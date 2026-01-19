@@ -106,6 +106,10 @@ def plot_files(dss, **args):
             "Snow height (cm)",
             run
         )
+        an_stats = utils.annotation_stats(
+            args["ax"],
+            data[cf_var_name]
+        )
 
         if first:
             utils.add_colorbar(
@@ -128,6 +132,7 @@ def plot_files(dss, **args):
                 an_fc,
                 an_var,
                 an_run,
+                an_stats,
                 vals
             ]
         )
