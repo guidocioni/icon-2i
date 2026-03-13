@@ -127,7 +127,7 @@ def get_files_sfc(
             surface_mapping = "meanSea-0"
         elif var in ["CAPE_ML", "CIN_ML"]:
             surface_mapping = "atmML-0"
-        url = f"{REMOTE_FOLDER}/{run}/{var}/icon_2I_{run}_{surface_mapping}.grib"
+        url = f"{REMOTE_FOLDER}/{run}/{var}/ICON_2I_SURFACE_PRESSURE_LEVELS_{run}_{surface_mapping}.grib"
         urls.append(url)
 
     files = process_map(download_file, urls, chunksize=1, max_workers=4, disable=True)
@@ -517,7 +517,7 @@ def add_logos_on_ax(ax, logos, bgcolor='white'):
         left += wnorm + 0.05  # 5% padding
 
     inset.set_xlim(0, 1.1)
-    inset.set_ylim(0, 1)
+    inset.set_ylim(0, 1.1)
     inset.set_anchor("SE")
 
     return inset
