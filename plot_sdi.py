@@ -39,7 +39,7 @@ def main():
     # Define colormaps and normalization
     cmap, norm = utils.get_colormap_norm("sdi", levels_sdi, extend="both")
     # Initialize background figure
-    m, x, y, ax = utils.setup_figure_and_projection(dset, projection, background=True)
+    m, x, y, ax = utils.setup_figure_and_projection(dset, projection, background="World_Shaded_Relief")
 
     # All the arguments that need to be passed to the plotting function
     args = dict(

@@ -42,7 +42,7 @@ def main():
     )
 
     cmap, norm = utils.get_colormap_norm("temp_mlgx", levels_hzero, extend="max")
-    m, x, y, ax = utils.setup_figure_and_projection(dset, projection, background=True)
+    m, x, y, ax = utils.setup_figure_and_projection(dset, projection, background="Canvas/World_Dark_Gray_Base")
 
     # All the arguments that need to be passed to the plotting function
     args = dict(

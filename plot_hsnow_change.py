@@ -57,7 +57,7 @@ def main():
 
     cmap, norm = utils.get_colormap_norm("snow_change", levels_snow, extend="both")
     m, x, y, ax = utils.setup_figure_and_projection(
-        dset, projection, background=True, cities=True
+        dset, projection, background="Canvas/World_Dark_Gray_Base", cities=True
     )
 
     # All the arguments that need to be passed to the plotting function

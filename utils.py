@@ -325,14 +325,14 @@ def get_projection(
     labels=False,
     cities=False,
     color_borders="black",
-    background=False,
+    background=None,
 ):
     from mpl_toolkits.basemap import Basemap
 
     proj_options = proj_defs[projection]
     m = Basemap(**proj_options)
-    if background:
-        m.arcgisimage(service="World_Shaded_Relief", xpixels=1500)
+    if background is not None:
+        m.arcgisimage(service=background, xpixels=1500)
 
     if regions:
         m.readshapefile(

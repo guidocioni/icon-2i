@@ -36,7 +36,7 @@ def main():
         "snow_acc_wxcharts", levels_snowlmt, extend="max"
     )
     m, x, y, ax = utils.setup_figure_and_projection(
-        dset, projection, background=True, cities=True
+        dset, projection, background="World_Shaded_Relief", cities=True
     )
 
     # All the arguments that need to be passed to the plotting function
