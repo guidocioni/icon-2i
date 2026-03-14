@@ -225,7 +225,7 @@ def get_files_levels(
     for var in vars:
         mappings = get_file_mapping(var, lev_sel=lev_sel)
         for mapping, _ in mappings:
-            urls.append(f"{REMOTE_FOLDER}/{run}/{var}/icon_2I_{run}_{mapping}.grib")
+            urls.append(f"{REMOTE_FOLDER}/{run}/{var}/ICON_2I_SURFACE_PRESSURE_LEVELS_{run}_{mapping}.grib")
 
     files = process_map(download_file, urls, chunksize=1, max_workers=4, disable=True)
 
@@ -558,11 +558,13 @@ def remove_collections(elements):
                 for coll in element:
                     coll.remove()
             except ValueError:
-                logging.warning("Element is empty")
+                # logging.debug("Element is empty")
+                continue
             except TypeError:
                 element.remove()
         except ValueError:
-            logging.warning("Collection is empty")
+            # logging.debug("Collection is empty")
+            continue
 
 
 def plot_maxmin_points(
