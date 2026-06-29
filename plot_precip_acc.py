@@ -38,7 +38,7 @@ def main():
         "prec_acc_wxcharts", levels=levels_precip, extend="max"
     )
 
-    m, x, y, ax = utils.setup_figure_and_projection(dset, projection, background=True, cities=True)
+    m, x, y, ax = utils.setup_figure_and_projection(dset, projection, background="World_Shaded_Relief", cities=True)
 
     # All the arguments that need to be passed to the plotting function
     args = dict(x=x, y=y, ax=ax, levels_precip=levels_precip, cmap=cmap, norm=norm)

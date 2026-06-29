@@ -127,7 +127,7 @@ def get_files_sfc(
             surface_mapping = "meanSea-0"
         elif var in ["CAPE_ML", "CIN_ML"]:
             surface_mapping = "atmML-0"
-        url = f"{REMOTE_FOLDER}/{run}/{var}/icon_2I_{run}_{surface_mapping}.grib"
+        url = f"{REMOTE_FOLDER}/{run}/{var}/ICON_2I_SURFACE_PRESSURE_LEVELS_{run}_{surface_mapping}.grib"
         urls.append(url)
 
     files = process_map(download_file, urls, chunksize=1, max_workers=4, disable=True)
@@ -225,7 +225,7 @@ def get_files_levels(
     for var in vars:
         mappings = get_file_mapping(var, lev_sel=lev_sel)
         for mapping, _ in mappings:
-            urls.append(f"{REMOTE_FOLDER}/{run}/{var}/icon_2I_{run}_{mapping}.grib")
+            urls.append(f"{REMOTE_FOLDER}/{run}/{var}/ICON_2I_SURFACE_PRESSURE_LEVELS_{run}_{mapping}.grib")
 
     files = process_map(download_file, urls, chunksize=1, max_workers=4, disable=True)
 
@@ -325,14 +325,14 @@ def get_projection(
     labels=False,
     cities=False,
     color_borders="black",
-    background=False,
+    background=None,
 ):
     from mpl_toolkits.basemap import Basemap
 
     proj_options = proj_defs[projection]
     m = Basemap(**proj_options)
-    if background:
-        m.arcgisimage(service="World_Shaded_Relief", xpixels=1500)
+    if background is not None:
+        m.arcgisimage(service=background, xpixels=1500)
 
     if regions:
         m.readshapefile(
@@ -517,7 +517,7 @@ def add_logos_on_ax(ax, logos, bgcolor='white'):
         left += wnorm + 0.05  # 5% padding
 
     inset.set_xlim(0, 1.1)
-    inset.set_ylim(0, 1)
+    inset.set_ylim(0, 1.1)
     inset.set_anchor("SE")
 
     return inset
@@ -558,11 +558,13 @@ def remove_collections(elements):
                 for coll in element:
                     coll.remove()
             except ValueError:
-                logging.warning("Element is empty")
+                # logging.debug("Element is empty")
+                continue
             except TypeError:
                 element.remove()
         except ValueError:
-            logging.warning("Collection is empty")
+            # logging.debug("Collection is empty")
+            continue
 
 
 def plot_maxmin_points(
