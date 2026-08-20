@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 import utils
-from args import debug, projection, run
+from args import debug, projection, run, timesteps
 from definitions import (
     chunks_size,
     logging,
@@ -25,7 +25,7 @@ def main():
         f"Plotting {variable_name} for projection {projection}."
     )
     dset = utils.get_files_sfc(
-        vars=["CAPE_ML", "CIN_ML", "U_10M", "V_10M"], projection=projection, run=run
+        vars=["CAPE_ML", "CIN_ML", "U_10M", "V_10M"], projection=projection, run=run, timesteps=timesteps
     )
     cape_cf_name = utils.find_variable_by_grib_param_id(dset, 500153)
     dset[cape_cf_name] = dset[cape_cf_name].where(dset[cape_cf_name] >= 100)

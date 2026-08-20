@@ -4,7 +4,7 @@ from multiprocessing import Pool
 import matplotlib.pyplot as plt
 
 import utils
-from args import debug, projection, run
+from args import debug, projection, run, timesteps
 from definitions import (
     chunks_size,
     logging,
@@ -22,7 +22,7 @@ def main():
     logging.info(
         f"Plotting {variable_name} for projection {projection}."
     )
-    dset = utils.get_files_sfc(vars=["CLCT"], projection=projection, run=run)
+    dset = utils.get_files_sfc(vars=["CLCT"], projection=projection, run=run, timesteps=timesteps)
 
     levels_clc = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 99]
     cmap, norm = utils.get_colormap_norm("cloud_cover_mlgx", levels=levels_clc, extend='both')

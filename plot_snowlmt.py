@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 import utils
-from args import debug, projection, run
+from args import debug, projection, run, timesteps
 from definitions import (
     chunks_size,
     logging,
@@ -23,7 +23,7 @@ if not debug:
 
 def main():
     logging.info(f"Plotting {variable_name} for projection {projection}.")
-    dset = utils.get_files_sfc(vars=["SNOWLMT"], projection=projection, run=run)
+    dset = utils.get_files_sfc(vars=["SNOWLMT"], projection=projection, run=run, timesteps=timesteps)
     snowlmt_cf_name = utils.find_variable_by_grib_param_id(dset, 500128)
 
     dset[snowlmt_cf_name] = (

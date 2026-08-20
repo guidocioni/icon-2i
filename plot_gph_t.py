@@ -6,7 +6,7 @@ import metpy.calc as mpcalc
 import numpy as np
 
 import utils
-from args import debug, projection, run, level
+from args import debug, projection, run, level, timesteps
 from definitions import (
     chunks_size,
     logging,
@@ -25,7 +25,7 @@ def main():
         f"Plotting {variable_name} for projection {projection}."
     )
     dset = utils.get_files_levels(
-        vars=["FI", 'T'], projection=projection, run=run, lev_sel=level
+        vars=["FI", 'T'], projection=projection, run=run, lev_sel=level, timesteps=timesteps
     ).squeeze()
     gph_cf_name = utils.find_variable_by_long_name(dset, ["Geopotential"])
     t_cf_name = utils.find_variable_by_long_name(dset, ["Temperature"])

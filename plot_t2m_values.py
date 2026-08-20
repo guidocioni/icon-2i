@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 import utils
-from args import debug, projection, run
+from args import debug, projection, run, timesteps
 from definitions import (
     chunks_size,
     logging,
@@ -23,7 +23,7 @@ def main():
         f"Plotting {variable_name} for projection {projection}."
     )
     dset = utils.get_files_sfc(
-        vars=["T_2M"], projection=projection, run=run
+        vars=["T_2M"], projection=projection, run=run, timesteps=timesteps
     )
     t2m_cf_name = utils.find_variable_by_long_name(dset, ["2 metre temperature", "2m Temperature"])
     dset[t2m_cf_name] = dset[t2m_cf_name].metpy.convert_units("degC").metpy.dequantify()

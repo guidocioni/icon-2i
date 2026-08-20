@@ -4,7 +4,7 @@ from multiprocessing import Pool
 import matplotlib.pyplot as plt
 
 import utils
-from args import debug, projection, run
+from args import debug, projection, run, timesteps
 from definitions import (
     chunks_size,
     logging,
@@ -23,7 +23,7 @@ if not debug:
 def main():
     logging.info(f"Plotting {variable_name} for projection {projection}")
     dset = utils.get_files_levels(
-        vars=["UH_MAX"], projection=projection, run=run
+        vars=["UH_MAX"], projection=projection, run=run, timesteps=timesteps
     ).squeeze()
 
     levels_uh_max = [

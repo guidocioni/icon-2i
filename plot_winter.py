@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import utils
-from args import debug, projection, run
+from args import debug, projection, run, timesteps
 from definitions import (
     chunks_size,
     logging,
@@ -24,7 +24,7 @@ def main():
         f"Plotting {variable_name} for projection {projection}."
     )
     dset = utils.get_files_sfc(
-        vars=["H_SNOW", "RAIN_GSP", "RAIN_CON", "SNOWLMT"], projection=projection, run=run
+        vars=["H_SNOW", "RAIN_GSP", "RAIN_CON", "SNOWLMT"], projection=projection, run=run, timesteps=timesteps
     )
     hsnow_var_name = utils.find_variable_by_grib_param_id(dset, 500045)
     rain_gsp_cf_name = utils.find_variable_by_grib_param_id(dset, 500134)

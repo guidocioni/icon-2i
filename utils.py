@@ -65,6 +65,7 @@ def get_files_sfc(
     vars=["T_2M", "U_10M", "V_10M"],
     run=get_latest_model_run(),
     projection=None,
+    timesteps=None,
 ):
     if not isinstance(vars, list):
         vars = [vars]
@@ -143,6 +144,9 @@ def get_files_sfc(
             longitude=slice(proj["llcrnrlon"], proj["urcrnrlon"]),
         )
 
+    if timesteps is not None:
+        dss = filter_dataset_by_timesteps(dss, timesteps)
+
     return dss.compute()
 
 
@@ -194,7 +198,7 @@ def get_file_mapping(var, lev_sel=None):
 
 
 def get_files_levels(
-    vars=["T", "U", "V"], run=get_latest_model_run(), projection=None, lev_sel=None
+    vars=["T", "U", "V"], run=get_latest_model_run(), projection=None, lev_sel=None, timesteps=None
 ):
     if not isinstance(vars, list):
         vars = [vars]
@@ -251,6 +255,9 @@ def get_files_levels(
             latitude=slice(proj["llcrnrlat"], proj["urcrnrlat"]),
             longitude=slice(proj["llcrnrlon"], proj["urcrnrlon"]),
         )
+
+    if timesteps is not None:
+        dss = filter_dataset_by_timesteps(dss, timesteps)
 
     return dss.compute()
 
@@ -378,6 +385,33 @@ def chunks_dataset(ds, n):
     a dataset"""
     for i in range(0, len(ds.step), n):
         yield ds.isel(step=slice(i, i + n))
+
+
+def filter_dataset_by_timesteps(ds, timesteps=None):
+    """Filter dataset to only include specified timesteps.
+
+    Args:
+        ds: xarray Dataset with a 'step' dimension
+        timesteps: List of integer timestep indices to keep, or None to keep all
+
+    Returns:
+        Filtered dataset
+    """
+    if timesteps is None:
+        return ds
+
+    # Get the step values as hours
+    step_hours = (ds['step'] / np.timedelta64(1, 'h')).astype(int).values
+
+    # Find which step indices to keep
+    indices_to_keep = [i for i, hour in enumerate(step_hours) if hour in timesteps]
+
+    if not indices_to_keep:
+        logging.warning(f"No matching timesteps found. Available: {step_hours.tolist()}, requested: {timesteps}")
+        return ds
+
+    logging.info(f"Filtering to timesteps: {sorted([int(step_hours[i]) for i in indices_to_keep])}")
+    return ds.isel(step=indices_to_keep)
 
 
 # Annotation run, model

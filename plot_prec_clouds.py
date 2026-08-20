@@ -7,7 +7,7 @@ import numpy as np
 import xarray as xr
 
 import utils
-from args import debug, projection, run
+from args import debug, projection, run, timesteps
 from definitions import (
     chunks_size,
     logging,
@@ -30,10 +30,11 @@ def main():
         vars=["RAIN_GSP", "RAIN_CON", "SNOW_GSP", "SNOW_CON", "PMSL"],
         projection=projection,
         run=run,
+        timesteps=timesteps,
     )
     # We need to parse cloud layers separately for the moment
-    dset_high_clouds = utils.get_files_levels(["CLCH"], projection=projection)
-    dset_low_clouds = utils.get_files_levels(["CLCL"], projection=projection)
+    dset_high_clouds = utils.get_files_levels(["CLCH"], projection=projection, run=run, timesteps=timesteps)
+    dset_low_clouds = utils.get_files_levels(["CLCL"], projection=projection, run=run, timesteps=timesteps)
     dset["clc_h"] = dset_high_clouds.to_dataarray().squeeze()
     dset["clc_l"] = dset_low_clouds.to_dataarray().squeeze()
     #
@@ -70,7 +71,8 @@ def main():
             ),
             rain,
             snow,
-        ]
+        ],
+        compat='no_conflicts'
     )
 
     # Convert units

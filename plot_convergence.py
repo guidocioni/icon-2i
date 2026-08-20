@@ -6,7 +6,7 @@ import metpy.calc as mpcalc
 import numpy as np
 
 import utils
-from args import debug, projection, run
+from args import debug, projection, run, timesteps
 from definitions import (
     chunks_size,
     logging,
@@ -27,7 +27,7 @@ def main():
         f"Plotting {variable_name} for projection {projection}."
     )
     dset = utils.get_files_sfc(
-        vars=["U_10M", "V_10M"], projection=projection, run=run
+        vars=["U_10M", "V_10M"], projection=projection, run=run, timesteps=timesteps
     )
     # Define contour levels for convergence (symmetric around zero)
     # Using coarser levels to avoid showing too much small-scale noise

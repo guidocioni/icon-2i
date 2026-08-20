@@ -4,7 +4,7 @@ from multiprocessing import Pool
 import matplotlib.pyplot as plt
 
 import utils
-from args import debug, projection, run, level
+from args import debug, projection, run, level, timesteps
 from definitions import (
     chunks_size,
     logging,
@@ -22,7 +22,7 @@ if not debug:
 def main():
     logging.info(f"Plotting {variable_name} for projection {projection}.")
     dset = utils.get_files_levels(
-        vars=["RELHUM"], projection=projection, run=run, lev_sel=level
+        vars=["RELHUM"], projection=projection, run=run, lev_sel=level, timesteps=timesteps
     ).squeeze()
 
     levels_rh = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 99, 100]

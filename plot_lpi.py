@@ -4,7 +4,7 @@ from multiprocessing import Pool
 import matplotlib.pyplot as plt
 
 import utils
-from args import debug, projection, run
+from args import debug, projection, run, timesteps
 from definitions import (
     chunks_size,
     logging,
@@ -22,7 +22,7 @@ def main():
     logging.info(
         f"Plotting {variable_name} for projection {projection}"
     )
-    dset = utils.get_files_sfc(vars=["LPI"], projection=projection, run=run)
+    dset = utils.get_files_sfc(vars=["LPI"], projection=projection, run=run, timesteps=timesteps)
 
     levels_lpi = [0, 1, 2, 5, 10, 20, 30, 50, 100, 200]
     cmap, norm = utils.get_colormap_norm("cape_wxcharts", levels=levels_lpi, extend='max')
