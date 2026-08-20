@@ -819,6 +819,60 @@ def add_colorbar(ax, c, size="2%", pad=0.1, position="bottom", cbar_kwargs={}):
     return colorbar
 
 
+def calculate_arrow_density(data_shape, projection_dict, target_spacing_deg=None):
+    """
+    Calculate optimal arrow decimation density based on projection extent and data resolution.
+    Uses adaptive spacing: smaller projections get denser arrows, larger projections use
+    sparser spacing to maintain readability.
+
+    Parameters
+    ----------
+    data_shape : tuple
+        Shape of the data array (ny, nx)
+    projection_dict : dict
+        Projection definition with llcrnrlon, llcrnrlat, urcrnrlon, urcrnrlat
+    target_spacing_deg : float, optional
+        Target spacing between arrows in degrees. If None, uses adaptive spacing
+        based on projection area (0.15° for small, 0.25° for medium, 0.35° for large)
+
+    Returns
+    -------
+    int
+        Decimation factor (every Nth point)
+    """
+    ny, nx = data_shape
+
+    # Calculate geographic extent and area
+    lon_extent = projection_dict['urcrnrlon'] - projection_dict['llcrnrlon']
+    lat_extent = projection_dict['urcrnrlat'] - projection_dict['llcrnrlat']
+    area = lon_extent * lat_extent
+
+    # Adaptive spacing based on projection area if not specified
+    if target_spacing_deg is None:
+        if area < 10:
+            target_spacing_deg = 0.1  # Small regions: very dense arrows
+        elif area < 50:
+            target_spacing_deg = 0.2  # Medium regions: moderate density
+        else:
+            target_spacing_deg = 0.35  # Large regions: sparser but adequate coverage
+
+    # Calculate grid resolution (degrees per grid point)
+    lon_resolution = lon_extent / nx
+    lat_resolution = lat_extent / ny
+
+    # Calculate how many grid points correspond to target spacing
+    density_lon = max(1, int(target_spacing_deg / lon_resolution))
+    density_lat = max(1, int(target_spacing_deg / lat_resolution))
+
+    # Use the smaller density to ensure adequate coverage in both dimensions
+    density = min(density_lon, density_lat)
+
+    # Clamp to reasonable bounds (at least every 3rd point, at most every 30th)
+    density = max(3, min(30, density))
+
+    return density
+
+
 def vector_plot(
     ax,
     data,
@@ -827,7 +881,7 @@ def vector_plot(
     projection,
     x,
     y,
-    density=15,
+    density=None,
     width=0.0017,
     headwidth=3.5,
     min_wind_threshold=2,
@@ -835,10 +889,15 @@ def vector_plot(
     scale=5,
     alpha=0.8
 ):
-    # We need to reduce the number of points before plotting the vectors,
-    # these values work pretty well
-    if projection == "nord":
-        density = 10
+    # Calculate optimal density if not provided
+    if density is None:
+        from projections import proj_defs
+        if projection in proj_defs:
+            data_shape = data[u_name].shape
+            density = calculate_arrow_density(data_shape, proj_defs[projection])
+        else:
+            # Fallback to reasonable default
+            density = 15
     wind_magnitude = np.clip(
         np.sqrt(
             data[u_name][::density, ::density] ** 2

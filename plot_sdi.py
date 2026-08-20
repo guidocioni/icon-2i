@@ -2,7 +2,6 @@ from functools import partial
 from multiprocessing import Pool
 
 import matplotlib.pyplot as plt
-import numpy as np
 
 import utils
 from args import debug, projection, run
@@ -98,41 +97,15 @@ def plot_files(dss, **args):
             levels=args["levels_sdi"],
         )
 
-        # We need to reduce the number of points before plotting the vectors,
-        # these values work pretty well
-        density = 15
-        width = 0.0015
-        headwidth = 3.5
-        min_wind_threshold = 2
-        max_wind_threshold = 80
-        scale = 5
-        if projection == "nord":
-            density = 10
-        wind_magnitude = np.clip(
-            np.sqrt(
-                data[u10m_cf_name][::density, ::density] ** 2
-                + data[v10m_cf_name][::density, ::density] ** 2
-            ),
-            min_wind_threshold,
-            max_wind_threshold,
-        )
-        u_norm = data[u10m_cf_name][::density, ::density] / wind_magnitude
-        v_norm = data[v10m_cf_name][::density, ::density] / wind_magnitude
-        x = args["x"][::density, ::density]
-        y = args["y"][::density, ::density]
-
-        cv = args["ax"].quiver(
-            x,
-            y,
-            u_norm,
-            v_norm,
-            scale=scale,
-            alpha=0.8,
-            color="gray",
-            width=width,
-            headwidth=headwidth,
-            headlength=4.5,
-            scale_units="inches",
+        cv = utils.vector_plot(
+            args["ax"],
+            data,
+            u10m_cf_name,
+            v10m_cf_name,
+            projection,
+            args["x"],
+            args["y"],
+            width=0.0015,
         )
 
         an_fc, an_var, an_run = utils.add_annotations(
