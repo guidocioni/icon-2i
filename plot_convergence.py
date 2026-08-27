@@ -31,7 +31,7 @@ def main():
     )
     # Define contour levels for convergence (symmetric around zero)
     # Using coarser levels to avoid showing too much small-scale noise
-    levels_convergence = np.arange(-10, 11, 1)
+    levels_convergence = np.arange(-15, 16, 1.5)
 
     # Define colormaps and normalization
     cmap, norm = utils.get_colormap_norm(
