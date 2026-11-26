@@ -34,3 +34,16 @@ for projection in "${projections[@]}"; do
     done
 done
 
+# Clean up the fsspec cache: every run downloads new files, so old ones are never reused.
+# Without this CACHE_DIR grows by several GB per day.
+# CACHE_KEEP_DAYS can be set in plots.conf (default: 2 days).
+if [ -n "$CACHE_DIR" ] && [ -d "$CACHE_DIR" ]; then
+    keep_days="${CACHE_KEEP_DAYS:-2}"
+    echo "Cleaning cache files older than ${keep_days} days in $CACHE_DIR (before: $(du -sh "$CACHE_DIR" | cut -f1))"
+    find "$CACHE_DIR" -maxdepth 1 -type f -mmin +$((keep_days * 1440)) -delete
+    echo "Cache cleaned (after: $(du -sh "$CACHE_DIR" | cut -f1))"
+fi
+
+echo "-----------------------------------------------------------------------------------------"
+echo "Finished icon-2i plots - `date`"
+echo "-----------------------------------------------------------------------------------------"
